@@ -1,0 +1,57 @@
+1.1. O sistema deve permitir que usuários e donos de quadras criem contas usando e-mail e senha.
+1.2. O sistema deve permitir login via credenciais próprias ou autenticação social (Google, Facebook, Apple).
+1.3. O sistema deve permitir recuperação de senha via e-mail.
+1.4. O sistema deve permitir edição de dados pessoais (nome, foto, telefone, etc.).
+-----------------------------------------------------------------------------------------------------------------
+1.5. O sistema deve permitir que o dono de quadra cadastre informações de sua empresa (nome do espaço esportivo, CNPJ/CPF, endereço, telefone de contato).
+----------------------------------------
+2.1. O sistema deve permitir ao proprietário cadastrar quadras, informando: nome, tipo de esporte (futebol, basquete, vôlei, etc.), dimensões, endereço, fotos e capacidade máxima de jogadores.
+2.2. O sistema deve permitir configurar valores de aluguel por hora (com possibilidade de preços diferentes em horários de pico/fora de pico).
+2.3. O sistema deve permitir configurar horários de funcionamento da quadra.
+2.4. O sistema deve permitir bloquear horários indisponíveis manualmente (manutenção, eventos privados, etc.).
+2.6. O sistema deve permitir ao dono aprovar, rejeitar ou cancelar reservas (quando aplicável).
+------------------------------------------------------------
+2.5. O sistema deve mostrar ao dono um calendário com todas as reservas feitas em suas quadras.
+2.7. O sistema deve permitir relatórios de ocupação (quantidade de reservas por período, horários mais utilizados, etc.).
+-------------------------------------------
+3.1. O sistema deve permitir ao usuário buscar quadras por: esporte, localização, preço, data e horário.
+---------------------------
+3.2. O sistema deve exibir um calendário com os horários disponíveis de cada quadra.
+não um calendário mais uma caixa com o dia e os horários apareceram a baixo.
+--------------------------------------------------------------------------------------
+3.3. O sistema deve permitir ao usuário realizar uma reserva em horário disponível.
+3.4. O sistema deve permitir que o usuário selecione a duração da reserva (mínimo 1 hora, ou conforme definido pelo dono).
+--------------------------------------------------------------------------------
+3.6. O sistema deve exibir um resumo da reserva antes da confirmação (quadra, data, horário, valor).
+--------------------------
+3.7. O sistema deve permitir ao usuário cancelar reservas dentro de prazos definidos pela política do dono.
+-------------------------------------------------------------------------------------------------------------------
+3.8. O sistema deve notificar os donos sobre novas reservas realizadas.
+--------------------------------------------------------------------------
+4.2. O sistema deve permitir que o dono configure se aceita pagamento no local ou apenas online.
+------------------------------------------------------------------------------------------------
+4.3. O sistema deve registrar o status do pagamento (pago, pendente, cancelado).
+-----------------------------------------------------------------------------------
+4.4. O sistema deve repassar automaticamente os valores pagos para a conta do dono (menos taxa da plataforma).
+--------------------------------------------------------------------------------------------------------------
+4.5. O sistema deve permitir ao usuário visualizar seu histórico de pagamentos.
+--------------------------------------------------------------------------------
+5.1. O sistema deve enviar notificações push e e-mail para confirmar reservas.
+5.2. O sistema deve enviar lembretes de reservas futuras (ex.: 24h e 1h antes do jogo).
+5.4. O sistema deve enviar notificações sobre alterações ou cancelamentos de reservas.
+----------------------------------------------------------------------------------------
+6.1. O sistema deve permitir avaliação das quadras pelos usuários (nota e comentário).
+6.2. O sistema deve exibir a média de avaliações e comentários das quadras.
+----------------------------------------------------------------------------------------
+6.3. O sistema deve permitir salvar quadras favoritas.
+--------------------------------------------------------
+6.5. O sistema deve ter um sistema de suporte/FAQ com chat ou formulário de contato.
+-------------------------------------------------------------------------------------
+6.7. O sistema deve permitir geolocalização para mostrar quadras próximas.(isso é caro já lembrando)
+---------------------------------------------------------------------------	
+6.8. O sistema deve permitir filtros avançados de busca (coberta/descoberta, estacionamento, vestiário, etc.).
+
+
+
+
+
