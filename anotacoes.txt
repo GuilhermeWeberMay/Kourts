@@ -50,7 +50,9 @@ não um calendário mais uma caixa com o dia e os horários apareceram a baixo.
 6.7. O sistema deve permitir geolocalização para mostrar quadras próximas.(isso é caro já lembrando)
 ---------------------------------------------------------------------------	
 6.8. O sistema deve permitir filtros avançados de busca (coberta/descoberta, estacionamento, vestiário, etc.).
+---------------------------------------------------------------------------------------------------------------------
 
+LEVAR EM CONSIDERAÇÃO NA PROTOTIPAGEM O PUBLICO ALGO DA APLICAÇÃO
 
 
 
