@@ -1,0 +1,3 @@
+drop database if exists teste_banco_dados_kourts;
+create database teste_banco_dados_kourts;
+use teste_banco_dados_kourts;
