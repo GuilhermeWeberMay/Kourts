@@ -1,8 +1,39 @@
-div {
-    background-color: rgb(0, 0, 0);
-    width: fit-content;
+body {
+
+    background: linear-gradient(to bottom, #153016 0%, #1e4d1f 100%);
+
+    min-height: 100vh;
+    margin: 0;
+
     color: white;
-    border: 1px solid black;
-    border-radius: 20%;
+}
+
+h1 {
+    text-align: center;
     font-size: xx-large;
 }
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+form {
+    width: fit-content;
+    margin: auto;
+}
+
+label {
+
+}
+
+input {
+    
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    color: white;
+}
+
