@@ -2,6 +2,7 @@ body {
 
     background: linear-gradient(to bottom, #153016 0%, #1e4d1f 100%);
 
+    /*propriedades para aplicar o background em toda tela*/
     min-height: 100vh;
     margin: 0;
 
