@@ -1,0 +1,65 @@
+body {
+ margin: 1%;
+ padding-bottom: 6%;
+}
+
+header form,header button {
+ display: inline-block;
+}
+
+
+header button {
+ width: 20%;
+ height: auto;
+}
+
+header img {
+ width: 50%;
+ height: auto;
+}
+
+main{
+ float: center;
+ height: auto;
+}
+
+main section {
+ height: auto;
+ border-bottom: 1px solid black;
+ padding: 3%;
+}
+
+main section img {
+ width: 100%;
+ height: auto;
+ border-radius: 20%;
+}
+
+footer {
+ position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 5%;
+    text-align: center;
+    float: bottom;
+    background-color: green;
+}
+
+footer button {
+ background: none;
+ border: none;
+ display: inline-block;
+}
+
+footer button{
+ display: inline-block;
+ width: 23%;
+}
+
+footer button img {
+ display: inline-block;
+ width: 23%;
+}
+
