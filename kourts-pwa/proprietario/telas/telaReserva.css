@@ -1,0 +1,104 @@
+body{
+ background: linear-gradient(to bottom, #153016 0%, #1e4d1f 100%);
+
+    /*propriedades para aplicar o background em toda tela*/
+    min-height: 100vh;
+    margin: 0;
+    color: white;
+
+}
+
+/* Começo do conteudo da header */
+
+header{
+ position: fixed;
+ top: 0;
+ left: 0;
+ right: 0;
+ background-color: rgb(10, 135, 10);
+ display: flex;
+ align-items: center;
+}
+
+header div{
+  border: 1px red solid;
+}
+
+.cabecalho{
+  width: 30%;
+  margin-left: 9%;
+}
+
+.botoes{
+ width: fit-content;
+ height: fit-content;
+ margin-left: 30%;
+ margin-right: 9%;
+}
+
+/* Começo do conteudo principal */
+
+main{
+ margin: 9%;
+  margin-top: 17%;
+}
+
+main div {
+ border: 1px solid red;
+ margin-bottom: 2%;
+}
+
+.status div{
+  display: inline-table;
+}
+
+.status div p{
+  width: fit-content;
+}
+
+main nav{
+  border: 1px solid red;
+}
+
+main nav ul{
+  border: 1px solid red;
+  list-style: none;
+  padding: 0;
+}
+
+main nav ul li {
+  border: 1px solid red;
+  display: inline-table;
+  width: 24%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  text-align: center;
+}
+
+main fieldset{
+  margin-top: 4%;
+}
+
+main fieldset input{
+  width: 99%;
+}
+
+main fieldset article{
+  border: 1px solid red;
+  margin-top: 2%;
+  font-size: 78%;
+}
+
+main fieldset article p {
+  border: 1px solid red;
+  width: fit-content;
+  display: inline-block;
+ margin-bottom: 1%;
+ margin-left: 1%;
+}
+
+#botaoAprovarRejeitar{
+ border: 1px solid red;
+ width: fit-content;
+ display: inline-block;
+}
