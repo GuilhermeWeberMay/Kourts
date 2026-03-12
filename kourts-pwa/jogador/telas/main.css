@@ -9,6 +9,20 @@ body {
     color: white;
 }
 
+header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 10px;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    filter: invert(100%); 
+}
+
 h1 {
     text-align: center;
     font-size: xx-large;
