@@ -13,10 +13,4 @@ public class TesteController {
         return "Kourts o melhor app para aluguel de quadras do mundo!";
     }
 
-    @GetMapping("kourts.com.br/funcionario")
-    public String funcionario() {
-        Funcionario funcionario = new Funcionario("gui", "gui@gui", "123", "48", "Weber", "101");
-
-        return funcionario.toString();
-    }
 }
