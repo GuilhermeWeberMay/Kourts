@@ -36,6 +36,17 @@ public class FuncionarioController {
     }
 
     // Update
+    @PutMapping("/kourts.com.br/putFuncionario/{id}")
+    public ResponseEntity<Funcionario> update(@PathVariable Integer id, @RequestBody Funcionario funcionario){
+        if(!funcionarioRepository.existsById(id)){
+            return ResponseEntity.notFound().build();
+        }else {
+            funcionario.setId(id);
+            Funcionario funcionarioAtualizado = funcionarioRepository.save(funcionario);
+
+            return ResponseEntity.ok(funcionarioAtualizado);
+        }
+    }
 
     // Delete
     @DeleteMapping("/kourts.com.br/deleteFuncionario/{id}") // Método com parametro
