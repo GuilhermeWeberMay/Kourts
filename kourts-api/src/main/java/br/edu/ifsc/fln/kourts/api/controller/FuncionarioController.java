@@ -17,6 +17,13 @@ public class FuncionarioController {
         this.funcionarioRepository = funcionarioRepository;
     }
 
+    // Create
+    @PostMapping("kourts.com.br/createFuncionario")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Funcionario create(@RequestBody Funcionario funcionario){
+        return funcionarioRepository.save(funcionario);
+    }
+
     // Read
     @GetMapping("kourts.com.br/funcionarios")
     public List<Funcionario> findAll(){
@@ -28,10 +35,7 @@ public class FuncionarioController {
         return funcionarioRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    // Create
-    @PostMapping("kourts.com.br/createFuncionario")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Funcionario create(@RequestBody Funcionario funcionario){
-        return funcionarioRepository.save(funcionario);
-    }
+    // Update
+
+    // Delete
 }
