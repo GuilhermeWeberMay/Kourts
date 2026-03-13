@@ -25,12 +25,12 @@ public class FuncionarioController {
     }
 
     // Read
-    @GetMapping("kourts.com.br/funcionarios")
+    @GetMapping("kourts.com.br/Funcionario")
     public List<Funcionario> findAll(){
         return funcionarioRepository.findAll();
     }
 
-    @GetMapping("kourts.com.br/funcionarios/{id}")
+    @GetMapping("kourts.com.br/Funcionario/{id}")
     public ResponseEntity<Funcionario> findById(@PathVariable Integer id){
         return funcionarioRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
@@ -38,4 +38,13 @@ public class FuncionarioController {
     // Update
 
     // Delete
+    @DeleteMapping("/kourts.com.br/deleteFuncionario/{id}") // Método com parametro
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        if (!funcionarioRepository.existsById(id)){
+            return ResponseEntity.notFound().build();
+        }else  {
+            funcionarioRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+    }
 }

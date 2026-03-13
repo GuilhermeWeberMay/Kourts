@@ -29,7 +29,7 @@ public class JogadorController {
         return jogadorRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/kourts.com.br/getJogador")
+    @GetMapping("/kourts.com.br/Jogador")
     public List<Jogador> read() {
         return jogadorRepository.findAll();
     }
