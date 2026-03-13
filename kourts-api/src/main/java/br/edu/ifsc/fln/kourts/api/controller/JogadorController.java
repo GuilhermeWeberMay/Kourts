@@ -35,4 +35,13 @@ public class JogadorController {
     }
     // Update
     // Delete
+    @DeleteMapping("/kourts.com.br/deleteJogador/{id}") // Método com parametro
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        if (!jogadorRepository.existsById(id)){
+            return ResponseEntity.notFound().build();
+        }else  {
+            jogadorRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+    }
 }
