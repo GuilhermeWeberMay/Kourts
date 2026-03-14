@@ -45,6 +45,15 @@ public class FuncionarioController {
         return funcionarioRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("kourts.com.br/FuncionarioCpf/{cpf}")
+    public ResponseEntity<Funcionario> findByCpf(@PathVariable String cpf){
+        Funcionario f = funcionarioRepository.findByCpf(cpf);
+        if(f != null){
+            return ResponseEntity.ok(f);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     // Update
     @PutMapping("/kourts.com.br/putFuncionario/{id}")
     public ResponseEntity<Funcionario> update(@PathVariable Integer id, @RequestBody Funcionario funcionario){
