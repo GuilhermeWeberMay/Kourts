@@ -1,6 +1,6 @@
 <?php
 // 1. Receber a resposta da API (ex: via cURL)
-$jsonResponse = file_get_contents('http://localhost:8081/kourts.com.br/Funcionario/152');
+$jsonResponse = file_get_contents('http://localhost:8081/kourts.com.br/Funcionario/256');
 
 // 2. Converter o JSON para um Objeto PHP
 $funcionario = json_decode($jsonResponse);
