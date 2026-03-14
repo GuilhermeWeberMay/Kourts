@@ -13,9 +13,6 @@ curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); // Obtém o código de status HTTP
 
-// Fecha a conexão
-curl_close($ch);
-
 // Trata a resposta
 if ($httpCode == 200 || $httpCode == 204) {
     echo "Recurso deletado com sucesso.";
