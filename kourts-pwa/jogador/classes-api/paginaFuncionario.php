@@ -111,5 +111,20 @@
   ?>
  </fieldset>
 
+ <fieldset>
+  <legend>Listar Funcionários (GET) </legend>
+
+  <form action="paginaFuncionario.php" method="post">
+
+   <button type="submit" name="get">Listar</button>
+  </form>
+  <?php
+  if (isset($_POST['get'])) {
+   $funcionario = new Funcionario();
+   $funcionario->get();
+  }
+  ?>
+ </fieldset>
+
   </body>
 </html>

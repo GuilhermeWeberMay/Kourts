@@ -33,7 +33,31 @@ class Funcionario implements apiInterface
   echo $resposta . " - Funcionario cadastrado com sucesso!";
  }
 
- public function get() {}
+ public function get()
+ {
+  // 1. Receber a resposta da API (ex: via cURL)
+  $jsonResponse = file_get_contents('http://localhost:8081/kourts.com.br/Funcionario');
+
+  // 2. Converter o JSON para um Objeto PHP
+  $funcionario = json_decode($jsonResponse);
+
+  // 3. Acessar as propriedades do objeto
+  // Exibindo a foto e nao o link para a foto
+  if ($jsonResponse == null) {
+   echo "<h1> Erro </h1>";
+  } else {
+   foreach ($funcionario as $func) {
+    echo "<p> Nome: " . $func->nome . "</p>";
+    echo "<p> Senha: " . $func->senha . "</p>";
+    echo "<p> Sobrenome: " . $func->sobrenome . "</p>";
+    echo "<p> Email: " . $func->email . "</p>";
+    echo "<p> CPF: " . $func->cpf . "</p>";
+    echo "<p> Telefone: " . $func->telefone . "</p>";
+    echo "<p> Id: " . $func->id . "</p>";
+    echo "<hr>";
+   }
+  }
+ }
 
  public function put($formId, $formNome, $formSenha, $formSobrenome, $formEmail, $formCpf, $formTelefone)
  {
