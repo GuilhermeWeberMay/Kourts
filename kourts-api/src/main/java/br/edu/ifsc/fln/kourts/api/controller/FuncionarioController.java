@@ -68,7 +68,7 @@ public class FuncionarioController {
     }
 
     // Delete
-    @DeleteMapping("/kourts.com.br/deleteFuncionario/{id}") // Método com parametro
+    @DeleteMapping("/kourts.com.br/deleteFuncionario/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (!funcionarioRepository.existsById(id)){
             return ResponseEntity.notFound().build();

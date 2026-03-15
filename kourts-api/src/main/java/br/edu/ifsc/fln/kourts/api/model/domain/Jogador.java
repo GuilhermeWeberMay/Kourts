@@ -1,7 +1,6 @@
 package br.edu.ifsc.fln.kourts.api.model.domain;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 
@@ -10,10 +9,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+//Lombok
 @NoArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
+// Jakarta
 @Entity
 public class Jogador extends Usuario{
     @Column(nullable = false, length = 30, unique = true)
@@ -23,6 +24,6 @@ public class Jogador extends Usuario{
     @Column(nullable = false, length = 64)
     private String sobrenome;
     // Relacionamento com Local
-    @Embedded
+    @Embedded // Cria colunas na tabela da entidade
     private Local local;
 }
