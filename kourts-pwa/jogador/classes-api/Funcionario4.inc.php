@@ -15,8 +15,7 @@ $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); // Obtém o código de status
 
 // Trata a resposta
 if ($httpCode == 200 || $httpCode == 204) {
-    echo "Recurso deletado com sucesso.";
+ echo "Recurso deletado com sucesso.";
 } else {
-    echo "Erro ao deletar. Código: " . $httpCode;
+ echo "Erro ao deletar. Código: " . $httpCode;
 }
-?>

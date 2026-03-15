@@ -17,13 +17,13 @@
 
  </form>
  <?php
- require 'Jogador.php';
+ require 'Funcionario.php';
 
  if (isset($_POST['botao'])) {
-  $jogador = new Jogador();
+  $funcionario = new Funcionario();
   $formId = $_POST['id'];
  
-  $jogador->delete($formId);
+  $funcionario->delete($formId);
  }
 
  ?>

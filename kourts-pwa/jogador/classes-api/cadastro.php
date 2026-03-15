@@ -32,16 +32,16 @@
   <button type="submit" name="botao">Cadastrar</button>
  </form>
  <?php
- require 'Jogador.php';
+ require 'Funcionario.php';
  if (isset($_POST['botao'])) {
-  $jogador = new Jogador();
+  $funcionario = new Funcionario();
   $formNome = $_POST['nome'];
   $formSenha = $_POST['senha'];
   $formSobrenome = $_POST['sobrenome'];
   $formEmail = $_POST['email'];
   $formCpf = $_POST['cpf'];
   $formTelefone = $_POST['telefone'];
-  $jogador->get($formNome, $formSenha, $formSobrenome, $formEmail, $formCpf, $formTelefone);
+  $funcionario->get($formNome, $formSenha, $formSobrenome, $formEmail, $formCpf, $formTelefone);
  }
  ?>
 </body>

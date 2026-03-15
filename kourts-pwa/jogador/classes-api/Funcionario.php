@@ -1,11 +1,11 @@
 <?php
 require 'apiInterface.php';
-class Jogador implements apiInterface
+class Funcionario implements apiInterface
 {
 
- public function get($formNome, $formSenha, $formSobrenome, $formEmail, $formCpf, $formTelefone)
+ public function post($formNome, $formSenha, $formSobrenome, $formEmail, $formCpf, $formTelefone)
  {
-  $jogador = [
+  $funcionario = [
    "nome" => $formNome,
    "senha" => $formSenha,
    "sobrenome" => $formSobrenome,
@@ -14,7 +14,7 @@ class Jogador implements apiInterface
    "telefone" => $formTelefone
   ];
 
-  $json = json_encode($jogador);
+  $json = json_encode($funcionario);
 
   $url = 'http://localhost:8081/kourts.com.br/createFuncionario';
 
@@ -30,11 +30,46 @@ class Jogador implements apiInterface
 
   $resposta = curl_exec($ch);
 
-  echo $resposta . " - Jogador cadastrado com sucesso!";
+  echo $resposta . " - Funcionario cadastrado com sucesso!";
  }
 
- public function post() {}
- public function put() {}
+ public function get() {}
+
+ public function put($formId, $formNome, $formSenha, $formSobrenome, $formEmail, $formCpf, $formTelefone)
+ {
+  $funcionario = [
+   "id" => $formId,
+   "nome" => $formNome,
+   "senha" => $formSenha,
+   "sobrenome" => $formSobrenome,
+   "email" => $formEmail,
+   "cpf" => $formCpf,
+   "telefone" => $formTelefone
+  ];
+
+  $json = json_encode($funcionario);
+
+  $url = 'http://localhost:8081/kourts.com.br/putFuncionario/' . $formId;
+
+  $ch = curl_init($url);
+
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+   'Content-Type: application/json',
+   'Content-Length: ' . strlen($json)
+  ));
+
+  $resposta = curl_exec($ch);
+
+  if (curl_errno($ch)) {
+   echo 'Erro cURL: ' . curl_error($ch);
+  }
+
+  echo $resposta;
+ }
+
 
  public function delete($formId)
  {
@@ -54,7 +89,7 @@ class Jogador implements apiInterface
 
   // Trata a resposta
   if ($httpCode == 200 || $httpCode == 204) {
-   echo "Jogador deletado com sucesso.";
+   echo "Funcionario deletado com sucesso.";
   } else {
    echo "Erro ao deletar. Código: " . $httpCode;
   }
