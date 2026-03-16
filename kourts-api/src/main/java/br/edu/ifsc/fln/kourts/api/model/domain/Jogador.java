@@ -17,6 +17,12 @@ import lombok.Setter;
 // Jakarta
 @Entity
 public class Jogador extends Usuario{
+    /*
+    unique - não pode repetir
+    nullable - não pode ser null
+    length - tamanho
+    columnDefinition - tipo de dado
+    */
     @Column(nullable = false, length = 30, unique = true)
     private String apelido;
     @Column(nullable = false, columnDefinition = "CHAR(11)", unique = true)
