@@ -24,31 +24,93 @@ public class JogadorController {
     }
 
     // Create
-    @PostMapping("/kourts.com.br/createJogador")
+    @PostMapping("/kourts.com.br/create/Jogador")
     @ResponseStatus(HttpStatus.CREATED)
-    public Jogador create (@RequestBody Jogador jogador){
+    public Jogador create(@RequestBody Jogador jogador) {
         return jogadorRepository.save(jogador);
     }
 
     // Read
-    @GetMapping("/kourts.com.br/Jogador/{id}")
+    @GetMapping("/kourts.com.br/get/Jogador")
+    public List<Jogador> read() {
+        return jogadorRepository.findAll();
+    }
+
+    @GetMapping("/kourts.com.br/get/Jogador/id/{id}")
     public ResponseEntity<Jogador> read(@PathVariable Integer id) {
         return jogadorRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/kourts.com.br/Jogador")
-    public List<Jogador> read() {
-        return jogadorRepository.findAll();
+    // Método especial para achar Jogador por CPF
+    @GetMapping("/kourts.com.br/get/Jogador/cpf/{cpf}")
+    public ResponseEntity<Jogador> readByCpf(@PathVariable String cpf) {
+        Jogador j = jogadorRepository.findByCpf(cpf);
+        if (j != null) {
+            return ResponseEntity.ok(j);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
+    // Método especial para achar Jogador por apelido (como se fosse o @ do instagram)
+    @GetMapping("/kourts.com.br/get/Jogador/apelido/{apelido}")
+    public ResponseEntity<Jogador> readByApelido(@PathVariable String apelido) {
+        Jogador j = jogadorRepository.findByApelido(apelido);
+        if (j != null) {
+            return ResponseEntity.ok(j);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     // Update
     // Delete
-    @DeleteMapping("/kourts.com.br/deleteJogador/{id}") // Método com parametro
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        if (!jogadorRepository.existsById(id)){
+    @DeleteMapping("/kourts.com.br/delete/Jogador/id/{id}") // Método com parametro
+    public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
+        if (!jogadorRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
-        }else  {
+        } else {
             jogadorRepository.deleteById(id);
             return ResponseEntity.noContent().build();
+        }
+    }
+
+    @DeleteMapping("/kourts.com.br/delete/Jogador/cpf/{cpf}")
+    public ResponseEntity<Void> deleteByCpf(@PathVariable String cpf) {
+        // Acha o id do Proprietario
+        Jogador j = jogadorRepository.findByCpf(cpf);
+        // Verifica se existe algo no objeto
+        if (j != null) {
+            // Inseri o Id em uma variavel
+            int id = j.getId();
+            // Deleta a informação
+            jogadorRepository.deleteById(id);
+            // Devolve o código sucesso no delete
+            return ResponseEntity.noContent().build();
+        } else {
+            // Verifica se existe o CPF
+            jogadorRepository.existsByCpf(cpf);
+            // Devolve o código de erro
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/kourts.com.br/delete/Jogador/apelido/{apelido}")
+    public ResponseEntity<Void> deleteByApelido(@PathVariable String apelido) {
+        // Acha o id do Proprietario
+        Jogador j = jogadorRepository.findByApelido(apelido);
+        // Verifica se existe algo no objeto
+        if (j != null) {
+            // Inseri o Id em uma variavel
+            int id = j.getId();
+            // Deleta a informação
+            jogadorRepository.deleteById(id);
+            // Devolve o código sucesso no delete
+            return ResponseEntity.noContent().build();
+        } else {
+            // Verifica se existe o CPF
+            jogadorRepository.existsByApelido(apelido);
+            // Devolve o código de erro
+            return ResponseEntity.notFound().build();
         }
     }
 }
