@@ -87,8 +87,6 @@ public class JogadorController {
             // Devolve o código sucesso no delete
             return ResponseEntity.noContent().build();
         } else {
-            // Verifica se existe o CPF
-            jogadorRepository.existsByCpf(cpf);
             // Devolve o código de erro
             return ResponseEntity.notFound().build();
         }
@@ -107,8 +105,6 @@ public class JogadorController {
             // Devolve o código sucesso no delete
             return ResponseEntity.noContent().build();
         } else {
-            // Verifica se existe o CPF
-            jogadorRepository.existsByApelido(apelido);
             // Devolve o código de erro
             return ResponseEntity.notFound().build();
         }
