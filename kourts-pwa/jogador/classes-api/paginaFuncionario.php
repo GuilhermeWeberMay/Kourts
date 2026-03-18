@@ -36,7 +36,7 @@
    <button type="submit" name="post">Cadastrar</button>
   </form>
   <?php
-  require 'Funcionario.php';
+  require_once 'Funcionario.php';
   if (isset($_POST['post'])) {
    $funcionario = new Funcionario();
    $formNome = $_POST['nome'];
