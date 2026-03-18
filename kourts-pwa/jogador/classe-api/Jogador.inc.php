@@ -37,4 +37,99 @@ class Jogador
 
   echo $resposta . " - Jogador cadastrado com sucesso!";
  }
+
+ public function getAll()
+ {
+  // 1. Receber a resposta da API (ex: via cURL)
+  $jsonResponse = file_get_contents('http://localhost:8081/kourts.com.br/get/Jogador');
+
+  // 2. Converter o JSON para um Objeto PHP
+  $jogador = json_decode($jsonResponse);
+
+  // 3. Acessar as propriedades do objeto
+  if ($jsonResponse == null) {
+   echo "<h1> Erro </h1>";
+  } else {
+   foreach ($jogador as $jog) {
+    echo "<p> Id: " . $jog->id . "</p>";
+    echo  "<p> Nome: " . $jog->nome . "</p>";
+    echo "<p> Email: " . $jog->email . "</p>";
+    echo "<p> Senha: " . $jog->senha . "</p>";
+    echo "<p> Telefone: " . $jog->telefone . "</p>";
+    echo "<p> Apelido: " . $jog->apelido . "</p>";
+    echo "<p> CPF: " . $jog->cpf . "</p>";
+    echo "<p> Sobrenome: " . $jog->sobrenome . "</p>";
+    echo "<p> Bairro: " . $jog->local->bairro . "</p>";
+    echo "<p> Estado: " . $jog->local->estado . "</p>";
+    echo "<p> Cidade: " . $jog->local->cidade . "</p>";
+    echo "<hr>";
+   }
+  }
+ }
+
+ public function getId($inputId)
+ {
+  // 1. Receber a resposta da API (ex: via cURL)
+  $jsonResponse = file_get_contents('http://localhost:8081/kourts.com.br/get/Jogador/id/' . $inputId);
+
+  // 2. Converter o JSON para um Objeto PHP
+  $jogador = json_decode($jsonResponse);
+
+  // 3. Acessar as propriedades do objeto
+  echo "<p> Id: " . $jogador->id . "</p>";
+  echo  "<p> Nome: " . $jogador->nome . "</p>";
+  echo "<p> Email: " . $jogador->email . "</p>";
+  echo "<p> Senha: " . $jogador->senha . "</p>";
+  echo "<p> Telefone: " . $jogador->telefone . "</p>";
+  echo "<p> Apelido: " . $jogador->apelido . "</p>";
+  echo "<p> CPF: " . $jogador->cpf . "</p>";
+  echo "<p> Sobrenome: " . $jogador->sobrenome . "</p>";
+  echo "<p> Bairro: " . $jogador->local->bairro . "</p>";
+  echo "<p> Estado: " . $jogador->local->estado . "</p>";
+  echo "<p> Cidade: " . $jogador->local->cidade . "</p>";
+ }
+
+ public function getCpf($inputCpf)
+ {
+  // 1. Receber a resposta da API (ex: via cURL)
+  $jsonResponse = file_get_contents('http://localhost:8081/kourts.com.br/get/Jogador/cpf/' . $inputCpf);
+
+  // 2. Converter o JSON para um Objeto PHP
+  $jogador = json_decode($jsonResponse);
+
+  // 3. Acessar as propriedades do objeto
+  echo "<p> Id: " . $jogador->id . "</p>";
+  echo  "<p> Nome: " . $jogador->nome . "</p>";
+  echo "<p> Email: " . $jogador->email . "</p>";
+  echo "<p> Senha: " . $jogador->senha . "</p>";
+  echo "<p> Telefone: " . $jogador->telefone . "</p>";
+  echo "<p> Apelido: " . $jogador->apelido . "</p>";
+  echo "<p> CPF: " . $jogador->cpf . "</p>";
+  echo "<p> Sobrenome: " . $jogador->sobrenome . "</p>";
+  echo "<p> Bairro: " . $jogador->local->bairro . "</p>";
+  echo "<p> Estado: " . $jogador->local->estado . "</p>";
+  echo "<p> Cidade: " . $jogador->local->cidade . "</p>";
+ }
+
+ public function getApelido($inputApelido)
+ {
+  // 1. Receber a resposta da API (ex: via cURL)
+  $jsonResponse = file_get_contents('http://localhost:8081/kourts.com.br/get/Jogador/apelido/' . $inputApelido);
+
+  // 2. Converter o JSON para um Objeto PHP
+  $jogador = json_decode($jsonResponse);
+
+  // 3. Acessar as propriedades do objeto
+  echo "<p> Id: " . $jogador->id . "</p>";
+  echo  "<p> Nome: " . $jogador->nome . "</p>";
+  echo "<p> Email: " . $jogador->email . "</p>";
+  echo "<p> Senha: " . $jogador->senha . "</p>";
+  echo "<p> Telefone: " . $jogador->telefone . "</p>";
+  echo "<p> Apelido: " . $jogador->apelido . "</p>";
+  echo "<p> CPF: " . $jogador->cpf . "</p>";
+  echo "<p> Sobrenome: " . $jogador->sobrenome . "</p>";
+  echo "<p> Bairro: " . $jogador->local->bairro . "</p>";
+  echo "<p> Estado: " . $jogador->local->estado . "</p>";
+  echo "<p> Cidade: " . $jogador->local->cidade . "</p>";
+ }
 }
