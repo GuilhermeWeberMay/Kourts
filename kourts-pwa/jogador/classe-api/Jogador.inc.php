@@ -1,7 +1,7 @@
 <?php
 class Jogador
 {
-
+ // Create
  public function post($formNome, $formEmail, $formSenha, $formTelefone, $formApelido, $formCpf, $formSobrenome, $formBairro, $formEstado, $formCidade)
  {
   $jogador = [
@@ -38,6 +38,7 @@ class Jogador
   echo $resposta . " - Jogador cadastrado com sucesso!";
  }
 
+ // Read
  public function getAll()
  {
   // 1. Receber a resposta da API (ex: via cURL)
@@ -133,6 +134,49 @@ class Jogador
   echo "<p> Cidade: " . $jogador->local->cidade . "</p>";
  }
 
+ // Update
+ public function put($formNome, $formEmail, $formSenha, $formTelefone, $formApelido, $formCpf, $formSobrenome, $formBairro, $formEstado, $formCidade)
+ {
+  $jogador = [
+   "nome" => $formNome,
+   "email" => $formEmail,
+   "senha" => $formSenha,
+   "telefone" => $formTelefone,
+   "apelido" => $formApelido,
+   "cpf" => $formCpf,
+   "sobrenome" => $formSobrenome,
+   "local" => [
+    "bairro" => $formBairro,
+    "estado" => $formEstado,
+    "cidade" => $formCidade
+   ]
+  ];
+
+  $json = json_encode($jogador);
+  $url = 'http://localhost:8081/kourts.com.br/update/Jogador/cpf/' . $formCpf;
+
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT"); // Define o verbo PUT
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, [
+   'Content-Type: application/json',
+   'Content-Length: ' . strlen($json)
+  ]);
+
+  $resposta = curl_exec($ch);
+  $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  curl_close($ch);
+
+  // Validação do status de sucesso da API
+  if ($httpCode >= 200 && $httpCode < 300) {
+   echo "Jogador atualizado com sucesso!";
+  } else {
+   echo "Erro ao atualizar: " . $resposta . " (Código: $httpCode)";
+  }
+ }
+
+ // Delete
  public function deleteId($formId)
  {
   // URL da API com o ID do recurso a ser deletado
