@@ -16,19 +16,15 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = true)
 // Jakarta
 @Entity
-public class Jogador extends Usuario{
+public class Proprietario extends Usuario{
     /*
     unique - não pode repetir
     nullable - não pode ser null
     length - tamanho
     columnDefinition - tipo de dado
     */
-    @Column(nullable = false, length = 30, unique = true)
-    private String apelido;
-    @Column(nullable = false, columnDefinition = "CHAR(11)", unique = true)
-    private String cpf;
-    @Column(nullable = false, length = 64)
-    private String sobrenome;
+    @Column(nullable = false, columnDefinition = "CHAR(14)", unique = true)
+    private String cnpj;
     // Relacionamento com Local
     @Embedded // Cria colunas na tabela da entidade
     private Local local;
