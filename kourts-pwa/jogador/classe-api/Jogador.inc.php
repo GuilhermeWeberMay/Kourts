@@ -132,4 +132,76 @@ class Jogador
   echo "<p> Estado: " . $jogador->local->estado . "</p>";
   echo "<p> Cidade: " . $jogador->local->cidade . "</p>";
  }
+
+ public function deleteId($formId)
+ {
+  // URL da API com o ID do recurso a ser deletado
+  $url = 'http://localhost:8081/kourts.com.br/delete/Jogador/id/' . $formId;
+
+  // Inicia o cURL
+  $ch = curl_init($url);
+
+  // Configura as opções
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+
+  // Executa a requisição
+  $response = curl_exec($ch);
+  $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); // Obtém o código de status HTTP
+
+  // Trata a resposta
+  if ($httpCode == 200 || $httpCode == 204) {
+   echo "Jogador deletado com sucesso.";
+  } else {
+   echo "Erro ao deletar. Código: " . $httpCode;
+  }
+ }
+
+ public function deleteCpf($formCpf)
+ {
+  // URL da API com o ID do recurso a ser deletado
+  $url = 'http://localhost:8081/kourts.com.br/delete/Jogador/cpf/' . $formCpf;
+
+  // Inicia o cURL
+  $ch = curl_init($url);
+
+  // Configura as opções
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+
+  // Executa a requisição
+  $response = curl_exec($ch);
+  $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); // Obtém o código de status HTTP
+
+  // Trata a resposta
+  if ($httpCode == 200 || $httpCode == 204) {
+   echo "Jogador deletado com sucesso.";
+  } else {
+   echo "Erro ao deletar. Código: " . $httpCode;
+  }
+ }
+
+ public function deleteApelido($formApelido)
+ {
+  // URL da API com o ID do recurso a ser deletado
+  $url = 'http://localhost:8081/kourts.com.br/delete/Jogador/apelido/' . $formApelido;
+
+  // Inicia o cURL
+  $ch = curl_init($url);
+
+  // Configura as opções
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+
+  // Executa a requisição
+  $response = curl_exec($ch);
+  $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); // Obtém o código de status HTTP
+
+  // Trata a resposta
+  if ($httpCode == 200 || $httpCode == 204) {
+   echo "Jogador deletado com sucesso.";
+  } else {
+   echo "Erro ao deletar. Código: " . $httpCode;
+  }
+ }
 }
