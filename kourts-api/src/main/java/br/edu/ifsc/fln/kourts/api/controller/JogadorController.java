@@ -5,10 +5,12 @@ import br.edu.ifsc.fln.kourts.api.repository.JogadorRepository;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,6 +65,52 @@ public class JogadorController {
     }
 
     // Update
+    @PutMapping("/kourts.com.br/update/Jogador/id/{id}")
+    public ResponseEntity<Jogador> update(@PathVariable Integer id, @RequestBody Jogador jogador) {
+        if (!jogadorRepository.existsById(id)) {
+            // Retorna mensagem de que o jogador não existe
+            return ResponseEntity.notFound().build();
+        } else {
+            jogador.setId(id);
+
+            Jogador jogadorAtualizado = jogadorRepository.save(jogador);
+
+            return ResponseEntity.ok(jogadorAtualizado);
+        }
+    }
+
+    @PutMapping("/kourts.com.br/update/Jogador/cpf/{cpf}")
+    public ResponseEntity<Jogador> updateByCpf(@PathVariable String cpf,
+                                               @RequestBody Jogador jogador) {
+        Jogador j = jogadorRepository.findByCpf(cpf);
+        if (j == null) {
+            // Retorna mensagem de que o jogador não existe
+            return ResponseEntity.notFound().build();
+        } else {
+            jogador.setId(j.getId());
+
+            Jogador jogadorAtualizado = jogadorRepository.save(jogador);
+
+            return ResponseEntity.ok(jogadorAtualizado);
+        }
+    }
+
+    @PutMapping("/kourts.com.br/update/Jogador/apelido/{apelido}")
+    public ResponseEntity<Jogador> updateByApelido(@PathVariable String apelido,
+                                               @RequestBody Jogador jogador) {
+        Jogador j = jogadorRepository.findByApelido(apelido);
+        if (j == null) {
+            // Retorna mensagem de que o jogador não existe
+            return ResponseEntity.notFound().build();
+        } else {
+            jogador.setId(j.getId());
+
+            Jogador jogadorAtualizado = jogadorRepository.save(jogador);
+
+            return ResponseEntity.ok(jogadorAtualizado);
+        }
+    }
+
     // Delete
     @DeleteMapping("/kourts.com.br/delete/Jogador/id/{id}") // Método com parametro
     public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
