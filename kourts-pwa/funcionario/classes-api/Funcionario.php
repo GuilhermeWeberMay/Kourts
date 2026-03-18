@@ -1,6 +1,5 @@
 <?php
-require 'apiInterface.php';
-class Funcionario implements apiInterface
+class Funcionario
 {
 
  public function post($formNome, $formSenha, $formSobrenome, $formEmail, $formCpf, $formTelefone)
