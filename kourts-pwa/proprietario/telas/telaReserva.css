@@ -21,7 +21,6 @@ header{
 }
 
 header div{
-  border: 1px red solid;
 }
 
 .cabecalho{
@@ -43,40 +42,54 @@ main{
   margin-top: 17%;
 }
 
-main div {
- border: 1px solid red;
- margin-bottom: 2%;
+#saudacao{
+  background-color: none;
 }
 
-.status div{
+.status {
+ margin-bottom: 2%;
+ opacity: green;
+}
+
+.status div {
   display: inline-table;
 }
 
-.status div p{
-  width: fit-content;
+#status1, #status2, #status3{
+  background-color: green;
+  width: 20%;
+}
+
+.status div div{
+  text-align: center;
+  width: 20%;
 }
 
 main nav{
-  border: 1px solid red;
 }
 
 main nav ul{
-  border: 1px solid red;
+  
   list-style: none;
   padding: 0;
 }
 
 main nav ul li {
-  border: 1px solid red;
   display: inline-table;
   width: 24%;
   padding-top: 1%;
   padding-bottom: 1%;
   text-align: center;
+  background-color: green;
+  color: black;
+  font-weight: bold;
 }
 
 main fieldset{
   margin-top: 4%;
+  border: 1px solid black;
+  border-radius: 15px;
+  background-color: green;
 }
 
 main fieldset input{
@@ -84,13 +97,13 @@ main fieldset input{
 }
 
 main fieldset article{
-  border: 1px solid red;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 15px;
   margin-top: 2%;
   font-size: 78%;
 }
 
 main fieldset article p {
-  border: 1px solid red;
   width: fit-content;
   display: inline-block;
  margin-bottom: 1%;
@@ -98,7 +111,30 @@ main fieldset article p {
 }
 
 #botaoAprovarRejeitar{
- border: 1px solid red;
  width: fit-content;
  display: inline-block;
+}
+
+#statusReserva{
+  color: white;
+  background-color: black;
+  text-align: center;
+  border: 1px solid white;
+  border-radius: 15px;
+  padding: 4px 10px;
+}
+
+#btAprovar, #btRejeitar{
+  border-radius: 15px;
+  padding: 6px 10px;
+  border: 1px solid black;
+  font-weight: bold;
+}
+
+#btAprovar{
+  background-color: green;
+}
+
+#btRejeitar{
+  background-color: red;
 }

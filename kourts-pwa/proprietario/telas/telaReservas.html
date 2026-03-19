@@ -29,10 +29,10 @@
       <p> Aqui está um resumo das suas reservas </p>
     </div>
 
-    <div class="status">
-      <div> <p> Reservas pendentes </p>  </div>
-      <div> <p> Reservas confirmadas </p>  </div>
-      <div> <p> Total de quadras </p>  </div>
+    <div id="status">
+      <div id="status1">  Reservas pendentes   </div>
+      <div id="status2">  Reservas confirmadas  </div>
+      <div id="status3">  Total de quadras   </div>
     </div>
 
    <nav>
@@ -44,22 +44,22 @@
       </ul>
    </nav>
 
-   <fieldset>
+   <fieldset id="painelReserva">
       <h4> Painel de Reservas </h4>
        <p> Gerencie todas as suas reservas de quadras</p>
 
       <input type="text" name="" id="" placeholder="Busque por nome por quadra ">
 
       <article>
-        <p> Nome da Quadra <span> Confirmado </span> </p> <br>
+        <p> Nome da Quadra <span id="statusReserva"> Confirmado </span> </p> <br>
         <p> Cliente : nomeCliente | Data: data do agendamento | Duração: duração e preço | Pagamento: formaPagamento </p>
       </article>
 
       <article>
-        <p> Nome da Quadra <span> Pendente </span> </p> <br>
-        <p> Cliente : nomeCliente | Data: data do agendamento | Duração: duração e preço | Pagamento: formaPagamento </p>
+        <p> Nome da Quadra <span id="statusReserva"> Pendente </span> </p> <br>
+        <p> Cliente : <span id="nomeCliente"> nomeCliente </span> | Data: <span id="dataAgendamento"> data do agendamento </span> | Duração: <span id="duracaoPreco"> duração e preço </span> |Pagamento: <span id="formaPagamento"> formaPagamento </span> </p>
             <div id="botaoAprovarRejeitar"> <br>
-              <button> Aprovar </button> <button> Rejeitar </button>
+              <button id="btAprovar"> Aprovar </button> <button id="btRejeitar"> Rejeitar </button>
             </div>
       </article>
    </fieldset>
