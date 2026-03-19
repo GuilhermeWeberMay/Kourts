@@ -28,24 +28,24 @@ public class FuncionarioController {
     }
 
     // Create
-    @PostMapping("kourts.com.br/createFuncionario")
+    @PostMapping("kourts.com.br/create/Funcionario")
     @ResponseStatus(HttpStatus.CREATED)
     public Funcionario create(@RequestBody Funcionario funcionario){
         return funcionarioRepository.save(funcionario);
     }
 
     // Read
-    @GetMapping("kourts.com.br/Funcionario")
+    @GetMapping("kourts.com.br/get/Funcionario")
     public List<Funcionario> findAll(){
         return funcionarioRepository.findAll();
     }
 
-    @GetMapping("kourts.com.br/Funcionario/{id}")
+    @GetMapping("kourts.com.br/get/Funcionario/id/{id}")
     public ResponseEntity<Funcionario> findById(@PathVariable Integer id){
         return funcionarioRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("kourts.com.br/FuncionarioCpf/{cpf}")
+    @GetMapping("kourts.com.br/get/Funcionario/cpf/{cpf}")
     public ResponseEntity<Funcionario> findByCpf(@PathVariable String cpf){
         Funcionario f = funcionarioRepository.findByCpf(cpf);
         if(f != null){
@@ -55,7 +55,7 @@ public class FuncionarioController {
     }
 
     // Update
-    @PutMapping("/kourts.com.br/putFuncionario/{id}")
+    @PutMapping("/kourts.com.br/put/Funcionario/id/{id}")
     public ResponseEntity<Funcionario> update(@PathVariable Integer id, @RequestBody Funcionario funcionario){
         if(!funcionarioRepository.existsById(id)){
             return ResponseEntity.notFound().build();
@@ -68,7 +68,7 @@ public class FuncionarioController {
     }
 
     // Delete
-    @DeleteMapping("/kourts.com.br/deleteFuncionario/{id}")
+    @DeleteMapping("/kourts.com.br/delete/Funcionario/id/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (!funcionarioRepository.existsById(id)){
             return ResponseEntity.notFound().build();
