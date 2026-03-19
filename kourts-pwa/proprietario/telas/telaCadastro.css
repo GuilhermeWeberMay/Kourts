@@ -1,0 +1,101 @@
+
+@media (max-width:768px){ 
+
+  body{
+  background-color: #256026;
+
+    /*propriedades para aplicar o background em toda tela*/
+    min-height: 100vh;
+    margin: 0;
+    color: white;
+}
+
+  fieldset{
+    margin: auto;
+    width: 100%;
+  }
+
+  body{
+   margin: 0;
+  }
+  
+   img {
+ display: block;
+ margin: auto;
+ margin-top: 8%;
+}
+
+fieldset {
+ width: 94%;
+ margin: auto;
+ border: none;
+}
+
+div {
+ margin: 10%;
+ height: max-content;
+}
+
+button{
+ position: absolute;
+ bottom: 10%;
+ left: 30%;
+}
+
+}
+
+@media (min-width:768px) {
+
+   body{
+background: linear-gradient(to bottom, #153016 0%, #1e4d1f 100%);
+
+    /*propriedades para aplicar o background em toda tela*/
+    min-height: 100vh;
+    margin: 5%;
+    color: white;
+}
+
+   img {
+ display: block;
+ margin: auto;
+ margin-top: 5%;
+ border-radius: 10px;
+ border: 1px rgb(255, 0, 0) solid;
+}
+
+fieldset {
+ width: 70%;
+ margin: auto;
+}
+
+div {
+ margin: 10%;
+ height: max-content;
+}
+ 
+}
+
+fieldset{
+ background-color: #256026;
+}
+
+button {
+ display: block;
+ margin: auto;
+ background: linear-gradient(to bottom, #1e4d1f 0%, #153016 100%);
+ padding: 3% 9%;
+ border: 1px black solid;
+ border-radius: 10px;
+ color: white;
+}
+
+label {
+ display: inline-block;
+ padding-bottom: 1%;
+}
+
+input {
+ width: 100%;
+ border-radius: 5px;
+ padding: 2%
+}
