@@ -21,7 +21,7 @@ class Jogador
 
   $json = json_encode($jogador);
 
-  $url = 'http://localhost:8081/kourts.com.br/create/Jogador';
+  $url = 'http://localhost:8081/jogadores';
 
   $ch = curl_init($url);
 
@@ -42,7 +42,7 @@ class Jogador
  public function getAll()
  {
   // 1. Receber a resposta da API (ex: via cURL)
-  $jsonResponse = file_get_contents('http://localhost:8081/kourts.com.br/get/Jogador');
+  $jsonResponse = file_get_contents('http://localhost:8081/jogadores');
 
   // 2. Converter o JSON para um Objeto PHP
   $jogador = json_decode($jsonResponse);
@@ -71,7 +71,7 @@ class Jogador
  public function getId($inputId)
  {
   // 1. Receber a resposta da API (ex: via cURL)
-  $jsonResponse = file_get_contents('http://localhost:8081/kourts.com.br/get/Jogador/id/' . $inputId);
+  $jsonResponse = file_get_contents('http://localhost:8081/jogadores/id/' . $inputId);
 
   // 2. Converter o JSON para um Objeto PHP
   $jogador = json_decode($jsonResponse);
@@ -93,7 +93,7 @@ class Jogador
  public function getCpf($inputCpf)
  {
   // 1. Receber a resposta da API (ex: via cURL)
-  $jsonResponse = file_get_contents('http://localhost:8081/kourts.com.br/get/Jogador/cpf/' . $inputCpf);
+  $jsonResponse = file_get_contents('http://localhost:8081/jogadores/cpf/' . $inputCpf);
 
   // 2. Converter o JSON para um Objeto PHP
   $jogador = json_decode($jsonResponse);
@@ -115,7 +115,7 @@ class Jogador
  public function getApelido($inputApelido)
  {
   // 1. Receber a resposta da API (ex: via cURL)
-  $jsonResponse = file_get_contents('http://localhost:8081/kourts.com.br/get/Jogador/apelido/' . $inputApelido);
+  $jsonResponse = file_get_contents('http://localhost:8081/jogadores/apelido/' . $inputApelido);
 
   // 2. Converter o JSON para um Objeto PHP
   $jogador = json_decode($jsonResponse);
@@ -153,7 +153,7 @@ class Jogador
   ];
 
   $json = json_encode($jogador);
-  $url = 'http://localhost:8081/kourts.com.br/update/Jogador/cpf/' . $formCpf;
+  $url = 'http://localhost:8081/jogadores/cpf/' . $formCpf;
 
   $ch = curl_init($url);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -180,7 +180,7 @@ class Jogador
  public function deleteId($formId)
  {
   // URL da API com o ID do recurso a ser deletado
-  $url = 'http://localhost:8081/kourts.com.br/delete/Jogador/id/' . $formId;
+  $url = 'http://localhost:8081/jogadores/id/' . $formId;
 
   // Inicia o cURL
   $ch = curl_init($url);
@@ -204,7 +204,7 @@ class Jogador
  public function deleteCpf($formCpf)
  {
   // URL da API com o ID do recurso a ser deletado
-  $url = 'http://localhost:8081/kourts.com.br/delete/Jogador/cpf/' . $formCpf;
+  $url = 'http://localhost:8081/jogadores/cpf/' . $formCpf;
 
   // Inicia o cURL
   $ch = curl_init($url);
@@ -228,7 +228,7 @@ class Jogador
  public function deleteApelido($formApelido)
  {
   // URL da API com o ID do recurso a ser deletado
-  $url = 'http://localhost:8081/kourts.com.br/delete/Jogador/apelido/' . $formApelido;
+  $url = 'http://localhost:8081/jogadores/apelido/' . $formApelido;
 
   // Inicia o cURL
   $ch = curl_init($url);
