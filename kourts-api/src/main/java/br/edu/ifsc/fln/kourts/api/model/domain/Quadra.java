@@ -68,4 +68,8 @@ public class Quadra {
 
     @Enumerated(EnumType.STRING)
     private Estado estado = Estado.DISPONIVEL;
+
+    // Relacionamento MultiDirecional com Proprietario
+    @ManyToOne
+    private Proprietario proprietario;
 }
