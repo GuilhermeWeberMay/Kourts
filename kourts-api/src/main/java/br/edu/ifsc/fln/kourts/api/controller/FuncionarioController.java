@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController// Declara que essa classe será um Controller
+@RequestMapping("/funcionarios") // Declara que todos os endpoints começaram com esse nome
 public class FuncionarioController {
 
     private final FuncionarioRepository funcionarioRepository; // Injeção de dependecia da
@@ -28,38 +30,29 @@ public class FuncionarioController {
     }
 
     // Create
-    @PostMapping("kourts.com.br/createFuncionario")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Funcionario create(@RequestBody Funcionario funcionario){
+    public Funcionario create(@RequestBody Funcionario funcionario) {
         return funcionarioRepository.save(funcionario);
     }
 
     // Read
-    @GetMapping("kourts.com.br/Funcionario")
-    public List<Funcionario> findAll(){
+    @GetMapping
+    public List<Funcionario> findAll() {
         return funcionarioRepository.findAll();
     }
 
-    @GetMapping("kourts.com.br/Funcionario/{id}")
-    public ResponseEntity<Funcionario> findById(@PathVariable Integer id){
+    @GetMapping("/{id}")
+    public ResponseEntity<Funcionario> findById(@PathVariable Integer id) {
         return funcionarioRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("kourts.com.br/FuncionarioCpf/{cpf}")
-    public ResponseEntity<Funcionario> findByCpf(@PathVariable String cpf){
-        Funcionario f = funcionarioRepository.findByCpf(cpf);
-        if(f != null){
-            return ResponseEntity.ok(f);
-        }
-        return ResponseEntity.notFound().build();
-    }
-
     // Update
-    @PutMapping("/kourts.com.br/putFuncionario/{id}")
-    public ResponseEntity<Funcionario> update(@PathVariable Integer id, @RequestBody Funcionario funcionario){
-        if(!funcionarioRepository.existsById(id)){
+    @PutMapping("/{id}")
+    public ResponseEntity<Funcionario> update(@PathVariable Integer id, @RequestBody Funcionario funcionario) {
+        if (!funcionarioRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
-        }else {
+        } else {
             funcionario.setId(id);
             Funcionario funcionarioAtualizado = funcionarioRepository.save(funcionario);
 
@@ -68,12 +61,12 @@ public class FuncionarioController {
     }
 
     // Delete
-    @DeleteMapping("/kourts.com.br/deleteFuncionario/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        if (!funcionarioRepository.existsById(id)){
+        if (!funcionarioRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
-        }else  {
-            funcionarioRepository.deleteById(id);   
+        } else {
+            funcionarioRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         }
     }
