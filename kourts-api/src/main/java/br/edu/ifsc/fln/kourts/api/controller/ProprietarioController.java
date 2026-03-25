@@ -32,12 +32,8 @@ public class ProprietarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Proprietario> read(@PathVariable String cnpj){
-        Proprietario p =  proprietarioRepository.findByCnpj(cnpj);
-        if(p != null){
-            return ResponseEntity.ok(p);
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<Proprietario> read(@PathVariable Integer id){
+        return proprietarioRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     // Update
