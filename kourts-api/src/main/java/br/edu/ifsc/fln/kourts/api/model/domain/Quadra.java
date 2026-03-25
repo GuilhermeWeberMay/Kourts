@@ -1,5 +1,7 @@
 package br.edu.ifsc.fln.kourts.api.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import lombok.EqualsAndHashCode;
@@ -70,6 +72,7 @@ public class Quadra {
     private Estado estado = Estado.DISPONIVEL;
 
     // Relacionamento MultiDirecional com Proprietario
+    @JsonIgnore
     @ManyToOne
     private Proprietario proprietario;
 }

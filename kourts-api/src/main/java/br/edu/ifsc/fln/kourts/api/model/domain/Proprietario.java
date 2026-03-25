@@ -1,13 +1,18 @@
 package br.edu.ifsc.fln.kourts.api.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //Lombok
 @NoArgsConstructor
@@ -28,4 +33,7 @@ public class Proprietario extends Usuario{
     // Relacionamento com Local
     @Embedded // Cria colunas na tabela da entidade
     private Local local;
+    // Relacionamento com Quadra
+    @OneToMany(mappedBy = "proprietario")
+    private List<Quadra> quadras = new ArrayList<>();
 }
