@@ -7,6 +7,7 @@ import br.edu.ifsc.fln.kourts.api.repository.ReservaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.List;
 
 @Service
 public class ReservaService {
@@ -24,6 +25,7 @@ public class ReservaService {
                 .orElseThrow(() -> new RuntimeException("Quadra não encontrada"));
 
         validarHorario(reserva, quadra);
+        validarConflitoDeHorario(reserva, quadra);
 
         reserva.setQuadra(quadra);
         reserva.setValor(reserva.calcularValor());
@@ -48,6 +50,22 @@ public class ReservaService {
 
         if (reserva.getFim().isAfter(quadra.getHoraFechamento())) {
             throw new RuntimeException("Horário de fim fora do funcionamento da quadra");
+        }
+    }
+
+    private void validarConflitoDeHorario(Reserva novaReserva, Quadra quadra) {
+        List<Reserva> reservasDaQuadra = reservaRepository.findByQuadraId(quadra.getId());
+
+        for (Reserva reservaExistente : reservasDaQuadra) {
+            boolean mesmaData = novaReserva.getData().equals(reservaExistente.getData());
+
+            boolean sobrepoe =
+                    novaReserva.getInicio().isBefore(reservaExistente.getFim()) &&
+                            novaReserva.getFim().isAfter(reservaExistente.getInicio());
+
+            if (mesmaData && sobrepoe) {
+                throw new RuntimeException("Já existe uma reserva nesse horário para essa quadra");
+            }
         }
     }
 }
