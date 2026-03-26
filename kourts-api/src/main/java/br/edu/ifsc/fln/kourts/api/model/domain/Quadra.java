@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -51,7 +48,7 @@ public class Quadra {
     private String cep;
 
     @Column(nullable = false)
-    private byte qtdJogadores;
+    private int qtdJogadores;
 
     @Column(nullable = false)
     private BigDecimal precoPorHora;

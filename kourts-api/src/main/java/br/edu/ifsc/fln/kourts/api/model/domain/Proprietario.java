@@ -1,6 +1,5 @@
 package br.edu.ifsc.fln.kourts.api.model.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
