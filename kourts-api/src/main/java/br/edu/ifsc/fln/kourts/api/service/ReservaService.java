@@ -68,4 +68,44 @@ public class ReservaService {
             }
         }
     }
+
+    public Reserva atualizarReserva(int id, Reserva reservaAtualizada) {
+        Reserva reservaExistente = reservaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reserva não encontrada"));
+
+        Quadra quadra = quadraRepository.findById(reservaAtualizada.getQuadra().getId())
+                .orElseThrow(() -> new RuntimeException("Quadra não encontrada"));
+
+        validarHorario(reservaAtualizada, quadra);
+        validarConflitoDeHorario(reservaAtualizada, quadra, id);
+
+        reservaExistente.setData(reservaAtualizada.getData());
+        reservaExistente.setInicio(reservaAtualizada.getInicio());
+        reservaExistente.setFim(reservaAtualizada.getFim());
+        reservaExistente.setSituacao(reservaAtualizada.getSituacao());
+        reservaExistente.setQuadra(quadra);
+        reservaExistente.setValor(reservaExistente.calcularValor());
+
+        return reservaRepository.save(reservaExistente);
+    }
+
+    private void validarConflitoDeHorario(Reserva novaReserva, Quadra quadra, int idReservaAtual) {
+        List<Reserva> reservasDaQuadra = reservaRepository.findByQuadraId(quadra.getId());
+
+        for (Reserva reservaExistente : reservasDaQuadra) {
+            if (reservaExistente.getId() == idReservaAtual) {
+                continue;
+            }
+
+            boolean mesmaData = novaReserva.getData().equals(reservaExistente.getData());
+
+            boolean sobrepoe =
+                    novaReserva.getInicio().isBefore(reservaExistente.getFim()) &&
+                            novaReserva.getFim().isAfter(reservaExistente.getInicio());
+
+            if (mesmaData && sobrepoe) {
+                throw new RuntimeException("Já existe uma reserva nesse horário para essa quadra");
+            }
+        }
+    }
 }

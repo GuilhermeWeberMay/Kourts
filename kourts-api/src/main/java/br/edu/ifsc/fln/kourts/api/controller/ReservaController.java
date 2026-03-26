@@ -7,6 +7,7 @@ import br.edu.ifsc.fln.kourts.api.repository.ReservaRepository;
 import br.edu.ifsc.fln.kourts.api.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,5 +34,26 @@ public class ReservaController {
     @GetMapping
     public List<Reserva> read() {
         return reservaRepository.findAll();
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Reserva> read(@PathVariable Integer id) {
+        return reservaRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    // Update
+    @PutMapping("/{id}")
+    public Reserva update(@PathVariable Integer id, @RequestBody Reserva reserva) {
+        return reservaService.atualizarReserva(id, reserva);
+    }
+    // Delete
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        if (!reservaRepository.existsById(id)){
+            return ResponseEntity.notFound().build();
+        }else  {
+            reservaRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
     }
 }
