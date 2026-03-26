@@ -4,6 +4,7 @@ import br.edu.ifsc.fln.kourts.api.model.domain.Quadra;
 import br.edu.ifsc.fln.kourts.api.model.domain.Reserva;
 import br.edu.ifsc.fln.kourts.api.repository.QuadraRepository;
 import br.edu.ifsc.fln.kourts.api.repository.ReservaRepository;
+import br.edu.ifsc.fln.kourts.api.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,27 +12,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("reservas")
+@RequestMapping("/reservas")
 public class ReservaController {
 
-    @Autowired
-    private ReservaRepository reservaRepository;
-    @Autowired
-    private QuadraRepository quadraRepository;
+    private final ReservaService reservaService;
+    private final ReservaRepository reservaRepository;
+
+    public ReservaController(ReservaService reservaService, ReservaRepository reservaRepository) {
+        this.reservaService = reservaService;
+        this.reservaRepository = reservaRepository;
+    }
 
     // Create
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Reserva create(@RequestBody Reserva reserva){
-        Quadra quadra = quadraRepository.findById(reserva.getQuadra().getId())
-                .orElseThrow(() -> new RuntimeException("Quadra não encontrada"));
-
-        quadra.validarHorario(reserva, quadra);
-
-        reserva.setQuadra(quadra);
-        reserva.setValor(reserva.calcularValor());
-
-        return reservaRepository.save(reserva);
+    public Reserva create(@RequestBody Reserva reserva) {
+        return reservaService.criarReserva(reserva);
     }
 
     // Read
