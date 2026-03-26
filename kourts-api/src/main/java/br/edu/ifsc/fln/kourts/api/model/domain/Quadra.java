@@ -8,6 +8,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
+import java.time.Duration;
 import java.time.LocalTime;
 
 import java.util.ArrayList;
@@ -72,4 +73,28 @@ public class Quadra {
     @JsonIgnore
     @ManyToOne
     private Proprietario proprietario;
+
+    public void validarHorario(Reserva reserva, Quadra quadra) {
+        if (reserva.getInicio().getMinute() != 0 || reserva.getFim().getMinute() != 0) {
+            throw new RuntimeException("A reserva só pode ser feita em horários cheios");
+        }
+
+        Duration duracao = Duration.between(reserva.getInicio(), reserva.getFim());
+
+        if (duracao.toMinutes() < 60) {
+            throw new RuntimeException("A reserva deve ter no mínimo 1 hora");
+        }
+
+        if (duracao.toMinutes() % 60 != 0) {
+            throw new RuntimeException("A reserva deve ter duração em blocos de 1 hora");
+        }
+
+        if (reserva.getInicio().isBefore(quadra.getHoraAbertura())) {
+            throw new RuntimeException("Horário de início fora do funcionamento da quadra");
+        }
+
+        if (reserva.getFim().isAfter(quadra.getHoraFechamento())) {
+            throw new RuntimeException("Horário de fim fora do funcionamento da quadra");
+        }
+    }
 }

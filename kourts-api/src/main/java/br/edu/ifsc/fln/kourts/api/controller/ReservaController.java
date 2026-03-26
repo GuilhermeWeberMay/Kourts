@@ -23,10 +23,12 @@ public class ReservaController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Reserva create(@RequestBody Reserva reserva){
-        Quadra quadraBanco = quadraRepository.findById(reserva.getQuadra().getId())
+        Quadra quadra = quadraRepository.findById(reserva.getQuadra().getId())
                 .orElseThrow(() -> new RuntimeException("Quadra não encontrada"));
 
-        reserva.setQuadra(quadraBanco);
+        quadra.validarHorario(reserva, quadra);
+
+        reserva.setQuadra(quadra);
         reserva.setValor(reserva.calcularValor());
 
         return reservaRepository.save(reserva);
