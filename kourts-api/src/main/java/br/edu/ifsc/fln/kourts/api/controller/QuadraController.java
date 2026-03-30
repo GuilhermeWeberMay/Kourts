@@ -31,7 +31,17 @@ public class QuadraController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Quadra create(@RequestBody Quadra quadra){
-        return quadraRepository.save(quadra);
+        // Envia o objeto para o BDA
+        Quadra salva = quadraRepository.save(quadra);
+
+        salva.setFotos( // Pega a lista original de foto salva no banco, linha acima
+                salva.getFotos().stream() //.stream pega url por url quase como um foreach
+                        .map(f -> "http://localhost:8081/fotos/" + f) // Adiciona a url antes do
+                        // nome do arquivo
+                        .toList() // Devolve a lista completo novamente
+        );
+
+        return salva;
     }
 
     // Read
