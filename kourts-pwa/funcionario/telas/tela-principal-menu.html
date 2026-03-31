@@ -1,45 +1,36 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main-menu.css'>
-    <script src='main.js'></script>
+ <meta charset='utf-8'>
+ <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+ <title>Page Title</title>
+ <meta name='viewport' content='width=device-width, initial-scale=1'>
+ <link rel='stylesheet' type='text/css' media='screen' href='main-menu.css'>
+ <script src='main.js'></script>
+  <!-- Import do Axios para consumir API's rest-->
+ <script src='https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js'></script>
 </head>
+
 <body>
-    <header>
-        <form>
-            <input type="text" placeholder="Pesquisar" name="pesquisa" id="pesquisa">
-        </form>
-        
-        <button> <img src="png/filter.png" alt="icon-filter"> </button>
-    </header>
+ <header>
+  <form>
+   <input type="text" placeholder="Pesquisar" name="pesquisa" id="pesquisa">
+  </form>
 
-    <main>
-        <section>
-            <h3> Complexo Esportivo Trajano </h3>
+  <button> <img src="png/filter.png" alt="icon-filter"> </button>
+ </header>
+ <button onclick="mostrarQuadras(7)"> teste</button>
+ <main>
+ </main>
 
-            <img src="https://static.where-e.com/Brazil/Santa_Catarina_State/Rio_Caveiras/Complexo-Esportivo-Trajano_393f59b45d8bf2cc91e5e4c25598649a.jpg" alt="">
+ <footer>
+  <button> <img src="png/home.png" alt="icon-home"> </button>
 
-            <button> Agendar </button>
-        </section>
+  <button> <img src="png/calendar.png" alt="icon-calendar"> </button>
 
-        <section>
-            <h3> Maniacs Arena</h3>
-
-            <img src="https://saocarlosclube.com.br/images/2021/08_AGOSTO/NOTICIAS/2509_notcia.jpg" alt="quadra-maniacs-arena">
-
-            <button> Agendar </button>
-        </section>
-    </main>
-    <footer>
-        <button> <img src="png/home.png" alt="icon-home"> </button>
-
-        <button> <img src="png/calendar.png" alt="icon-calendar"> </button>
-
-        <button> <img src="png/user.png" alt="icon-user"> </button>
-    </footer>
+  <button> <img src="png/user.png" alt="icon-user"> </button>
+ </footer>
 </body>
+
 </html>
