@@ -1,19 +1,24 @@
-async function mostrarQuadras(id) {
+async function mostrarQuadras() {
  // Pega o elemento main
- let menu = document.querySelector('main');
- menu.innerHTML = ""
+ let main = document.querySelector('main');
  try {
-  let url = `http://localhost:8081/quadras/${id}`;
-  const resultado = document.getElementById('resultado');
+  let url = `http://localhost:8081/quadras`;
+
   const response = await axios.get(url);
-  const quadra = response.data;
+  const quadras = response.data;
   
-  menu.innerHTML = `
-  <section>
+  main.innerHTML = "";
+  quadras.forEach(quadra => {
+   const div = document.createElement("section");
+   div.innerHTML = `
+  <div>
    <h3\> ${quadra.nome} </h3>
    <img src="http://localhost:8081/fotos/${quadra.fotos[0]}" alt="foto da quadra" width="200" height="150">
-  </section>
+  </div>
   `
+  main.appendChild(div);
+  });
+  
  } catch (error) {
   console.error(error);
  }
