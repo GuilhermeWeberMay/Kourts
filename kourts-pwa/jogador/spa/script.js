@@ -38,7 +38,7 @@ function mostrarDetalhes(
                 <p><strong>Categoria:</strong> ${tipo}</p>
                 <p><strong>Preço:</strong> R$ ${preco}</p>
                 <p><strong>Descrição:</strong> ${descricao}</p>
-                <p><strong>Avaliação:</strong> ${nota} ⭐ (${avaliacoes} avaliações)</p>
+                <p><strong>Avaliação:</strong> ${nota} ⭐ (${avaliacoes} avaliações)      <button id="btAgendar"> AGENDAR </button></p>
                 </div>
             </div>
         `;
