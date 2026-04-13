@@ -1,14 +1,23 @@
 package br.edu.ifsc.fln.kourts.api.model.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
-import java.time.Duration;
 import java.time.LocalTime;
 
 import java.util.ArrayList;
@@ -32,9 +41,6 @@ public class Quadra {
 
     @Column(nullable = false, length = 64)
     private String nome;
-
-    @Column(nullable = false, length = 32)
-    private String tipoEsporte;
 
     @Column(nullable = false)
     private List<String> fotos = new ArrayList<>();
@@ -70,7 +76,7 @@ public class Quadra {
     private Estado estado = Estado.DISPONIVEL;
 
     // Relacionamento MultiDirecional com Proprietario
-    @JsonIgnore
     @ManyToOne
+    @JsonBackReference
     private Proprietario proprietario;
 }

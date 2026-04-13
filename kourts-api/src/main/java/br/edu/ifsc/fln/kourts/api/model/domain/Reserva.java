@@ -1,7 +1,6 @@
 package br.edu.ifsc.fln.kourts.api.model.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,24 +22,29 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(nullable = false)
     private LocalDate data;
+
     @Column(nullable = false)
     private LocalTime inicio;
+
     @Column(nullable = false)
     private LocalTime fim;
+
     @Column(nullable = false)
 //    @Setter(AccessLevel.NONE)
     private BigDecimal valor;
+
     @Column(nullable = false)
     private Situacao situacao;
+
     @ManyToOne
     private Quadra quadra;
 
     public BigDecimal getValor() {
         return calcularValor();
     }
-
 
     public BigDecimal calcularValor() {
         Duration duracao = Duration.between(inicio, fim);

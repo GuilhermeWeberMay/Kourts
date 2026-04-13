@@ -1,6 +1,8 @@
 package br.edu.ifsc.fln.kourts.api.controller;
 
+import br.edu.ifsc.fln.kourts.api.model.domain.Proprietario;
 import br.edu.ifsc.fln.kourts.api.model.domain.Quadra;
+import br.edu.ifsc.fln.kourts.api.repository.ProprietarioRepository;
 import br.edu.ifsc.fln.kourts.api.repository.QuadraRepository;
 
 import org.springframework.http.HttpStatus;
@@ -26,24 +28,19 @@ public class QuadraController {
 
     @Autowired
     private QuadraRepository quadraRepository;
+    @Autowired
+    private ProprietarioRepository proprietarioRepository;
 
     // Create
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Quadra create(@RequestBody Quadra quadra){
-        // Envia o objeto para o BDA
-        Quadra salva = quadraRepository.save(quadra);
+    public Quadra create(@RequestBody Quadra quadra) {
+        Proprietario proprietario = proprietarioRepository.findById(quadra.getProprietario().getId())
+                .orElseThrow(() -> new RuntimeException("Proprietário não encontrado"));
 
-        salva.setFotos( // Pega a lista original de foto salva no banco, linha acima
-                salva.getFotos().stream() //.stream pega url por url quase como um foreach
-                        .map(f -> "http://localhost:8081/fotos/" + f) // Adiciona a url antes do
-                        // nome do arquivo
-                        .toList() // Devolve a lista completo novamente
-        );
-
-        return salva;
+        quadra.setProprietario(proprietario);
+        return quadraRepository.save(quadra);
     }
-
     // Read
     @GetMapping
     public List<Quadra> read() {
