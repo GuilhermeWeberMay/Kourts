@@ -1,5 +1,6 @@
 let telaAnterior = "tela-home";
 let telaAtual = "tela-home";
+let nav = "nav";
 
 function navegar(destino) {
   let telas = document.getElementsByClassName("tela");
@@ -7,6 +8,13 @@ function navegar(destino) {
     element.classList.remove("show");
     element.classList.add("collapse");
   });
+  if (destino != "tela-home") {
+    document.getElementById(nav).classList.remove("show");
+    document.getElementById(nav).classList.add("collapse");
+  } else {
+    document.getElementById(nav).classList.add("show");
+    document.getElementById(nav).classList.remove("collapse");
+  }
   document.getElementById(destino).classList.remove("collapse");
   document.getElementById(destino).classList.add("show");
   telaAnterior = telaAtual;
@@ -26,8 +34,8 @@ function mostrarDetalhes(
   nota,
   avaliacoes,
 ) {
-  navegar("tela-produto");
-  let detalhes = document.getElementById("detalhes-produto");
+  navegar("tela-detalhes-quadra");
+  let detalhes = document.getElementById("detalhes-quadra");
   detalhes.innerHTML = `
             <div class="row g-3">
                 <div class="col-md-4 text-center">

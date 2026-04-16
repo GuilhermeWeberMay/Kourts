@@ -1,0 +1,26 @@
+.navbar {
+  background-color: #214e23;
+  color: white;
+}
+
+body {
+  background-color: #054500dd;
+  color: white;
+}
+
+.pesquisa-filtro {
+  width: 13rem;
+}
+
+.card {
+  background: none;
+  color: white;
+  border: none;
+  border-bottom: 1px solid white;
+}
+
+@media (min-width: 768px) {
+  .pesquisa-filtro {
+    width: 30rem;
+  }
+}
