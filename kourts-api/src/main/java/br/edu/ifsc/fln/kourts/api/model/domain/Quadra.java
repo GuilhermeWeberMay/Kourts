@@ -2,14 +2,7 @@ package br.edu.ifsc.fln.kourts.api.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,10 +11,13 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -75,8 +71,30 @@ public class Quadra {
     @Enumerated(EnumType.STRING)
     private Estado estado = Estado.DISPONIVEL;
 
+    @Enumerated(EnumType.STRING)
+    private Esporte esporte;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "horarios_disponiveis",
+            joinColumns = @JoinColumn(name = "quadra_id")
+    )
+    private List<LocalTime> horariosDisponiveis = new ArrayList<>();
+
     // Relacionamento MultiDirecional com Proprietario
     @ManyToOne
     @JsonBackReference
     private Proprietario proprietario;
+
+    public void gerarHorariosDisponiveis() {
+        this.horariosDisponiveis = new ArrayList<>();
+        LocalTime atual = this.horaAbertura;
+
+        while (atual.isBefore(this.horaFechamento)) {
+            this.horariosDisponiveis.add(atual);
+            atual = atual.plusHours(1);
+        }
+    }
+
+
 }

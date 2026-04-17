@@ -39,6 +39,7 @@ public class QuadraController {
                 .orElseThrow(() -> new RuntimeException("Proprietário não encontrado"));
 
         quadra.setProprietario(proprietario);
+        quadra.gerarHorariosDisponiveis();
         return quadraRepository.save(quadra);
     }
     // Read

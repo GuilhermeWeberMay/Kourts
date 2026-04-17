@@ -2,10 +2,7 @@ package br.edu.ifsc.fln.kourts.api.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
