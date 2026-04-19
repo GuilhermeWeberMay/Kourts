@@ -4,9 +4,12 @@ import br.edu.ifsc.fln.kourts.api.model.domain.Quadra;
 import br.edu.ifsc.fln.kourts.api.model.domain.Reserva;
 import br.edu.ifsc.fln.kourts.api.repository.QuadraRepository;
 import br.edu.ifsc.fln.kourts.api.repository.ReservaRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -20,15 +23,23 @@ public class ReservaService {
         this.quadraRepository = quadraRepository;
     }
 
+    @Transactional
     public Reserva criarReserva(Reserva reserva) {
         Quadra quadra = quadraRepository.findById(reserva.getQuadra().getId())
                 .orElseThrow(() -> new RuntimeException("Quadra não encontrada"));
 
-        validarHorario(reserva, quadra);
-        validarConflitoDeHorario(reserva, quadra);
+        if (quadra.getHorariosDisponiveis() == null || !quadra.getHorariosDisponiveis().contains(reserva.getInicio())) {
+            throw new RuntimeException("Horário não disponível");
+        }
 
+        quadra.getHorariosDisponiveis().remove(reserva.getInicio());
+        quadraRepository.save(quadra);
+
+        //reserva.setQuadra(quadra);
+        reserva.setData(reserva.getData());
+        reserva.setInicio(reserva.getInicio());
         reserva.setQuadra(quadra);
-        reserva.setValor(reserva.calcularValor());
+        reserva.setValor(quadra.getPrecoPorHora());
 
         return reservaRepository.save(reserva);
     }

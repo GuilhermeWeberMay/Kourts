@@ -47,6 +47,10 @@ public class Reserva {
     }
 
     public BigDecimal calcularValor() {
+        if (quadra.getPrecoPorHora() == null) {
+            throw new RuntimeException("Preço por hora da quadra não informado");
+        }
+
         Duration duracao = Duration.between(inicio, fim);
         long minutos = duracao.toMinutes();
 
@@ -55,6 +59,6 @@ public class Reserva {
 
         BigDecimal valor = quadra.getPrecoPorHora().multiply(horas);
 
-        return valor;
+        return this.valor;
     }
 }
