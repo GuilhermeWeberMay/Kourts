@@ -23,7 +23,7 @@
 
       <!-- Barra de pesquisa e filtro -->
         <div class="pesquisa-filtro" id="pesquisa-filtro" style="display: flex; height: auto; justify-content: space-between; align-items: center;">
-          <input type="text" name="pesquisa" placeholder="pesquisar" style="border-radius: 15px; width: 80%; height: 2.5rem;"> <i class="bi bi-funnel fs-1" style="margin: 0; font-size: 3rem; padding: 0;"></i>
+          <input type="text" name="pesquisa" id="inputPesquisa" placeholder="pesquisar" style="border-radius: 15px; width: 80%; height: 2.5rem;"> <i class="bi bi-funnel fs-1" style="margin: 0; font-size: 3rem; padding: 0;"></i>
        </div>
 
       
@@ -54,7 +54,7 @@
         <img src="imagens/sescQuadra.jpg" class="card-img-top p-3 img-fluid" style="height:250px; object-fit:cover;">
         <div class="card-body">
           <h5 class="card-title"> Sesc </h5>
-          <h6 class="card-address"> R. Quintino Bocaiúva, 338 - Universitarios, Biguaçu - SC </h6>
+          <h6 class="card-address"> Universitarios, Biguaçu - SC </h6>
           <p class="card-text" style="text-decoration: underline; font-weight: bold;">R$ 120,00</p>
         </div>
       </span>
@@ -63,7 +63,7 @@
         <img src="imagens/maniacs.jpg" class="card-img-top p-3 img-fluid" style="height:250px; object-fit:cover;">
         <div class="card-body">
           <h5 class="card-title"> Maniacs </h5>
-          <h6 class="card-address"> Rodovia BR-101, KM 198, no bairro Bom Viver, em Biguaçu - SC </h6>
+          <h6 class="card-address"> Bom Viver, Biguaçu - SC </h6>
           <p class="card-text">R$ 150,00</p>
         </div>
       </span>
@@ -72,7 +72,7 @@
         <img src="imagens/arenaTrevo.jpg" class="card-img-top p-3 img-fluid" style="height:250px; object-fit:cover;">
         <div class="card-body">
           <h5 class="card-title"> Arena Trevo </h5>
-          <h6 class="card-address"> Viaduto Ratones/Jurerê - SC-401 - Saco Grande, Florianópolis - SC</h6>
+          <h6 class="card-address"> Saco Grande, Florianópolis - SC</h6>
           <p class="card-text">R$ 100,00</p>
         </div>
       </span>
@@ -81,7 +81,7 @@
         <img src="imagens/trajano.jpg" class="card-img-top p-3 img-fluid" style="height:250px; object-fit:cover;">
         <div class="card-body">
           <h5 class="card-title"> Trajano </h5>
-          <h6 class="card-address"> R. José Graciliano da Silveira, 104-170 - Rio Caveiras, Biguaçu - SC </h6>
+          <h6 class="card-address"> Rio Caveiras, Biguaçu - SC </h6>
           <p class="card-text">R$ 115,00</p>
         </div>
       </span>
@@ -90,24 +90,7 @@
         <img src="imagens/quadraPoliesportiva.jpg" class="card-img-top p-3 img-fluid" style="height:250px; object-fit:cover;">
         <div class="card-body">
           <h5 class="card-title"> Quadra </h5>
-          <h6 class="card-address"> Rua exemplo 331, florianopolis 88000-000 </h6>
-          <p class="card-text">R$ 75,00</p>
-        </div>
-      </span>
-      <span class="card h-100" onclick="mostrarDetalhes('Trajano', 'imagens/trajano.jpg', 'fut7',  '115,00', 'Quadra para futebol 7', 4.3, 124)">
-        <img src="imagens/trajano.jpg" class="card-img-top p-3 img-fluid" style="height:250px; object-fit:cover;">
-        <div class="card-body">
-          <h5 class="card-title"> Trajano </h5>
-          <h6 class="card-address"> R. José Graciliano da Silveira, 104-170 - Rio Caveiras, Biguaçu - SC </h6>
-          <p class="card-text">R$ 115,00</p>
-        </div>
-      </span>
-
-      <span class="card h-100" onclick="mostrarDetalhes('Quadra', 'imagens/quadraPoliesportiva.jpg', 'poliesportiva',  '75,00', 'Quadra poliesportiva', 4.3, 124)">
-        <img src="imagens/quadraPoliesportiva.jpg" class="card-img-top p-3 img-fluid" style="height:250px; object-fit:cover;">
-        <div class="card-body">
-          <h5 class="card-title"> Quadra </h5>
-          <h6 class="card-address"> Rua exemplo 331, florianopolis 88000-000 </h6>
+          <h6 class="card-address"> Rua exemplo 331, florianopolis  </h6>
           <p class="card-text">R$ 75,00</p>
         </div>
       </span>
@@ -120,7 +103,7 @@
         <img src="imagens/quadraPoliesportiva.jpg" class="card-img-top p-3 img-fluid" style="height:250px; object-fit:cover;">
         <div class="card-body">
           <h5 class="card-title"> Arena Trevo </h5>
-          <h6 class="card-address"> Rua exemplo 331, florianopolis 88000-000 </h6>
+          <h6 class="card-address"> Rua exemplo 331, florianopolis</h6>
           <p class="card-text">R$ 100,00</p>
         </div>
       </span>
@@ -129,7 +112,7 @@
         <img src="imagens/sescQuadra.jpg" class="card-img-top p-3 img-fluid" style="height:250px; object-fit:cover;">
         <div class="card-body">
           <h5 class="card-title"> Sesc </h5>
-          <h6 class="card-address"> R. Quintino Bocaiúva, 338 - Universitarios, Biguaçu - SC </h6>
+          <h6 class="card-address"> Universitarios, Biguaçu - SC </h6>
           <p class="card-text">R$ 120,00</p>
         </div>
       </span>
@@ -142,7 +125,7 @@
         <img src="imagens/trajano.jpg" class="card-img-top p-3 img-fluid" style="height:250px; object-fit:cover;">
         <div class="card-body">
           <h5 class="card-title"> Trajano </h5>
-          <h6 class="card-address"> R. José Graciliano da Silveira, 104-170 - Rio Caveiras, Biguaçu - SC </h6>
+          <h6 class="card-address"> Rio Caveiras, Biguaçu - SC </h6>
           <p class="card-text">R$ 115,00</p>
         </div>
       </span>
@@ -150,7 +133,7 @@
         <img src="imagens/arenaTrevo.jpg" class="card-img-top p-3 img-fluid" style="height:250px; object-fit:cover;">
         <div class="card-body">
           <h5 class="card-title"> Arena Trevo </h5>
-          <h6 class="card-address"> Viaduto Ratones/Jurerê - SC-401 - Saco Grande, Florianópolis - SC </h6>
+          <h6 class="card-address"> Saco Grande, Florianópolis - SC </h6>
           <p class="card-text">R$ 100,00</p>
         </div>
       </span>

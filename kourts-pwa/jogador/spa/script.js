@@ -8,7 +8,7 @@ function navegar(destino) {
     element.classList.remove("show");
     element.classList.add("collapse");
   });
-  if (destino != "tela-home") {
+  if (destino == "tela-contato" || destino == "tela-user") {
     document.getElementById(nav).classList.remove("show");
     document.getElementById(nav).classList.add("collapse");
   } else {
@@ -46,7 +46,7 @@ function mostrarDetalhes(
                 <p><strong>Categoria:</strong> ${tipo}</p>
                 <p><strong>Preço:</strong> R$ ${preco}</p>
                 <p><strong>Descrição:</strong> ${descricao}</p>
-                <p><strong>Avaliação:</strong> ${nota} ⭐ (${avaliacoes} avaliações)      <button id="btAgendar"> AGENDAR </button></p>
+                <p><strong>Avaliação:</strong> ${nota} ⭐ (${avaliacoes} avaliações)</p>
                 </div>
             </div>
         `;
