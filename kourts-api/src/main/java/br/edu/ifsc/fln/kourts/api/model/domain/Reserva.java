@@ -59,6 +59,6 @@ public class Reserva {
 
         BigDecimal valor = quadra.getPrecoPorHora().multiply(horas);
 
-        return this.valor;
+        return valor;
     }
 }

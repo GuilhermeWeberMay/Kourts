@@ -2,8 +2,11 @@ package br.edu.ifsc.fln.kourts.api.service;
 
 import br.edu.ifsc.fln.kourts.api.model.domain.Quadra;
 import br.edu.ifsc.fln.kourts.api.model.domain.Reserva;
+import br.edu.ifsc.fln.kourts.api.model.domain.Situacao;
+import br.edu.ifsc.fln.kourts.api.model.domain.Usuario;
 import br.edu.ifsc.fln.kourts.api.repository.QuadraRepository;
 import br.edu.ifsc.fln.kourts.api.repository.ReservaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -28,20 +31,19 @@ public class ReservaService {
         Quadra quadra = quadraRepository.findById(reserva.getQuadra().getId())
                 .orElseThrow(() -> new RuntimeException("Quadra não encontrada"));
 
-        if (quadra.getHorariosDisponiveis() == null || !quadra.getHorariosDisponiveis().contains(reserva.getInicio())) {
-            throw new RuntimeException("Horário não disponível");
-        }
+        reserva.setQuadra(quadra);
+
+        validarHorario(reserva, reserva.getQuadra());
+        validarConflitoDeHorario(reserva, reserva.getQuadra());
+
+        reserva.setValor(reserva.calcularValor());
+
+        Reserva savedReserva = reservaRepository.save(reserva);
 
         quadra.getHorariosDisponiveis().remove(reserva.getInicio());
         quadraRepository.save(quadra);
 
-        //reserva.setQuadra(quadra);
-        reserva.setData(reserva.getData());
-        reserva.setInicio(reserva.getInicio());
-        reserva.setQuadra(quadra);
-        reserva.setValor(quadra.getPrecoPorHora());
-
-        return reservaRepository.save(reserva);
+        return savedReserva;
     }
 
     private void validarHorario(Reserva reserva, Quadra quadra) {

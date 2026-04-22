@@ -5,22 +5,19 @@ import br.edu.ifsc.fln.kourts.api.model.domain.Quadra;
 import br.edu.ifsc.fln.kourts.api.repository.ProprietarioRepository;
 import br.edu.ifsc.fln.kourts.api.repository.QuadraRepository;
 
+import br.edu.ifsc.fln.kourts.api.service.ServicoHorariosDisponiveis;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/quadras")
@@ -78,5 +75,22 @@ public class QuadraController {
             quadraRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         }
+    }
+
+    @Autowired
+    private ServicoHorariosDisponiveis servicoHorariosDisponiveis;
+
+    @GetMapping("{id}/horarios-disponiveis")
+    public ResponseEntity<Map<LocalDate, List<LocalTime>>> obterHorariosDisponiveisPorPeriodo(
+            @PathVariable Integer id,
+            @RequestParam(defaultValue = "30") int dias) {
+
+        Quadra quadra = quadraRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Quadra não encontrada"));
+
+        Map<LocalDate, List<LocalTime>> horarios = servicoHorariosDisponiveis
+                .obterHorariosDisponiveisPorPeriodo(quadra, dias);
+
+        return ResponseEntity.ok(horarios);
     }
 }
