@@ -1,5 +1,6 @@
 package br.edu.ifsc.fln.kourts.api.controller;
 
+import br.edu.ifsc.fln.kourts.api.dto.QuadraHorariosDTO;
 import br.edu.ifsc.fln.kourts.api.model.domain.Proprietario;
 import br.edu.ifsc.fln.kourts.api.model.domain.Quadra;
 import br.edu.ifsc.fln.kourts.api.repository.ProprietarioRepository;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/quadras")
@@ -41,8 +43,19 @@ public class QuadraController {
     }
     // Read
     @GetMapping
-    public List<Quadra> read() {
-        return quadraRepository.findAll();
+//    public List<Quadra> read() {
+//        return quadraRepository.findAll();
+//    }
+    public ResponseEntity<List<QuadraHorariosDTO>> readAll(@RequestParam(defaultValue = "3") int dias) {
+        return ResponseEntity.ok(
+                quadraRepository.findAll().stream()
+                        .map(quadra -> {
+                            Map<LocalDate, List<LocalTime>> horariosDisponiveis =
+                                    servicoHorariosDisponiveis.obterHorariosDisponiveisPorPeriodo(quadra, dias);
+                            return new QuadraHorariosDTO(quadra, horariosDisponiveis);
+                        })
+                        .collect(Collectors.toList())
+        );
     }
 
     @GetMapping("/{id}")
@@ -83,7 +96,7 @@ public class QuadraController {
     @GetMapping("{id}/horarios-disponiveis")
     public ResponseEntity<Map<LocalDate, List<LocalTime>>> obterHorariosDisponiveisPorPeriodo(
             @PathVariable Integer id,
-            @RequestParam(defaultValue = "30") int dias) {
+            @RequestParam(defaultValue = "3") int dias) {
 
         Quadra quadra = quadraRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Quadra não encontrada"));

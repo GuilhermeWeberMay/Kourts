@@ -2,6 +2,7 @@ package br.edu.ifsc.fln.kourts.api.service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,9 +34,7 @@ public class ServicoHorariosDisponiveis {
     public Map<LocalDate, List<LocalTime>> obterHorariosDisponiveisPorPeriodo(Quadra quadra, int dias) {
         Map<LocalDate, List<LocalTime>> horarios = new HashMap<>();
         LocalDate hoje = LocalDate.now();
-        List<LocalTime> slotsPossiveis = IntStream.range(8, 23)
-                .mapToObj(h -> LocalTime.of(h, 0))
-                .collect(Collectors.toList());
+        List<LocalTime> slotsPossiveis = gerarHorariosPossiveis(quadra);
 
         for (int i = 0; i < dias; i++) {
             LocalDate data = hoje.plusDays(i);
@@ -52,6 +51,16 @@ public class ServicoHorariosDisponiveis {
                 }
             }
             horarios.put(data, disponiveis);
+        }
+        return horarios;
+    }
+
+    public List<LocalTime> gerarHorariosPossiveis(Quadra quadra) {
+        List<LocalTime> horarios = new ArrayList<>();
+        LocalTime atual = quadra.getHoraAbertura();
+        while (atual.isBefore(quadra.getHoraFechamento())) {
+            horarios.add(atual);
+            atual = atual.plusHours(1);
         }
         return horarios;
     }
