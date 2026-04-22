@@ -25,8 +25,10 @@ public class Local {
 
     @Column(nullable = false, length = 64)
     private String bairro;
+
     @Column(nullable = false, length = 64)
     private String estado;
+
     @Column(nullable = false, length = 64)
     private String cidade;
 }

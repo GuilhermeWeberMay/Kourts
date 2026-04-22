@@ -23,12 +23,16 @@ public class Jogador extends Usuario{
     length - tamanho
     columnDefinition - tipo de dado
     */
+
     @Column(nullable = false, length = 30, unique = true)
     private String apelido;
+
     @Column(nullable = false, columnDefinition = "CHAR(11)", unique = true)
     private String cpf;
+
     @Column(nullable = false, length = 64)
     private String sobrenome;
+
     // Relacionamento com Local
     @Embedded // Cria colunas na tabela da entidade
     private Local local;

@@ -1,24 +1,25 @@
 package br.edu.ifsc.fln.kourts.api.controller;
 
+import br.edu.ifsc.fln.kourts.api.dto.QuadraHorariosDTO;
+import br.edu.ifsc.fln.kourts.api.model.domain.Proprietario;
 import br.edu.ifsc.fln.kourts.api.model.domain.Quadra;
+import br.edu.ifsc.fln.kourts.api.repository.ProprietarioRepository;
 import br.edu.ifsc.fln.kourts.api.repository.QuadraRepository;
 
+import br.edu.ifsc.fln.kourts.api.service.ServicoHorariosDisponiveis;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/quadras")
@@ -26,18 +27,35 @@ public class QuadraController {
 
     @Autowired
     private QuadraRepository quadraRepository;
+    @Autowired
+    private ProprietarioRepository proprietarioRepository;
 
     // Create
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Quadra create(@RequestBody Quadra quadra){
+    public Quadra create(@RequestBody Quadra quadra) {
+        Proprietario proprietario = proprietarioRepository.findById(quadra.getProprietario().getId())
+                .orElseThrow(() -> new RuntimeException("Proprietário não encontrado"));
+
+        quadra.setProprietario(proprietario);
+        quadra.gerarHorariosDisponiveis();
         return quadraRepository.save(quadra);
     }
-
     // Read
     @GetMapping
-    public List<Quadra> read() {
-        return quadraRepository.findAll();
+//    public List<Quadra> read() {
+//        return quadraRepository.findAll();
+//    }
+    public ResponseEntity<List<QuadraHorariosDTO>> readAll(@RequestParam(defaultValue = "3") int dias) {
+        return ResponseEntity.ok(
+                quadraRepository.findAll().stream()
+                        .map(quadra -> {
+                            Map<LocalDate, List<LocalTime>> horariosDisponiveis =
+                                    servicoHorariosDisponiveis.obterHorariosDisponiveisPorPeriodo(quadra, dias);
+                            return new QuadraHorariosDTO(quadra, horariosDisponiveis);
+                        })
+                        .collect(Collectors.toList())
+        );
     }
 
     @GetMapping("/{id}")
@@ -70,5 +88,22 @@ public class QuadraController {
             quadraRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         }
+    }
+
+    @Autowired
+    private ServicoHorariosDisponiveis servicoHorariosDisponiveis;
+
+    @GetMapping("{id}/horarios-disponiveis")
+    public ResponseEntity<Map<LocalDate, List<LocalTime>>> obterHorariosDisponiveisPorPeriodo(
+            @PathVariable Integer id,
+            @RequestParam(defaultValue = "3") int dias) {
+
+        Quadra quadra = quadraRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Quadra não encontrada"));
+
+        Map<LocalDate, List<LocalTime>> horarios = servicoHorariosDisponiveis
+                .obterHorariosDisponiveisPorPeriodo(quadra, dias);
+
+        return ResponseEntity.ok(horarios);
     }
 }

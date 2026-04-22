@@ -1,9 +1,8 @@
 package br.edu.ifsc.fln.kourts.api.model.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.*;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,19 +19,23 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 // Jakarta
 @Entity
-public class Proprietario extends Usuario{
+public class Proprietario extends Usuario {
     /*
     unique - não pode repetir
     nullable - não pode ser null
     length - tamanho
     columnDefinition - tipo de dado
     */
+
     @Column(nullable = false, columnDefinition = "CHAR(14)", unique = true)
     private String cnpj;
+
     // Relacionamento com Local
     @Embedded // Cria colunas na tabela da entidade
     private Local local;
+
     // Relacionamento com Quadra
     @OneToMany(mappedBy = "proprietario")
+    @JsonManagedReference
     private List<Quadra> quadras = new ArrayList<>();
 }

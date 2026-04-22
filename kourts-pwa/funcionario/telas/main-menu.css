@@ -41,7 +41,7 @@ main section {
 main section img {
  width: 100%;
  height: auto;
- border-radius: 20%;
+ border-radius: 20px;
 }
 
 footer {
