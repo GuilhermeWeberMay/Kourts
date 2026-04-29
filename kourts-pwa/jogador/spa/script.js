@@ -1,5 +1,6 @@
 let telaAnterior = "tela-home";
 let telaAtual = "tela-home";
+let nav = "nav";
 
 function navegar(destino) {
   let telas = document.getElementsByClassName("tela");
@@ -7,6 +8,13 @@ function navegar(destino) {
     element.classList.remove("show");
     element.classList.add("collapse");
   });
+  if (destino == "tela-contato" || destino == "tela-user") {
+    document.getElementById(nav).classList.remove("show");
+    document.getElementById(nav).classList.add("collapse");
+  } else {
+    document.getElementById(nav).classList.add("show");
+    document.getElementById(nav).classList.remove("collapse");
+  }
   document.getElementById(destino).classList.remove("collapse");
   document.getElementById(destino).classList.add("show");
   telaAnterior = telaAtual;
@@ -26,19 +34,25 @@ function mostrarDetalhes(
   nota,
   avaliacoes,
 ) {
-  navegar("tela-produto");
-  let detalhes = document.getElementById("detalhes-produto");
+  navegar("tela-detalhes-quadra");
+  let detalhes = document.getElementById("detalhes-quadra");
   detalhes.innerHTML = `
             <div class="row g-3">
                 <div class="col-md-4 text-center">
-                <img src="${imagem}" class="img-fluid" alt="${tipo}">
-                </div>
-                <div class="col-md-8">
-                <h2>${nome}</h2>
-                <p><strong>Categoria:</strong> ${tipo}</p>
-                <p><strong>Preço:</strong> R$ ${preco}</p>
-                <p><strong>Descrição:</strong> ${descricao}</p>
-                <p><strong>Avaliação:</strong> ${nota} ⭐ (${avaliacoes} avaliações)</p>
+                  <img src="${imagem}" class="img-fluid" alt="${tipo}">
+                  </div>
+                  <div class="col-md-8">
+                  <h2>${nome}</h2>
+                  <p><strong>Categoria:</strong> ${tipo}</p>
+                  <p><strong>Preço:</strong> R$ ${preco}</p>
+                  <p><strong>Descrição:</strong> ${descricao}</p>
+                  <p><strong>Avaliação:</strong> ${nota} ⭐ (${avaliacoes} avaliações)</p>
+
+                  <button class="btn btn-sucess mt-3" onclick="carregarHorarios()">
+                    Agendar Horários
+                  </button
+                  
+                  <div id="times-container" class="mt-3"></div> 
                 </div>
             </div>
         `;
