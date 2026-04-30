@@ -57,3 +57,50 @@ function mostrarDetalhes(
             </div>
         `;
 }
+
+async function mostrarQuadras() {
+ try {
+  let url = "http://localhost:8081/quadras";
+  const response = await axios.get(url);
+  const quadras = response.data;
+
+  const divList = document.getElementById("tela-home");
+
+  divList.innerHTML = ``;
+  quadras.map((e) => {
+   let horariosHTML = '';
+   for (const [data, horarios] of Object.entries(e.horariosDisponiveis || {})) {
+    horariosHTML += `<strong>${data}:</strong> ${horarios.join(', ')}<br>`;
+   }
+   const divQuadra = document.createElement("div");
+   divQuadra.className = "card p-2 mb-3";
+
+   let imagensHTML = "";
+    e.fotos.forEach(fotos => {
+    imagensHTML += `<img src= "http://localhost:8081/fotos/${fotos}"
+                        class = "img-fluid mb-2 
+                        style = "height:200px; object-fit:cover;">`;
+    
+
+
+   divQuadra.innerHTML = ` ${imagensHTML}
+                          <h5>${e.nome} </h5>
+                          <p>R$${e.precoPorHora} </p>
+                        
+                          `;                 
+   });
+   divQuadra.innerHTML+= "<br>"
+   return divList.appendChild(divQuadra);
+
+  });
+  console.log(quadras);
+ } catch (Error) {
+  console.log(Error);
+ }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  mostrarQuadras();
+});
+
+

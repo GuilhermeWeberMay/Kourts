@@ -4,7 +4,7 @@ async function mostrarQuadras() {
   const response = await axios.get(url);
   const quadras = response.data;
 
-  const divList = document.getElementById("div");
+  const divList = document.getElementById("tela-home");
 
   divList.innerHTML = ``;
   quadras.map((e) => {
