@@ -39,13 +39,18 @@ public class QuadraController {
 
         quadra.setProprietario(proprietario);
         quadra.gerarHorariosDisponiveis();
-        return quadraRepository.save(quadra);
+        Quadra salva = quadraRepository.save(quadra);
+
+        salva.setFotos(
+                salva.getFotos().stream()
+                        .map(f -> "http://localhost:8081/fotos/" + f)
+                            .toList()
+        );
+
+        return salva;
     }
     // Read
     @GetMapping
-//    public List<Quadra> read() {
-//        return quadraRepository.findAll();
-//    }
     public ResponseEntity<List<QuadraHorariosDTO>> readAll(@RequestParam(defaultValue = "3") int dias) {
         return ResponseEntity.ok(
                 quadraRepository.findAll().stream()

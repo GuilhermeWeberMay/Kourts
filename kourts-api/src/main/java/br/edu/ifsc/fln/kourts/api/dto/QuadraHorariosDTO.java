@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,7 @@ public class QuadraHorariosDTO {
     private LocalTime horaFechamento;
     private Map<LocalDate, List<LocalTime>> horariosDisponiveis;
     private Esporte esporte;
+    private List<String> fotos = new ArrayList<>();
 
 //    public QuadraHorariosDTO(Quadra quadra, Map<LocalDate, List<LocalTime>> horariosDisponiveis) {
 //        this.id = quadra.getId();
@@ -53,5 +55,6 @@ public class QuadraHorariosDTO {
         this.horaFechamento = quadra.getHoraFechamento();
         this.horariosDisponiveis = horariosDisponiveis;
         this.esporte = quadra.getEsporte();
+        this.fotos = quadra.getFotos();
     }
 }
