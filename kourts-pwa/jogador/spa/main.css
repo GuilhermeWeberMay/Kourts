@@ -19,10 +19,91 @@ body {
   border-bottom: 1px solid white;
 }
 
+.modal-box {
+  background: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1050;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal-box {
+  color: white;
+  background: rgb(0, 112, 11);
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 16px 16px 0 0;
+  padding: 20px;
+}
+
+/* Bolinhas dos dias */
+.dias-container {
+  color: #214e23;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.dia-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.dia-bolinha {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid #dee2e6;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.dia-bolinha.ativo {
+  background: #198754;
+  border-color: #198754;
+  color: white;
+}
+
+.dia-label {
+  font-size: 11px;
+  color: #ffffff;
+}
+
 
 
 @media (min-width: 768px) {
   .pesquisa-filtro {
     width: 30rem;
   }
+
+
+  .modal-box {
+  color: white;
+  background: rgb(0, 112, 11);
+  width: 100%;
+  max-width: 1024px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 16px 16px 0 0;
+  padding: 20px;
+}
 }
