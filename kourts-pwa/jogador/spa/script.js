@@ -2,6 +2,9 @@ let telaAnterior = "tela-home";
 let telaAtual = "tela-home";
 let nav = "nav";
 
+//armazena todas as quadras para nós utilizarmos na pesquisa
+let todasAsQuadras = [];
+
 function navegar(destino) {
   let telas = document.getElementsByClassName("tela");
   Array.from(telas).forEach((element) => {
@@ -221,9 +224,18 @@ async function mostrarQuadras() {
  try {
   let url = "http://localhost:8081/quadras";
   const response = await axios.get(url);
-  const quadras = response.data;
+  todasAsQuadras = response.data
+  renderizarQuadras(todasAsQuadras);
+  console.log(todasAsQuadras);
+ }
+ catch(Error)
+ {
+  console.log(Error);
+ }
+} 
 
-  const divList = document.getElementById("tela-home");
+  function renderizarQuadras(quadras){
+    const divList = document.getElementById("tela-home");
 
   divList.innerHTML = ``;
   quadras.map((e) => {
@@ -248,20 +260,24 @@ async function mostrarQuadras() {
 
   divQuadra.addEventListener("click", () => {
           mostrarDetalhes(e);
-      });           
-   });
-   divQuadra.innerHTML+= "<br>"
+  }); 
+
+    divQuadra.innerHTML+= "<br>"
    return divList.appendChild(divQuadra);
 
   });
-  console.log(quadras);
- } catch (Error) {
-  console.log(Error);
- }
+ });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   mostrarQuadras();
-});
 
+document.getElementById("inputPesquisa").addEventListener("input", (p) => {
+    const termo = p.target.value.toLowerCase().trim();
+    const filtradas = todasAsQuadras.filter(f => 
+      f.nome.toLowerCase().includes(termo)
+    );
+      renderizarQuadras(filtradas);
+    });
+});
 

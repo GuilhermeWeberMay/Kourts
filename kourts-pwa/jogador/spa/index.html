@@ -15,32 +15,18 @@
 <body>
 
   <!-- Barra de Navegação -->
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="nav">
-    <div class="container-fluid">
+  <nav class="navbar sticky-top" id="nav">
+    <div class="container-fluid d-flex align-items-center gap-3 px-3">
 
       <!-- Clique na marca volta para "todos" -->
-      <a class="navbar-brand" href="#" onclick="navegar('tela-home')"> <img src="imagens/logoKourtss.png" style="height: 52px; border-radius: 50%;"></a>
+      <a class="navbar-brand flex-shrink-0" href="#" onclick="navegar('tela-home')"> <img src="imagens/logoKourtss.png" style="height: 46px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255, 255, 255,0.15);"></a>
 
-      <!-- Barra de pesquisa e filtro -->
-        <div class="pesquisa-filtro" id="pesquisa-filtro" style="display: flex; height: auto; justify-content: space-between; align-items: center;">
-          <input type="text" name="pesquisa" id="inputPesquisa" placeholder="pesquisar" style="border-radius: 15px; width: 80%; height: 2.5rem;"> <i class="bi bi-funnel fs-1" style="margin: 0; font-size: 3rem; padding: 0;"></i>
-       </div>
-
-      
-      <!-- Botão para menu responsivo -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <!-- Itens do Menu -->
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <li class="nav-item"><button class="nav-link" onclick="navegar('tela-quadra-poliesportiva')" >Quadras Poliesportivas</button></li>
-          <li class="nav-item"><button class="nav-link" onclick="navegar('tela-quadra-fut7')" > Quadras fut7 </button></li>
-          <li class="nav-item"><button class="nav-link" onclick="navegar('tela-contato')" >Contato</button></li>
-        </ul>
-      </div>
-    </div>
+      <!-- Barra de pesquisa e filtro --> 
+      <div class="search-wrapper flex-grow-1 position-relative">
+          <i class="bi bi-search search-icon"></i>
+          <input type="text" id="inputPesquisa" placeholder="Pesquise por um nome ou esporte" class="search-input">
+      </div>    
+       
   </nav>
  
   <!-- Conteúdo principal -->
