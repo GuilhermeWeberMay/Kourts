@@ -273,11 +273,12 @@ document.addEventListener("DOMContentLoaded", () => {
   mostrarQuadras();
 
 document.getElementById("inputPesquisa").addEventListener("input", (p) => {
-    const termo = p.target.value.toLowerCase().trim();
+    const letrasDigitadas = p.target.value.toLowerCase().trim();
     const filtradas = todasAsQuadras.filter(f => 
-      f.nome.toLowerCase().includes(termo)
+      f.nome.toLowerCase().includes(letrasDigitadas)
     );
       renderizarQuadras(filtradas);
+      //tentar fazer um tratamento para evitar digitar algo sem sentido 
     });
 });
 
