@@ -11,12 +11,11 @@ function navegar(destino) {
     element.classList.remove("show");
     element.classList.add("collapse");
   });
-  if (destino == "tela-contato" || destino == "tela-user") {
-    document.getElementById(nav).classList.remove("show");
-    document.getElementById(nav).classList.add("collapse");
-  } else {
-    document.getElementById(nav).classList.add("show");
-    document.getElementById(nav).classList.remove("collapse");
+  const searchWrapper = document.querySelector('.search-wrapper');
+  if(destino === 'tela-user') {
+    searchWrapper.style.display = 'none';
+  }else {
+    searchWrapper.style.display = '';
   }
   document.getElementById(destino).classList.remove("collapse");
   document.getElementById(destino).classList.add("show");
@@ -268,6 +267,23 @@ async function mostrarQuadras() {
   });
  });
 }
+
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('toggle-senha') || e.target.classList.contains('bi-eye-slash')) {
+    const icon = e.target;
+    const input = icon.previousElementSibling;
+    
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.classList.remove('bi-eye');
+      icon.classList.add('bi-eye-slash');
+    } else {
+      input.type = 'password';
+      icon.classList.remove('bi-eye-slash');
+      icon.classList.add('bi-eye');
+    }
+  }
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   mostrarQuadras();

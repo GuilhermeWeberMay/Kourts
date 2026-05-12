@@ -25,7 +25,22 @@
       <div class="search-wrapper flex-grow-1 position-relative">
           <i class="bi bi-search search-icon"></i>
           <input type="text" id="inputPesquisa" placeholder="Pesquise por um nome ou esporte" class="search-input">
-      </div>    
+      </div>   
+      
+    <!-- Links visíveis só no desktop -->
+    <div class="nav-desktop d-none d-lg-flex gap-2">
+      <button class="btn btn-nav" onclick="navegar('tela-home')">
+        <i class="bi bi-house me-1"></i> Início
+      </button>
+      <button class="btn btn-nav" onclick="navegar('tela-reservas')">
+        <i class="bi bi-calendar me-1"></i> Minhas Reservas
+      </button>
+      <button class="btn btn-nav" onclick="navegar('tela-user')">
+        <i class="bi bi-person me-1"></i> Meu Perfil
+      </button>
+    </div>
+
+  </div>  
        
   </nav>
  
@@ -34,7 +49,7 @@
     
 
     <!-- Tela principal com lista de produtos - COMPLETO  -->
-    <div id="tela-home" class="tela row row-cols-1 row-cols-md-2 g-3 show"></div>
+    <div id="tela-home" class="tela row row-cols-1 row-cols-md-2 g-3  row-cols-lg-3 g-3 show"></div>
       
    <!-- Mostrar os Detalhes da quadra -->
   <div id="modal-detalhes" class="collapse"></div>
@@ -42,28 +57,82 @@
   <!-- Selecionar agendamento, dia, horario etc -->
   <div id="modal-agendamento" class="collapse"></div>
 
-    <!-- Tela Detalhes Usuário -->
-     <div id="tela-user" class="tela row row-cols-1 row-cols-md-3 g-3 collapse">
-      <h5> Meu Perfil</h5>
-        <span class="card h-100">
-          <img src="imagens/logoKourtss.png" style="height: 33%; width: 33%; margin: auto; border-radius: 55%; margin-top: 5%;" alt="foto de perfil">
-          <label> Nome: </label>
-          <input type="text" name="nome" placeholder="nome">
-          <label> Sobrenome: </label>
-          <input type="text" name="sobrenome" placeholder="sobrenome">
-          <label> Email: </label>
-          <input type="text" name="email" placeholder="e-mail">
-          <label> Telefone: </label>
-          <input type="tel" name="telefone" placeholder="telefone">
-          <label> Senha Atual: </label>
-          <input type="password" name="senhaAtual" placeholder="senha atual">
-          <label> Nova senha: </label>
-          <input type="password" name="novaSenha" placeholder="nova senha">
-          <label> Confirmar senha: </label>
-          <input type="password" name="confirmarSenha" placeholder="confirmar nova senha"> <br>
-          <button type="button" style="margin-bottom: 5%;"> Salvar Modificações</button>
-        </span>
-     </div>
+
+    <!-- Tela Meu Perfil -->
+  <div id="tela-user" class="tela collapse">
+      <div class="perfil-container">
+    
+    <!-- Card do avatar -->
+    <div class="perfil-header">
+      <div class="perfil-avatar-wrapper">
+        <img src="imagens/logoKourtss.png" alt="foto de perfil" class="perfil-avatar">
+        <button class="perfil-avatar-edit" title="Alterar foto">
+          <i class="bi bi-camera"></i>
+        </button>
+      </div>
+      <h4 class="perfil-nome">Jogador</h4>
+    </div>
+
+    <!-- Formulário -->
+    <div class="perfil-form">
+      <div class="perfil-section-title">Informações Pessoais</div>
+        <div class="perfil-row">
+          <div class="perfil-field">
+            <label>Nome</label>
+            <input type="text" placeholder="Seu nome">
+          </div>
+          <div class="perfil-field">
+            <label>Sobrenome</label>
+            <input type="text" placeholder="Seu sobrenome">
+          </div>
+        </div>
+
+        <div class="perfil-row">
+          <div class="perfil-field">
+            <label>E-mail</label>
+            <input type="email" placeholder="seu@email.com">
+          </div>
+          <div class="perfil-field">
+            <label>Telefone</label>
+            <input type="tel" placeholder="(48) 99999-0000">
+          </div>
+        </div>
+
+        <div class="perfil-section-title" style="margin-top: 2rem;">Segurança</div>
+
+        <div class="perfil-row">
+          <div class="perfil-field">
+            <label>Senha Atual</label>
+              <div class="input-senha">
+              <input type="password" placeholder="••••••••">
+              <i class="bi bi-eye toggle-senha"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="perfil-row">
+          <div class="perfil-field">
+            <div class="input-senha">
+              <label>Nova Senha</label>
+              <input type="password" placeholder="••••••••">
+              <i class="bi bi-eye toggle-senha"></i>
+            </div>
+          </div>
+
+          <div class="perfil-field">
+            <div class="input-senha">
+              <label>Confirmar Nova Senha</label>
+              <input type="password" placeholder="••••••••">
+              <i class="bi bi-eye toggle-senha"></i>  
+            </div>  
+          </div>
+        </div>
+
+        <button class="perfil-salvar">
+          <i class="bi bi-check-lg me-2"></i> Salvar Modificações
+        </button>
+    </div>
+  </div>
 
     <!-- Tela de contato -->
     <div id="tela-contato" class="tela collapse">
@@ -76,9 +145,10 @@
         <button class="btn btn-secondary mt-3" onclick="voltar()">← Voltar</button>
       </div>
     </div>
+ </div>   
 
     <!-- Footer com os botões -->
-     <div class="btn-group fixed-bottom container-fluid" style="background-color: #2A612C; height: 3rem;"  role="group" aria-label="Basic example">
+     <div class="btn-group fixed-bottom container-fluid" id="footer" style="background-color: #2A612C; height: 3rem;"  role="group" aria-label="Basic example">
         <button type="button" class="btn"  style="background-color: #2A612C; color: white;"  onclick="navegar('tela-home')">
         <i class="bi bi-house" style="font-size: 1.5rem"></i>
         </button>
