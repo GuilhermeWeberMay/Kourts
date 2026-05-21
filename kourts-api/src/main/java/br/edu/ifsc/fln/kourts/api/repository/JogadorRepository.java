@@ -5,12 +5,10 @@ import br.edu.ifsc.fln.kourts.api.model.domain.Jogador;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface JogadorRepository extends JpaRepository<Jogador,Integer> {
-
-    // Método feito para pesquisar Jogador por apelido
-    Jogador findByApelido(String apelido);
-
-    // Método para pesquisar Jogador por cpf
-    Jogador findByCpf(String cpf);
-
+    boolean existsByCpf(String cpf);
+    boolean existsByApelido(String apelido);
+    boolean existsByTelefone(String telefone);
 }

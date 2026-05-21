@@ -43,7 +43,7 @@ public abstract class Usuario {
     @Column(nullable = false, length = 32)
     private String senha;
 
-    @Column(nullable = false, columnDefinition = "CHAR(11)", unique = true)
+    @Column(nullable = false, columnDefinition = "CHAR(15)", unique = true)
     private String telefone;
 
 }

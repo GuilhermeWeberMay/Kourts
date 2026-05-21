@@ -27,7 +27,7 @@ public class Jogador extends Usuario{
     @Column(nullable = false, length = 30, unique = true)
     private String apelido;
 
-    @Column(nullable = false, columnDefinition = "CHAR(11)", unique = true)
+    @Column(nullable = false, columnDefinition = "CHAR(14)", unique = true)
     private String cpf;
 
     @Column(nullable = false, length = 64)

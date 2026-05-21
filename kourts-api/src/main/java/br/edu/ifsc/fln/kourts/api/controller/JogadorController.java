@@ -1,5 +1,6 @@
 package br.edu.ifsc.fln.kourts.api.controller;
 
+import br.edu.ifsc.fln.kourts.api.erros.RegraNegocioException;
 import br.edu.ifsc.fln.kourts.api.model.domain.Jogador;
 import br.edu.ifsc.fln.kourts.api.repository.JogadorRepository;
 
@@ -31,6 +32,18 @@ public class JogadorController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Jogador create(@RequestBody Jogador jogador) {
+        boolean cpfExistente = jogadorRepository.existsByCpf(jogador.getCpf());
+        if (cpfExistente) {
+            throw new RegraNegocioException(1, "Teste");
+        }
+        boolean apelidoExiste = jogadorRepository.existsByApelido(jogador.getApelido());
+        if (apelidoExiste) {
+            throw new IllegalArgumentException("Este apelido ja está cadastrado");
+        }
+        boolean telefoneExiste = jogadorRepository.existsByTelefone(jogador.getTelefone());
+        if (telefoneExiste) {
+            throw new IllegalArgumentException("Telfone já cadastrado!");
+        }
         return jogadorRepository.save(jogador);
     }
 
