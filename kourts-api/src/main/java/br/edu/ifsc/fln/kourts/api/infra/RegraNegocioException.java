@@ -1,4 +1,4 @@
-package br.edu.ifsc.fln.kourts.api.erros;
+package br.edu.ifsc.fln.kourts.api.infra;
 
 public class RegraNegocioException extends RuntimeException {
     private int status;

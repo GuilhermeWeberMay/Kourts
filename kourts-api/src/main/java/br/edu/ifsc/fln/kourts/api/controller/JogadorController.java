@@ -1,6 +1,8 @@
 package br.edu.ifsc.fln.kourts.api.controller;
 
-import br.edu.ifsc.fln.kourts.api.erros.RegraNegocioException;
+import br.edu.ifsc.fln.kourts.api.infra.RegraNegocioException;
+import br.edu.ifsc.fln.kourts.api.model.domain.InfoRepitida;
+import br.edu.ifsc.fln.kourts.api.model.domain.InfoRepitidaException;
 import br.edu.ifsc.fln.kourts.api.model.domain.Jogador;
 import br.edu.ifsc.fln.kourts.api.repository.JogadorRepository;
 
@@ -34,15 +36,18 @@ public class JogadorController {
     public Jogador create(@RequestBody Jogador jogador) {
         boolean cpfExistente = jogadorRepository.existsByCpf(jogador.getCpf());
         if (cpfExistente) {
-            throw new RegraNegocioException(1, "Teste");
+            System.out.println("Cpf existente");
+            throw new InfoRepitida("cpf existente");
         }
         boolean apelidoExiste = jogadorRepository.existsByApelido(jogador.getApelido());
         if (apelidoExiste) {
-            throw new IllegalArgumentException("Este apelido ja está cadastrado");
+            System.out.println("Apelido existente");
+            throw new InfoRepitida("apelido existente");
         }
         boolean telefoneExiste = jogadorRepository.existsByTelefone(jogador.getTelefone());
         if (telefoneExiste) {
-            throw new IllegalArgumentException("Telfone já cadastrado!");
+            System.out.println("telefone existente");
+            throw new InfoRepitida("telefone existente");
         }
         return jogadorRepository.save(jogador);
     }
