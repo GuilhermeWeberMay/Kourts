@@ -30,6 +30,9 @@ const jogador = {
 axios.post(apiUrl, jogador)
  .then(response => {
   console.log('Jogador criado com sucesso:', response.data);
+  const mensagemElement = document.getElementById('mensagem');
+  mensagemElement.textContent = `Jogador criado com sucesso! ${response.data}`;
+
  })
  .catch(error => { // Favor não tocar nos nomes das variáveis abaixo, pois eles funcionam e não sei como
  const { data } = error.response;// Sintaxe de destructuring que transforma o objeto error.response.data em uma variável chamada data 
