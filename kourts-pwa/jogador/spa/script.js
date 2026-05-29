@@ -172,7 +172,7 @@ function selecionarDia(el, dataKey) {
 }
 
 
-// ✅ Seleciona um horário
+//  Seleciona um horário
 function selecionarHorario(el, data, hora) {
   document.querySelectorAll(".slot-horario").forEach(b => b.classList.remove("active", "btn-success"));
   el.classList.add("active", "btn-success");
@@ -184,7 +184,7 @@ function selecionarHorario(el, data, hora) {
   document.getElementById("btn-confirmar").style.display = "block";
 }
 
-// ✅ Confirma o agendamento
+//  Confirma o agendamento
 async function confirmarAgendamento(quadraId) {
   const modal = document.getElementById("modal-agendamento");
   const data = modal.dataset.dataSelecionada;
