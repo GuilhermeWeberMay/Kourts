@@ -85,7 +85,7 @@ async function abrirAgendamento(quadraId) {
 
   // Busca os horários dos próximos 7 dias de uma vez
   try {
-    const response = await axios.get(`http://localhost:8081/quadras/${quadraId}/horarios-disponiveis?dias=7`);
+    const response = await axios.get(`http://localhost:3000/quadras/${quadraId}`);
     horariosCache = response.data; // { "2026-05-05": ["08:00:00", ...], ... }
   } catch (err) {
     console.log(err);
