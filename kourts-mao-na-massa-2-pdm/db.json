@@ -1,87 +1,106 @@
 {
- "quadras": [
-  {
-   "id": "1",
-   "nome": "Arena Central Society",
-   "precoPorHora": 150,
-   "rua": "Avenida dos Esportes, 456",
-   "qtdJogadores": 12,
-   "largura": 20,
-   "comprimento": 40,
-   "esporte": "Futebol Society",
-   "fotos": [
-    "https://perfitelas.com.br/wp-content/uploads/2022/03/quadra-grama-sintetica-perfitelas-2-1-1024x768.jpg",
-    "https://wallau.com.br/wp-content/uploads/2018/11/p-img-2577-1.jpg"
-   ],
-   "horariosDisponiveis": {
-    "2026-05-29": [
-     "08:00:00",
-     "09:00:00",
-     "14:00:00",
-     "19:00:00"
-    ],
-    "2026-05-30": [
-     "10:00:00",
-     "11:00:00",
-     "16:00:00",
-     "20:00:00"
-    ],
-    "2026-05-31": [
-     "08:00:00",
-     "15:00:00",
-     "18:00:00"
-    ],
-    "2026-06-01": [
-     "09:00:00",
-     "10:00:00",
-     "21:00:00"
-    ],
-    "2026-06-02": [
-     "07:00:00",
-     "14:00:00"
-    ],
-    "2026-06-03": [
-     "13:00:00",
-     "17:00:00",
-     "22:00:00"
-    ],
-    "2026-06-04": [
-     "11:00:00",
-     "16:00:00"
-    ]
-   }
-  },
-  {
-   "id": "2",
-   "nome": "Quadra de Tênis Saibro Top",
-   "precoPorHora": 90,
-   "rua": "Rua das Palmeiras, 789",
-   "qtdJogadores": 4,
-   "largura": 11,
-   "comprimento": 24,
-   "esporte": "Tênis",
-   "fotos": [
-    "https://brascourt.com.br/wp-content/uploads/2022/01/brasscourt-quadras5.png",
-    "https://brascourt.com.br/wp-content/uploads/2021/11/11.png"
-   ],
-   "horariosDisponiveis": {
-    "2026-05-29": [
-     "08:00:00",
-     "10:00:00"
-    ],
-    "2026-05-30": [
-     "14:00:00",
-     "16:00:00"
-    ]
-   }
-  }
- ],
- "reservas": [
-  {
-   "id": "1",
-   "quadraId": "1",
-   "data": "2026-05-29",
-   "hora": "14:00"
-  }
- ]
+  "quadras": [
+    {
+      "id": "1",
+      "nome": "Arena Central Society",
+      "precoPorHora": 150,
+      "rua": "Avenida dos Esportes, 456",
+      "qtdJogadores": 12,
+      "largura": 20,
+      "comprimento": 40,
+      "esporte": "Futebol Society",
+      "fotos": [
+        "https://perfitelas.com.br/wp-content/uploads/2022/03/quadra-grama-sintetica-perfitelas-2-1-1024x768.jpg",
+        "https://wallau.com.br/wp-content/uploads/2018/11/p-img-2577-1.jpg"
+      ],
+      "horariosDisponiveis": {
+        "2026-06-10": [
+          "08:00:00",
+          "09:00:00",
+          "14:00:00",
+          "19:00:00"
+        ],
+        "2026-06-11": [
+          "10:00:00",
+          "11:00:00",
+          "16:00:00",
+          "20:00:00"
+        ],
+        "2026-06-12": [
+          "08:00:00",
+          "15:00:00",
+          "18:00:00"
+        ],
+        "2026-06-13": [
+          "09:00:00",
+          "10:00:00",
+          "21:00:00"
+        ],
+        "2026-06-14": [
+          "07:00:00",
+          "14:00:00"
+        ],
+        "2026-06-15": [
+          "13:00:00",
+          "17:00:00",
+          "22:00:00"
+        ],
+        "2026-06-16": [
+          "11:00:00",
+          "16:00:00"
+        ]
+      }
+    },
+    {
+      "id": "2",
+      "nome": "Quadra de Tênis Saibro Top",
+      "precoPorHora": 90,
+      "rua": "Rua das Palmeiras, 789",
+      "qtdJogadores": 4,
+      "largura": 11,
+      "comprimento": 24,
+      "esporte": "Tênis",
+      "fotos": [
+        "https://brascourt.com.br/wp-content/uploads/2022/01/brasscourt-quadras5.png",
+        "https://brascourt.com.br/wp-content/uploads/2021/11/11.png"
+      ],
+      "horariosDisponiveis": {
+        "2026-05-29": [
+          "08:00:00",
+          "10:00:00"
+        ],
+        "2026-05-30": [
+          "14:00:00",
+          "16:00:00"
+        ]
+      }
+    }
+  ],
+  "reservas": [
+    {
+      "id": "1",
+      "quadraId": "1",
+      "data": "2026-05-29",
+      "hora": "14:00"
+    },
+    {
+      "quadraId": "1",
+      "data": "2026-06-10",
+      "hora": "08:00",
+      "id": "p--AvDXSwlA"
+    },
+    {
+      "quadraId": "1",
+      "data": "2026-06-10",
+      "hora": "08:00",
+      "id": "Nr2Bx0r8p-Y"
+    },
+    {
+      "quadraId": "1",
+      "data": "2026-06-16",
+      "hora": "11:00",
+      "id": "u6u2C2sV2pg"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

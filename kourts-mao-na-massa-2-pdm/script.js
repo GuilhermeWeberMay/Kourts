@@ -149,7 +149,7 @@ function selecionarDia(el, dataKey) {
   const btnConfirmar = document.getElementById("btn-confirmar");
 
   // Pega os horários do cache (já vieram da API ao abrir o modal)
-  const horarios = horariosCache[dataKey] || [];
+  const horarios = horariosCache.horariosDisponiveis[dataKey] || [];
 
   horariosLabel.textContent = `Horários disponíveis`;
   horariosContainer.style.display = "block";
