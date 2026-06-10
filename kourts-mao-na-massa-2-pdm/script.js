@@ -12,15 +12,19 @@ function navegar(destino) {
     element.classList.add("collapse");
   });
   const searchWrapper = document.querySelector('.search-wrapper');
-  if(destino === 'tela-user') {
+  if (destino === 'tela-user') {
     searchWrapper.style.display = 'none';
-  }else {
+  } else {
     searchWrapper.style.display = '';
   }
   document.getElementById(destino).classList.remove("collapse");
   document.getElementById(destino).classList.add("show");
   telaAnterior = telaAtual;
   telaAtual = destino;
+
+  if(destino === 'tela-reservas') {
+    mostrarReservas();
+  }
 }
 
 function voltar() {
@@ -220,59 +224,58 @@ function fecharModal(event) {
 }
 
 async function mostrarQuadras() {
- try {
-  let url = "http://localhost:3000/quadras";
-  const response = await axios.get(url);
-  todasAsQuadras = response.data
-  renderizarQuadras(todasAsQuadras);
-  console.log(todasAsQuadras);
- }
- catch(Error)
- {
-  console.log(Error);
- }
-} 
+  try {
+    let url = "http://localhost:3000/quadras";
+    const response = await axios.get(url);
+    todasAsQuadras = response.data
+    renderizarQuadras(todasAsQuadras);
+    console.log(todasAsQuadras);
+  }
+  catch (Error) {
+    console.log(Error);
+  }
+}
 
-  function renderizarQuadras(quadras){
-    const divList = document.getElementById("tela-home");
+function renderizarQuadras(quadras) {
+  const divList = document.getElementById("tela-home");
 
   divList.innerHTML = ``;
   quadras.map((e) => {
-   let horariosHTML = '';
-   for (const [data, horarios] of Object.entries(e.horariosDisponiveis || {})) {
-    horariosHTML += `<strong>${data}:</strong> ${horarios.join(', ')}<br>`;
-   }
-   const divQuadra = document.createElement("div");
-   divQuadra.className = "card p-2 mb-3";
+    let horariosHTML = '';
+    for (const [data, horarios] of Object.entries(e.horariosDisponiveis || {})) {
+      horariosHTML += `<strong>${data}:</strong> ${horarios.join(', ')}<br>`;
+    }
+    const divQuadra = document.createElement("div");
+    divQuadra.className = "card p-2 mb-3";
 
-   let imagensHTML = "";
+    let imagensHTML = "";
     e.fotos.forEach(fotos => {
-    imagensHTML += `<img src= "${fotos}"
+      imagensHTML += `<img src= "${fotos}"
                         class = "img-fluid mb-2 
                         style = "height:200px; object-fit:cover;">`;
-    
 
 
-   divQuadra.innerHTML = `<img src= "${fotos}" class = "img-fluid mb-2 style = "height:200px; object-fit:cover;">
+
+      divQuadra.innerHTML = `<img src= "${fotos}" class = "img-fluid mb-2 style = "height:200px; object-fit:cover;">
                           <h5>${e.nome} </h5>
                           <p>R$${e.precoPorHora} </p>`;
 
-  divQuadra.addEventListener("click", () => {
-          mostrarDetalhes(e);
-  }); 
+      divQuadra.addEventListener("click", () => {
+        mostrarDetalhes(e);
+      });
 
-    divQuadra.innerHTML+= "<br>"
-   return divList.appendChild(divQuadra);
+      divQuadra.innerHTML += "<br>"
+      return divList.appendChild(divQuadra);
 
+    });
   });
- });
 }
 
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
   if (e.target.classList.contains('toggle-senha') || e.target.classList.contains('bi-eye-slash')) {
     const icon = e.target;
     const input = icon.previousElementSibling;
-    
+
     if (input.type === 'password') {
       input.type = 'text';
       icon.classList.remove('bi-eye');
@@ -288,13 +291,12 @@ document.addEventListener('click', function(e) {
 document.addEventListener("DOMContentLoaded", () => {
   mostrarQuadras();
 
-document.getElementById("inputPesquisa").addEventListener("input", (p) => {
+  document.getElementById("inputPesquisa").addEventListener("input", (p) => {
     const letrasDigitadas = p.target.value.toLowerCase().trim();
-    const filtradas = todasAsQuadras.filter(f => 
+    const filtradas = todasAsQuadras.filter(f =>
       f.nome.toLowerCase().includes(letrasDigitadas)
     );
-      renderizarQuadras(filtradas);
-      //tentar fazer um tratamento para evitar digitar algo sem sentido 
-    });
+    renderizarQuadras(filtradas);
+    //tentar fazer um tratamento para evitar digitar algo sem sentido 
+  });
 });
-
