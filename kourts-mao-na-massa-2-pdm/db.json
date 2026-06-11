@@ -10,13 +10,10 @@
       "comprimento": 40,
       "esporte": "Futebol Society",
       "fotos": [
-        "https://perfitelas.com.br/wp-content/uploads/2022/03/quadra-grama-sintetica-perfitelas-2-1-1024x768.jpg",
         "https://wallau.com.br/wp-content/uploads/2018/11/p-img-2577-1.jpg"
       ],
       "horariosDisponiveis": {
         "2026-06-10": [
-          "08:00:00",
-          "09:00:00",
           "14:00:00",
           "19:00:00"
         ],
@@ -76,37 +73,6 @@
       }
     }
   ],
-  "reservas": [
-    {
-      "id": "1",
-      "quadraId": "1",
-      "data": "2026-05-29",
-      "hora": "14:00"
-    },
-    {
-      "quadraId": "1",
-      "data": "2026-06-10",
-      "hora": "08:00",
-      "id": "p--AvDXSwlA"
-    },
-    {
-      "quadraId": "1",
-      "data": "2026-06-10",
-      "hora": "08:00",
-      "id": "Nr2Bx0r8p-Y"
-    },
-    {
-      "quadraId": "1",
-      "data": "2026-06-16",
-      "hora": "11:00",
-      "id": "u6u2C2sV2pg"
-    },
-    {
-      "quadraId": "1",
-      "data": "2026-06-16",
-      "hora": "16:00",
-      "id": "xgqAEV248P0"
-    }
-  ],
+  "reservas": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

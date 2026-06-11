@@ -200,6 +200,10 @@ async function confirmarAgendamento(quadraId) {
       data,
       hora,
     });
+
+     // Remove o horário reservado
+    await removerHorario(quadraId, data, hora + ":00");
+
     alert(`Agendamento confirmado!\nData: ${data}\nHorário: ${hora}`);
     fecharAgendamento();
     fecharModal();
@@ -300,3 +304,133 @@ document.addEventListener("DOMContentLoaded", () => {
     //tentar fazer um tratamento para evitar digitar algo sem sentido 
   });
 });
+
+
+async function removerHorario(quadraId, data, horario) {
+  try {
+    // Busca a quadra
+    const { data: quadra } = await axios.get(
+      `http://localhost:3000/quadras/${quadraId}`
+    );
+
+    // Remove o horário
+    quadra.horariosDisponiveis[data] =
+      quadra.horariosDisponiveis[data].filter(
+        h => h !== horario
+      );
+
+    // Atualiza a quadra
+    await axios.put(
+      `http://localhost:3000/quadras/${quadraId}`,
+      quadra
+    );
+
+    console.log("Horário removido com sucesso!");
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function cancelarReserva(id) {
+  try {
+    // Busca a reserva
+    const { data: reserva } = await axios.get(
+      `http://localhost:3000/reservas/${id}`
+    );
+
+    // Busca a quadra
+    const { data: quadra } = await axios.get(
+      `http://localhost:3000/quadras/${reserva.quadraId}`
+    );
+
+    // Formato armazenado na quadra
+    const horarioCompleto = reserva.hora + ":00";
+
+    // Se a data não existir, cria
+    if (!quadra.horariosDisponiveis[reserva.data]) {
+      quadra.horariosDisponiveis[reserva.data] = [];
+    }
+
+    // Adiciona novamente o horário
+    quadra.horariosDisponiveis[reserva.data].push(horarioCompleto);
+
+    // Ordena os horários
+    quadra.horariosDisponiveis[reserva.data].sort();
+
+    // Atualiza a quadra
+    await axios.put(
+      `http://localhost:3000/quadras/${reserva.quadraId}`,
+      quadra
+    );
+
+    // Remove a reserva
+    await axios.delete(
+      `http://localhost:3000/reservas/${id}`
+    );
+
+    alert("Reserva cancelada com sucesso!");
+    mostrarReservas();
+
+  } catch (error) {
+    console.error(error);
+    alert("Erro ao cancelar reserva.");
+  }
+}
+
+async function renderizarReservas(reservas) {
+  const divList = document.getElementById("tela-reservas");
+
+  divList.innerHTML = "";
+
+  for (const reserva of reservas) {
+    try {
+      // Busca os dados da quadra
+      const response = await axios.get(
+        `http://localhost:3000/quadras/${reserva.quadraId}`
+      );
+
+      const quadra = response.data;
+
+      const card = document.createElement("div");
+      card.className = "card p-3 mb-3";
+
+      card.innerHTML = `
+        <img src="${quadra.fotos[0]}"
+             class="img-fluid mb-2"
+             style="height:200px; object-fit:cover;">
+
+        <h5>${quadra.nome}</h5>
+
+        <p>
+          <strong>Data:</strong> ${reserva.data}<br>
+          <strong>Horário:</strong> ${reserva.hora}<br>
+          <strong>Preço:</strong> R$ ${quadra.precoPorHora}
+        </p>
+
+        <button class="btn btn-danger"
+                onclick="cancelarReserva('${reserva.id}')">
+          Cancelar Reserva
+        </button>
+      `;
+
+      divList.appendChild(card);
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
+
+async function mostrarReservas() {
+  try {
+    let url = "http://localhost:3000/reservas";
+    const response = await axios.get(url);
+    todasAsReservas = response.data;
+
+    renderizarReservas(todasAsReservas);
+    console.log(todasAsReservas);
+  }
+  catch (Error) {
+    console.log(Error);
+  }
+}
