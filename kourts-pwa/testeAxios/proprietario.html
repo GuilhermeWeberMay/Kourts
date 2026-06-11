@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+ <meta charset='utf-8'>
+ <meta name='viewport' content='width=device-width, initial-scale=1'>
+ <title>Page Title</title>
+</head>
+<body>
+ <form action="">
+  <label for=""> Nome da empresa: </label> <br>
+  <input type="text"> <br>
+
+  <label for=""> Email: </label> <br>
+  <input type="email" > <br>
+
+  <label for=""> Cnpj: </label> <br>
+  <input type="text" id="cnpj" placeholder="__.___.___/____-__" maxlength="18" > <br>
+
+  <label for=""> Telefone: </label> <br>
+  <input type="tel" placeholder="(__) _____-____" id="telefone" required maxlength="15"> <br>
+
+  <label for=""> Senha: </label> <br>
+  <input type="password"> <br>
+
+  <select name="" id="esporte">
+   <option value="FUTSAL"> Futsal </option>
+   <option value="FUTEBOL"> Futebol </option>
+   <option value="FUT7"> Fut7 </option> 
+   <option value="VOLEI"> Vôlei </option> 
+   <option value="VOLEI_AREIA"> Vôlei de areia </option> 
+   <option value="BEACH_TENIS"> Beach tênis </option> 
+   <option value="TENIS"> Tênis </option> 
+   <option value="FUTVOLEI"> Futvôlei </option>
+  </select>
+
+  <button onclick="mostrarDados()">Enviar</button>
+
+ </form>
+
+ <p id="resultado"></p>
+
+ <script src="proprietario.js"></script>
+</body>
+</html>

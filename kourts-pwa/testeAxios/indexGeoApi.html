@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang='pt-BR'>
+
+<head>
+ <meta charset='utf-8'>
+ <meta name='viewport' content='width=device-width, initial-scale=1'>
+ <title>Estados e Cidades</title>
+</head>
+
+<body>
+ <form action="">
+  <label>Estado:</label>
+  <select id="estado" required>
+   <option value="">Selecione um estado</option>
+   <!-- Suas opções de estados aqui -->
+  </select> <br>
+
+  <label>Cidade:</label>
+  <select id="city" required>
+   <option value="">Selecione uma cidade</option>
+  </select> <br>
+
+  <button onclick="apresentarDados()"> Enviar </button>
+ </form>
+<button onclick="getCities()">carregar</button>
+ <p id="resposta"></p>
+
+ <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+ <script src='respota.js'></script>
+
+</body>
+
+</html>
