@@ -6,8 +6,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Esporte {
-    FUTSAL("Disponivel"),
-    FUTEBOL("Indisponivel"),
+    FUTSAL("Futsal"),
+    FUTEBOL("Futebol"),
     FUT7("Fut7"),
     VOLEI("Vôlei"),
     VOLEI_AREIA("Vôlei de areia"),
