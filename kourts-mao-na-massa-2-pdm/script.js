@@ -22,7 +22,7 @@ function navegar(destino) {
   telaAnterior = telaAtual;
   telaAtual = destino;
 
-  if(destino === 'tela-reservas') {
+  if (destino === 'tela-reservas') {
     mostrarReservas();
   }
 }
@@ -64,6 +64,8 @@ function mostrarDetalhes(quadra) {
 
         <ul class="list-unstyled">
           <li> <strong>Endereço:</strong> ${quadra.rua || "Não informado"}</li>
+          <li> <strong>Bairro:</strong>     ${quadra.bairro || "Não informado"}</li>
+          <li> <strong>Cidade:</strong>     ${quadra.cidade || "Não informado"}</li>
           <li> <strong>Jogadores:</strong> ${quadra.qtdJogadores || "Não informado"}</li>
           <li> <strong>Dimensões:</strong> ${quadra.largura || "?"}m x ${quadra.comprimento || "?"}m</li>
           <li> <strong>Esporte:</strong> ${quadra.esporte || "Não informado"}</li>
@@ -201,7 +203,7 @@ async function confirmarAgendamento(quadraId) {
       hora,
     });
 
-     // Remove o horário reservado
+    // Remove o horário reservado
     await removerHorario(quadraId, data, hora + ":00");
 
     alert(`Agendamento confirmado!\nData: ${data}\nHorário: ${hora}`);
@@ -394,6 +396,8 @@ async function renderizarReservas(reservas) {
       const card = document.createElement("div");
       card.className = "card p-3 mb-3";
 
+      let dataFormatada = new Date(reserva.data).toLocaleDateString('pt-BR');
+
       card.innerHTML = `
         <img src="${quadra.fotos[0]}"
              class="img-fluid mb-2"
@@ -402,9 +406,12 @@ async function renderizarReservas(reservas) {
         <h5>${quadra.nome}</h5>
 
         <p>
-          <strong>Data:</strong> ${reserva.data}<br>
+          <strong>Data:</strong> ${dataFormatada}<br>
           <strong>Horário:</strong> ${reserva.hora}<br>
-          <strong>Preço:</strong> R$ ${quadra.precoPorHora}
+          <strong>Preço:</strong> R$ ${quadra.precoPorHora}<br>
+          <strong>Bairro:</strong>  ${quadra.bairro}<br>
+          <strong>Cidade:</strong>  ${quadra.cidade}<br>
+          <strong>Endereço:</strong>  ${quadra.rua}
         </p>
 
         <button class="btn btn-danger"

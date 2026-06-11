@@ -5,6 +5,8 @@
       "nome": "Arena Central Society",
       "precoPorHora": 150,
       "rua": "Avenida dos Esportes, 456",
+      "cidade": "Biguaçu",
+      "bairro": "Vendaval",
       "qtdJogadores": 12,
       "largura": 20,
       "comprimento": 40,
@@ -18,7 +20,6 @@
           "19:00:00"
         ],
         "2026-06-11": [
-          "10:00:00",
           "11:00:00",
           "16:00:00",
           "20:00:00"
@@ -53,6 +54,8 @@
       "nome": "Quadra de Tênis Saibro Top",
       "precoPorHora": 90,
       "rua": "Rua das Palmeiras, 789",
+      "cidade": "Florianópolis",
+      "bairro": "Ingleses do Rio Vermelho",
       "qtdJogadores": 4,
       "largura": 11,
       "comprimento": 24,
@@ -73,6 +76,13 @@
       }
     }
   ],
-  "reservas": [],
+  "reservas": [
+    {
+      "quadraId": "1",
+      "data": "2026-06-11",
+      "hora": "10:00",
+      "id": "ckmasHhrJs0"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }
