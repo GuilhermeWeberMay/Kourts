@@ -21,8 +21,7 @@ const cachename = 'app-cache-v'+version
 const arquivos = [
     "./",
     "./index.html",
-    "./script.js",
-    "./db.json"
+    "./script.js"
   ]
 
   /**

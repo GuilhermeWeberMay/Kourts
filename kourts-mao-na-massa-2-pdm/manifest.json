@@ -1,18 +1,18 @@
 {
-  "$schema": "http://json.schemastore.org/web-manifest",
-  "short_name": "PWA e-commerce",
-  "name": "Minha Loja PWA",
-  "description": "Modelo de e-commerce em Bootstrap, SPA e PWA",
+  "$schema": "./node_modules/json-server/schema.json",
+  "short_name": "PWA Kourt's",
+  "name": "Kourt's",
+  "description": "Modelo de reserva de quadras em Bootstrap, SPA e PWA",
   "scope": "./",
   "icons": [
     {
-      "src": "imagens/icone192.png",
-      "sizes": "192x192",
+      "src": "imagens/logo-kourts.png",
+      "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "imagens/icone512.png",
-      "sizes": "512x512",
+      "src": "imagens/logo-kourts-192.png",
+      "sizes": "192x192",
       "type": "image/png"
     }
   ],

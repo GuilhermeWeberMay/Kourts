@@ -32,7 +32,7 @@ obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este com
     <div class="container-fluid d-flex align-items-center gap-3 px-3">
 
       <!-- Clique na marca volta para "todos" -->
-      <a class="navbar-brand flex-shrink-0" href="#" onclick="navegar('tela-home')"> <img src="imagens/logoKourtss.png"
+      <a class="navbar-brand flex-shrink-0" href="#" onclick="navegar('tela-home')"> <img src="imagens/logo-kourts.png"
           style="height: 46px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255, 255, 255,0.15);"></a>
 
       <!-- Barra de pesquisa e filtro -->
@@ -43,6 +43,9 @@ obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este com
 
       <!-- Links visíveis só no desktop -->
       <div class="nav-desktop d-none d-lg-flex gap-2">
+        <button id="installAppBt" class="btn btn-nav collapse" onclick="installApp()">
+          Instalar App
+        </button>
         <button class="btn btn-nav" onclick="navegar('tela-home')">
           <i class="bi bi-house me-1"></i> Início
         </button>
@@ -61,17 +64,30 @@ obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este com
   <!-- Conteúdo principal -->
   <div class="container py-4">
     <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 99999;">
-        <div id="reserva-alerta" class="toast align-items-center text-bg-success border-0" role="alert"
-          aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
-          <div class="d-flex">
-            <div class="toast-body">
-              agendamento realizado com sucesso!
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-              aria-label="Close"></button>
+      <div id="reserva-alerta" class="toast align-items-center text-bg-success border-0" role="alert"
+        aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+        <div class="d-flex">
+          <div class="toast-body">
+            agendamento realizado com sucesso!
           </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+            aria-label="Close"></button>
         </div>
       </div>
+    </div>
+
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 99999;">
+      <div id="cancelar-reserva-alerta" class="toast align-items-center text-bg-success border-0" role="alert"
+        aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+        <div class="d-flex">
+          <div class="toast-body">
+            agendamento realizado com sucesso!
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+            aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
 
     <!-- Tela principal com lista de produtos - COMPLETO  -->
     <div id="tela-home" class="tela row row-cols-1 row-cols-md-2 g-3  row-cols-lg-3 g-3 show">
@@ -86,12 +102,15 @@ obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este com
 
     <!-- Tela Meu Perfil -->
     <div id="tela-user" class="tela collapse">
+      <button id="installAppBt" class="btn btn-nav d-block d-lg-none collapse" onclick="installApp()">
+        Clique Aqui
+      </button>
       <div class="perfil-container">
 
         <!-- Card do avatar -->
         <div class="perfil-header">
           <div class="perfil-avatar-wrapper">
-            <img src="imagens/logoKourtss.png" alt="foto de perfil" class="perfil-avatar">
+            <img src="imagens/logo-kourts.png" alt="foto de perfil" class="perfil-avatar">
             <button class="perfil-avatar-edit" title="Alterar foto">
               <i class="bi bi-camera"></i>
             </button>
@@ -175,7 +194,9 @@ obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este com
   </div>
 
   <!-- Tela de Reservas  -->
-  <div id="tela-reservas" class="tela row row-cols-1 row-cols-md-2 g-3  row-cols-lg-3 g-3 collapse"></div>
+  <div id="tela-reservas" class="tela row row-cols-1 row-cols-md-2 g-3  row-cols-lg-3 g-3 collapse">
+
+  </div>
 
   <!-- Footer com os botões -->
   <div class="btn-group fixed-bottom container-fluid" id="footer" style="background-color: #2A612C; height: 3rem;"
