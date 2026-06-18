@@ -205,14 +205,14 @@ async function confirmarAgendamento(quadraId) {
 
     // Remove o horário reservado
     await removerHorario(quadraId, data, hora + ":00");
-
-    alert(`Agendamento confirmado!\nData: ${data}\nHorário: ${hora}`);
     fecharAgendamento();
     fecharModal();
   } catch (err) {
     console.log(err);
     alert("Erro ao confirmar agendamento.");
   }
+
+  ativarToast();
 }
 
 function fecharAgendamento(event) {
@@ -442,14 +442,20 @@ async function mostrarReservas() {
   }
 }
 
-//funções do toast dottstrap
-
-const toastTrigger = document.getElementById('liveToastBtn')
-const toastLiveExample = document.getElementById('liveToast')
-
-if (toastTrigger) {
-  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-  toastTrigger.addEventListener('click', () => {
-    toastBootstrap.show()
-  })
+function ativarToast() {
+  // 1. Busca o elemento do toast pelo ID
+  const elementoToast = document.getElementById('reserva-alerta');
+  
+  if (elementoToast) {
+    // 2. Cria a instância do Bootstrap forçando o 'autohide: false'
+    const toastBootstrap = new bootstrap.Toast(elementoToast, {
+      autohide: false
+    });
+    
+    // 3. Exibe o toast por cima de tudo na tela
+    toastBootstrap.show();
+  } else {
+    console.error("Erro: O elemento com ID 'reserva-alerta' não foi encontrado.");
+  }
 }
+

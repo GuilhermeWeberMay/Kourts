@@ -56,12 +56,26 @@ obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este com
     </div>
   </nav>
 
+
+
   <!-- Conteúdo principal -->
   <div class="container py-4">
-
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 99999;">
+        <div id="reserva-alerta" class="toast align-items-center text-bg-success border-0" role="alert"
+          aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+          <div class="d-flex">
+            <div class="toast-body">
+              agendamento realizado com sucesso!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+              aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
 
     <!-- Tela principal com lista de produtos - COMPLETO  -->
-    <div id="tela-home" class="tela row row-cols-1 row-cols-md-2 g-3  row-cols-lg-3 g-3 show"></div>
+    <div id="tela-home" class="tela row row-cols-1 row-cols-md-2 g-3  row-cols-lg-3 g-3 show">
+    </div>
 
     <!-- Mostrar os Detalhes da quadra -->
     <div id="modal-detalhes" class="collapse"></div>
@@ -170,7 +184,8 @@ obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este com
       <i class="bi bi-house" style="font-size: 1.5rem"></i>
     </button>
 
-    <button type="button" class="btn " style="background-color: #2A612C; color: white;" onclick="navegar('tela-reservas')">
+    <button type="button" class="btn " style="background-color: #2A612C; color: white;"
+      onclick="navegar('tela-reservas')">
       <i class="bi bi-calendar" style="font-size: 1.5rem"></i>
     </button>
 
