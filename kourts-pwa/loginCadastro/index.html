@@ -47,47 +47,58 @@
 
     <!-- Cadastro -->
      <div class="formulario" id="formulario-cadastro">
-       <div class="field">
-          <label for="">Nome</label>
-          <input type="text" id="cad-nome" placeholder="Informe seu nome">
-       </div>
-       <div>
-         <label for="">Senha</label>
-         <input type="password" id="cad-senha" placeholder="informe sua senha">
-       </div>
-       <div>
-         <label for="">Sobrenome</label>
-         <input type="text" id="cad-sobrenome" placeholder="informe seu sobrenome">
-       </div>
-       <div>
-         <label for="">E-mail</label>
-         <input type="email" id="cad-email" placeholder="seu@email.com">
-       </div>
-       <div>
-         <label for="">CPF</label>
-         <input type="text" id="cad-cpf" placeholder="informe seu CPF">
-       </div>
-       <div>
-         <label for="">Telefone</label>
-         <input type="tel" id="cad-tel" placeholder="informe seu telefone">
-       </div>
-       <div>
-         <label for="">Apelido</label>
-         <input type="text" id="cad-apelido" placeholder="Informe seu apelido">
-       </div>
-       <div>
-         <label> Local </label>
-           <label for=""> Bairro</label>
+      <div class="cad-grid">
+
+        <div class="cad-col">
+          <div class="field">
+              <label for="">Nome</label>
+              <input type="text" id="cad-nome" placeholder="Informe seu nome">
+          </div>
+          <div>
+            <label for="">Senha</label>
+            <input type="password" id="cad-senha" placeholder="informe sua senha">
+          </div>
+          <div>
+            <label for="">Sobrenome</label>
+            <input type="text" id="cad-sobrenome" placeholder="informe seu sobrenome">
+          </div>
+          <div>
+            <label for="">E-mail</label>
+            <input type="email" id="cad-email" placeholder="seu@email.com">
+          </div>
+          <div>
+            <label for="">CPF</label>
+            <input type="text" id="cad-cpf" placeholder="informe seu CPF">
+          </div>
+          <div>
+            <label for="">Telefone</label>
+            <input type="tel" id="cad-tel" placeholder="informe seu telefone">
+          </div>
+          <div>
+            <label for="">Apelido</label>
+            <input type="text" id="cad-apelido" placeholder="Informe seu apelido">
+          </div>
+        </div>
+         
+
+      <div class="cad-col">
+          <div class="field">
+            <label class="local-header">Local</label>
+            <label>Bairro</label>
             <input type="text" id="cad-bairro" placeholder="Informe seu bairro">
-       </div>   
-       <div>  
-           <label for=""> Estado</label>
-            <input type="text" id="cad-estado" placeholder="Informe seu Estado"> 
-       </div>
-       <div>
-           <label for=""> Cidade</label>
-            <input type="text" id="cad-cidade" placeholder="Informe sua cidade"> 
-       </div>
+          </div>
+          <div class="field">
+            <label>Estado</label>
+            <input type="text" id="cad-estado" placeholder="Informe seu Estado">
+          </div>
+          <div class="field">
+            <label>Cidade</label>
+            <input type="text" id="cad-cidade" placeholder="Informe sua cidade">
+          </div>
+    </div>
+   </div> 
+
+
        <button class="btn-primary" id="btn-cadastro" onclick="handleCadastro()">
          Criar Conta
          <div class="spinner"></div>
@@ -95,7 +106,6 @@
        <div class="card-footer">
          Já tem conta? <a href="#" onclick="mudaBt('login'); return false;">Entrar</a>
        </div>
-     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

@@ -10,17 +10,20 @@
 
     const btnLogin    = document.getElementById('btn-login');
     const btnCadastro = document.getElementById('btn-cadastro');
+    const card        = document.querySelector('.card');
 
     if(tela === 'login')
     {
      document.getElementById('formulario-login').classList.add('show');
      btnLogin.classList.add('ativo');
      btnCadastro.classList.remove('ativo');
+     card.style.maxWidth = '460px';
     }
     else {
       document.getElementById('formulario-cadastro').classList.add('show');
       btnCadastro.classList.add('ativo');
       btnLogin.classList.remove('ativo');
+      card.style.maxWidth = '600px';
     }
 
     limparErros();

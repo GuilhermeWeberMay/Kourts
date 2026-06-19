@@ -16,7 +16,6 @@ body {
   padding: 1.5rem;
 }
 
-/* Gradiente decorativo de fundo */
 body::before {
   content: '';
   position: fixed;
@@ -35,7 +34,7 @@ body::before {
   border-radius: 16px !important;
   padding: 2.5rem 2rem;
   width: 100%;
-  max-width: 460px;
+  max-width: 460px; /* AUMENTADO para caber 2 colunas */
   box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   color: white;
 }
@@ -47,7 +46,7 @@ body::before {
   justify-content: center;
   gap: 10px;
   margin-bottom: 2rem;
-  min-height: 46px; /* mantém espaço mesmo sem img ainda */
+  min-height: 46px;
 }
 
 .logo img {
@@ -63,7 +62,7 @@ body::before {
   letter-spacing: -0.5px;
 }
 
-/* ── Tabs (Entrar / Criar Conta) ── */
+/* ── Tabs ── */
 .tabs {
   display: flex;
   background: rgba(0,0,0,0.25);
@@ -84,6 +83,7 @@ body::before {
   border: 1px solid transparent;
   background: transparent;
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 .tabs .btn:hover {
@@ -91,32 +91,39 @@ body::before {
   background: rgba(255,255,255,0.07);
 }
 
-/* Aba ativa — adicione via JS: btn.classList.add('ativo') */
 .tabs .btn.ativo {
   background: rgba(255,255,255,0.1);
   border-color: rgba(255,255,255,0.2);
   color: white;
 }
 
-/* ── Formulários (show/hide via JS) ── */
+/* ── Formulários ── */
 .formulario {
   display: none;
   flex-direction: column;
   gap: 0.8rem;
 }
 
-.form-loc{
-  display: none;
-  flex-direction: row;
-}
-
 .formulario.show {
   display: flex;
 }
 
+/* ── Grid duas colunas (cadastro) ── */
+.cad-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1.5rem;
+  align-items: start;
+}
+
+.cad-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
 /* ── Campos ── */
-.field,
-.formulario > div {
+.field {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -125,6 +132,7 @@ body::before {
 .formulario label {
   font-size: 0.82rem;
   color: rgba(255,255,255,0.65);
+  /* REMOVIDA a regra antiga que forçava uppercase em tudo */
 }
 
 .formulario input {
@@ -134,6 +142,7 @@ body::before {
   padding: 0.6rem 0.9rem;
   color: white;
   font-size: 0.9rem;
+  width: 100%; /* garante que preenche a coluna */
   outline: none;
   transition: border 0.2s, background 0.2s;
 }
@@ -147,12 +156,10 @@ body::before {
   background: rgba(255,255,255,0.13);
 }
 
-/* Campo com erro — adicione via JS: input.classList.add('input-erro') */
 .formulario input.input-erro {
   border-color: #ff6b6b !important;
 }
 
-/* Mensagem de erro por campo */
 .field-erro {
   font-size: 12px;
   color: #ff6b6b;
@@ -162,8 +169,8 @@ body::before {
   display: block;
 }
 
-/* ── Seção "Local" (bairro/estado/cidade agrupados) ── */
-.formulario > div > label:first-child {
+/* ── Label de seção (ex: LOCAL) ── */
+.label-secao {
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -195,7 +202,6 @@ body::before {
 .btn-primary:active  { transform: scale(0.98); }
 .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
 
-/* Spinner dentro do botão */
 .spinner {
   display: none;
   width: 16px;
@@ -210,7 +216,6 @@ body::before {
   transform: translateY(-50%);
 }
 
-/* Adicione via JS: btn.classList.add('carregando') */
 .btn-primary.carregando .spinner { display: block; }
 .btn-primary.carregando          { pointer-events: none; opacity: 0.75; }
 
@@ -237,7 +242,7 @@ body::before {
 
 .card-footer a:hover { text-decoration: underline; }
 
-/* ── Toast de feedback ── */
+/* ── Toast ── */
 .auth-toast {
   position: fixed;
   bottom: 2rem;
@@ -265,6 +270,7 @@ body::before {
 }
 
 /* ── Responsivo ── */
-@media (max-width: 480px) {
-  .card { padding: 2rem 1.25rem; }
+@media (max-width: 600px) {
+  .card { padding: 2rem 1.25rem; max-width: 100%; }
+  .cad-grid { grid-template-columns: 1fr; }
 }
