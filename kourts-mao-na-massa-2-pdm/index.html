@@ -2,10 +2,10 @@
 <html lang="pt-BR">
 
 <!--
-Execute no terminal na pasta raiz este comando para rodar o json server:
+Execute no terminal na pasta raiz este comando para rodar o json server: 
   npx json-server db.json
 
-obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este comando no terminal na pasta raiz:
+obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este comando no terminal na pasta raiz: 
   npm install json-server
 -->
 
@@ -26,6 +26,7 @@ obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este com
 </head>
 
 <body>
+
   <!-- Barra de Navegação -->
   <nav class="navbar sticky-top" id="nav">
     <div class="container-fluid d-flex align-items-center gap-3 px-3">
@@ -58,111 +59,145 @@ obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este com
     </div>
   </nav>
 
-  <!-- Tela principal com lista de quadras - COMPLETO  -->
-  <div id="tela-home" class="tela row row-cols-1 row-cols-md-2 g-3  row-cols-lg-3 g-3 show"></div>
 
-  <!-- Mostrar os Detalhes da quadra -->
-  <div id="modal-detalhes" class="collapse"></div>
 
-  <!-- Selecionar agendamento, dia, horario etc -->
-  <div id="modal-agendamento" class="collapse"></div>
-
-  <!-- Tela de Reservas  -->
-  <div id="tela-reservas" class="tela row row-cols-1 row-cols-md-2 g-3  row-cols-lg-3 g-3 collapse"></div>
-
-  <!-- Tela Meu Perfil -->
-  <div id="tela-user" class="tela collapse">
-
-    <div class="perfil-container">
-      <!-- Botão de instalação de pwa -->
-      <button id="installAppBt2" class="btn btn-nav d-lg-none collapse" onclick="installApp()">
-        Instalar App
-      </button>
-
-      <!-- Card do avatar -->
-      <div class="perfil-header">
-        <div class="perfil-avatar-wrapper">
-          <img src="imagens/logo-kourts.png" alt="foto de perfil" class="perfil-avatar">
-          <button class="perfil-avatar-edit" title="Alterar foto">
-            <i class="bi bi-camera"></i>
-          </button>
+  <!-- Conteúdo principal -->
+  <div class="container py-4">
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 99999;">
+      <div id="reserva-alerta" class="toast align-items-center text-bg-success border-0" role="alert"
+        aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+        <div class="d-flex">
+          <div class="toast-body">
+            agendamento realizado com sucesso!
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+            aria-label="Close"></button>
         </div>
-        <h4 class="perfil-nome">Jogador</h4>
-      </div>
-
-      <!-- Formulário -->
-      <div class="perfil-form">
-        <div class="perfil-section-title">Informações Pessoais</div>
-        <div class="perfil-row">
-          <div class="perfil-field">
-            <label>Nome</label>
-            <input type="text" placeholder="Seu nome">
-          </div>
-          <div class="perfil-field">
-            <label>Sobrenome</label>
-            <input type="text" placeholder="Seu sobrenome">
-          </div>
-        </div>
-
-        <div class="perfil-row">
-          <div class="perfil-field">
-            <label>E-mail</label>
-            <input type="email" placeholder="seu@email.com">
-          </div>
-          <div class="perfil-field">
-            <label>Telefone</label>
-            <input type="tel" placeholder="(48) 99999-0000">
-          </div>
-        </div>
-
-        <div class="perfil-section-title" style="margin-top: 2rem;">Segurança</div>
-
-        <div class="perfil-row">
-          <div class="perfil-field">
-            <label>Senha Atual</label>
-            <div class="input-senha">
-              <input type="password" placeholder="••••••••">
-              <i class="bi bi-eye toggle-senha"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="perfil-row">
-          <div class="perfil-field">
-            <div class="input-senha">
-              <label>Nova Senha</label>
-              <input type="password" placeholder="••••••••">
-              <i class="bi bi-eye toggle-senha"></i>
-            </div>
-          </div>
-
-          <div class="perfil-field">
-            <div class="input-senha">
-              <label>Confirmar Nova Senha</label>
-              <input type="password" placeholder="••••••••">
-              <i class="bi bi-eye toggle-senha"></i>
-            </div>
-          </div>
-        </div>
-
-        <button class="perfil-salvar">
-          <i class="bi bi-check-lg me-2"></i> Salvar Modificações
-        </button>
       </div>
     </div>
 
-    <!-- Tela de contato -->
-    <div id="tela-contato" class="tela collapse">
-      <div class="card shadow p-4">
-        <h2>Fale Conosco</h2>
-        <p><strong>Endereço:</strong> Rua Exemplo, 123 - Centro</p>
-        <p><strong>Cidade:</strong> Biguaçu - SC</p>
-        <p><strong>Telefone:</strong> (48) 99999-0000</p>
-        <p><strong>Email:</strong> contato@kourts.com</p>
-        <button class="btn btn-secondary mt-3" onclick="voltar()">← Voltar</button>
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 99999;">
+      <div id="cancelar-reserva-alerta" class="toast align-items-center text-bg-success border-0" role="alert"
+        aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+        <div class="d-flex">
+          <div class="toast-body">
+            agendamento realizado com sucesso!
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+            aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tela principal com lista de produtos - COMPLETO  -->
+    <div id="tela-home" class="tela row row-cols-1 row-cols-md-2 g-3  row-cols-lg-3 g-3 show">
+    </div>
+
+    <!-- Mostrar os Detalhes da quadra -->
+    <div id="modal-detalhes" class="collapse"></div>
+
+    <!-- Selecionar agendamento, dia, horario etc -->
+    <div id="modal-agendamento" class="collapse"></div>
+
+
+    <!-- Tela Meu Perfil -->
+    <div id="tela-user" class="tela collapse">
+
+      <div class="perfil-container">
+
+        <button id="installAppBt2" class="btn btn-nav d-lg-none collapse" onclick="installApp()">
+          Instalar App
+        </button>
+
+        <!-- Card do avatar -->
+        <div class="perfil-header">
+          <div class="perfil-avatar-wrapper">
+            <img src="imagens/logo-kourts.png" alt="foto de perfil" class="perfil-avatar">
+            <button class="perfil-avatar-edit" title="Alterar foto">
+              <i class="bi bi-camera"></i>
+            </button>
+          </div>
+          <h4 class="perfil-nome">Jogador</h4>
+        </div>
+
+        <!-- Formulário -->
+        <div class="perfil-form">
+          <div class="perfil-section-title">Informações Pessoais</div>
+          <div class="perfil-row">
+            <div class="perfil-field">
+              <label>Nome</label>
+              <input type="text" placeholder="Seu nome">
+            </div>
+            <div class="perfil-field">
+              <label>Sobrenome</label>
+              <input type="text" placeholder="Seu sobrenome">
+            </div>
+          </div>
+
+          <div class="perfil-row">
+            <div class="perfil-field">
+              <label>E-mail</label>
+              <input type="email" placeholder="seu@email.com">
+            </div>
+            <div class="perfil-field">
+              <label>Telefone</label>
+              <input type="tel" placeholder="(48) 99999-0000">
+            </div>
+          </div>
+
+          <div class="perfil-section-title" style="margin-top: 2rem;">Segurança</div>
+
+          <div class="perfil-row">
+            <div class="perfil-field">
+              <label>Senha Atual</label>
+              <div class="input-senha">
+                <input type="password" placeholder="••••••••">
+                <i class="bi bi-eye toggle-senha"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="perfil-row">
+            <div class="perfil-field">
+              <div class="input-senha">
+                <label>Nova Senha</label>
+                <input type="password" placeholder="••••••••">
+                <i class="bi bi-eye toggle-senha"></i>
+              </div>
+            </div>
+
+            <div class="perfil-field">
+              <div class="input-senha">
+                <label>Confirmar Nova Senha</label>
+                <input type="password" placeholder="••••••••">
+                <i class="bi bi-eye toggle-senha"></i>
+              </div>
+            </div>
+          </div>
+
+          <button class="perfil-salvar">
+            <i class="bi bi-check-lg me-2"></i> Salvar Modificações
+          </button>
+        </div>
+      </div>
+
+      <!-- Tela de contato -->
+      <div id="tela-contato" class="tela collapse">
+        <div class="card shadow p-4">
+          <h2>Fale Conosco</h2>
+          <p><strong>Endereço:</strong> Rua Exemplo, 123 - Centro</p>
+          <p><strong>Cidade:</strong> Biguaçu - SC</p>
+          <p><strong>Telefone:</strong> (48) 99999-0000</p>
+          <p><strong>Email:</strong> contato@kourts.com</p>
+          <button class="btn btn-secondary mt-3" onclick="voltar()">← Voltar</button>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- Tela de Reservas  -->
+  <div id="tela-reservas" class="tela row row-cols-1 row-cols-md-2 g-3  row-cols-lg-3 g-3 collapse">
+
   </div>
 
   <!-- Footer com os botões -->
