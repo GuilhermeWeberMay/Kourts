@@ -25,9 +25,6 @@ function navegar(destino) {
   if (destino === 'tela-reservas') {
     mostrarReservas();
   } 
-  else if (destino === 'tela-user' & na) {
-    document.getElementById('installAppBt').style.display = 'flex'
-  }
 }
 
 function voltar() {
