@@ -24,6 +24,9 @@ function navegar(destino) {
 
   if (destino === 'tela-reservas') {
     mostrarReservas();
+  } 
+  else if (destino === 'tela-user' & na) {
+    document.getElementById('installAppBt').style.display = 'flex'
   }
 }
 
@@ -442,6 +445,7 @@ async function mostrarReservas() {
   }
 }
 
+//elementos de notificações toast do bootstrap
 function ativarToast() {
   // 1. Busca o elemento do toast pelo ID
   const elementoToast = document.getElementById('reserva-alerta');
@@ -459,6 +463,7 @@ function ativarToast() {
   }
 }
 
+//instação da pwa
 if ('serviceWorker' in navigator) {  
     navigator.serviceWorker.register("./service-worker.js");
 }
@@ -466,7 +471,8 @@ if ('serviceWorker' in navigator) {
 var pedidoInstalacao;
 window.addEventListener('beforeinstallprompt', function(installPrompt) {
     if(installPrompt){
-        document.getElementById("installAppBt").classList.remove('collapse')
+        document.getElementById("installAppBt1").classList.remove('collapse')
+        document.getElementById("installAppBt2").classList.remove('collapse')
         pedidoInstalacao = installPrompt
     }
 });

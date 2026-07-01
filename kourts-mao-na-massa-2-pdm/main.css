@@ -24,12 +24,12 @@ body {
   border-bottom: 1px solid white;
 }
 
- /* navbar */
+/* navbar */
 .navbar {
   background: linear-gradient(135deg, #1a3d1c 0%, #2A612C 100%);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
   padding: 10px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .btn-nav {
@@ -178,7 +178,7 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 2.5rem 1rem 2rem;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-bottom: none;
 }
 
@@ -191,7 +191,7 @@ body {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 3px solid rgba(255,255,255,0.3);
+  border: 3px solid rgba(255, 255, 255, 0.3);
   object-fit: cover;
 }
 
@@ -200,7 +200,7 @@ body {
   bottom: 2px;
   right: 2px;
   background: #2A612C;
-  border: 2px solid rgba(255,255,255,0.4);
+  border: 2px solid rgba(255, 255, 255, 0.4);
   color: white;
   border-radius: 50%;
   width: 28px;
@@ -220,17 +220,17 @@ body {
 
 .perfil-badge {
   margin-top: 0.3rem;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   padding: 2px 14px;
   font-size: 0.78rem;
-  color: rgba(255,255,255,0.85);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .perfil-form {
-  background: rgba(0,0,0,0.25);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-top: none;
   border-radius: 0 0 16px 16px;
   padding: 2rem;
@@ -242,7 +242,7 @@ body {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
   margin-bottom: 1rem;
 }
 
@@ -263,12 +263,12 @@ body {
 
 .perfil-field label {
   font-size: 0.82rem;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .perfil-field input {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 10px;
   padding: 0.6rem 0.9rem;
   color: white;
@@ -278,26 +278,27 @@ body {
 }
 
 .perfil-field input::placeholder {
-  color: rgba(255,255,255,0.3);
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .perfil-field input:focus {
-  border-color: rgba(255,255,255,0.4);
-  background: rgba(255,255,255,0.13);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.13);
 }
 
-.input-senha{
+.input-senha {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.input-senha input{
+.input-senha input {
   width: 100%;
-  padding-right: 2.5rem !important; /* Espaço para o ícone*/
+  padding-right: 2.5rem !important;
+  /* Espaço para o ícone*/
 }
 
-.toggle-senha{
+.toggle-senha {
   position: absolute;
   right: 0.75rem;
   cursor: pointer;
@@ -307,8 +308,8 @@ body {
   user-select: none;
 }
 
-.toggle-senha:hover{
-  color: rgba(255, 255, 255, 0.85); 
+.toggle-senha:hover {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .perfil-salvar {
@@ -316,7 +317,7 @@ body {
   width: 100%;
   padding: 0.75rem;
   background: linear-gradient(135deg, #2A612C, #3d8a40);
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   color: white;
   font-size: 0.95rem;
@@ -329,10 +330,14 @@ body {
   opacity: 0.88;
 }
 
+#installAppBt2 {
+  margin-bottom: 1rem;
+}
+
 /* STYLES PARA DESKTOP */
 @media (min-width: 992px) {
 
-  #footer{
+  #footer {
     display: none !important;
   }
 
@@ -340,90 +345,88 @@ body {
     width: 30rem;
   }
 
+  .modal-box {
+    color: white;
+    background: rgb(0, 112, 11);
+    width: 100%;
+    max-width: 1024px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 16px 16px 0 0;
+    padding: 20px;
+  }
 
+  .search-input {
+    width: 35%;
+  }
+
+  /* Modal */
+  .modal-box {
+    background: var(--bs-body-bg);
+    color: var(--bs-body-color);
+  }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1050;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
 
   .modal-box {
-  color: white;
-  background: rgb(0, 112, 11);
-  width: 100%;
-  max-width: 1024px;
-  max-height: 90vh;
-  overflow-y: auto;
-  border-radius: 16px 16px 0 0;
-  padding: 20px;
-}
+    color: white;
+    background: rgb(0, 112, 11);
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 16px 16px 0 0;
+    padding: 20px;
+  }
 
- .search-input {
-  width: 35%;
-}
+  /* Bolinhas dos dias */
+  .dias-container {
+    color: #214e23;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
 
-/* Modal */
-.modal-box {
-  background: var(--bs-body-bg);
-  color: var(--bs-body-color);
-}
+  .dia-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
 
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 1050;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
+  .dia-bolinha {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid #dee2e6;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
 
-.modal-box {
-  color: white;
-  background: rgb(0, 112, 11);
-  width: 100%;
-  max-width: 480px;
-  max-height: 90vh;
-  overflow-y: auto;
-  border-radius: 16px 16px 0 0;
-  padding: 20px;
-}
+  .dia-bolinha.ativo {
+    background: #198754;
+    border-color: #198754;
+    color: white;
+  }
 
-/* Bolinhas dos dias */
-.dias-container {
-  color: #214e23;
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-}
-
-.dia-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.dia-bolinha {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1.5px solid #dee2e6;
-  background: #f8f9fa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.dia-bolinha.ativo {
-  background: #198754;
-  border-color: #198754;
-  color: white;
-}
-
-.dia-label {
-  font-size: 11px;
-  color: #ffffff;
-}
+  .dia-label {
+    font-size: 11px;
+    color: #ffffff;
+  }
 }
