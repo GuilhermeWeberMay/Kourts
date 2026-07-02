@@ -21,10 +21,9 @@ function navegar(destino) {
   document.getElementById(destino).classList.add("show");
   telaAnterior = telaAtual;
   telaAtual = destino;
-
-  if (destino === 'tela-reservas') {
-    mostrarReservas();
-  } 
+  
+  mostrarReservas();
+  mostrarQuadras();
 }
 
 function voltar() {
@@ -190,29 +189,34 @@ function selecionarHorario(el, data, hora) {
   document.getElementById("btn-confirmar").style.display = "block";
 }
 
-// ✅ Confirma o agendamento
 async function confirmarAgendamento(quadraId) {
   const modal = document.getElementById("modal-agendamento");
   const data = modal.dataset.dataSelecionada;
   const hora = modal.dataset.horaSelecionada;
 
   try {
+    // 1. Tenta salvar no banco de dados (API)
     await axios.post("http://localhost:3000/reservas", {
       quadraId,
       data,
       hora,
     });
 
-    // Remove o horário reservado
+    // 2. Remove o horário da disponibilidade
     await removerHorario(quadraId, data, hora + ":00");
+    
+    // 3. Fecha os modais
     fecharAgendamento();
     fecharModal();
+
+    // 4. DISPARA O TOAST DE SUCESSO AQUI (Garante que o BD respondeu)
+    ativarToast("Reserva confirmada com sucesso!", "success");
+
   } catch (err) {
     console.log(err);
-    alert("Erro ao confirmar agendamento.");
+    // SE DER ERRO NO BD, DISPARA TOAST DE ERRO
+    ativarToast("Erro ao confirmar agendamento. Tente novamente.", "danger");
   }
-
-  ativarToast();
 }
 
 function fecharAgendamento(event) {
@@ -359,23 +363,28 @@ async function cancelarReserva(id) {
     // Ordena os horários
     quadra.horariosDisponiveis[reserva.data].sort();
 
-    // Atualiza a quadra
+    // Atualiza a quadra (devolve o horário à disponibilidade)
     await axios.put(
       `http://localhost:3000/quadras/${reserva.quadraId}`,
       quadra
     );
 
-    // Remove a reserva
+    // Remove a reserva da base de dados
     await axios.delete(
       `http://localhost:3000/reservas/${id}`
     );
 
-    alert("Reserva cancelada com sucesso!");
+    // 1. Atualiza a lista de reservas no ecrã
     mostrarReservas();
+
+    // 2. DISPARA O TOAST DE SUCESSO AQUI (Substituindo o antigo alert)
+    ativarToast("Reserva cancelada com sucesso!", "success");
 
   } catch (error) {
     console.error(error);
-    alert("Erro ao cancelar reserva.");
+    
+    // DISPARA O TOAST DE ERRO SE ALGO FALHAR
+    ativarToast("Erro ao cancelar reserva. Tente novamente.", "danger");
   }
 }
 
@@ -396,7 +405,7 @@ async function renderizarReservas(reservas) {
       const card = document.createElement("div");
       card.className = "card p-3 mb-3";
 
-      let dataFormatada = new Date(reserva.data).toLocaleDateString('pt-BR');
+      let dataFormatada = reserva.data;
 
       card.innerHTML = `
         <img src="${quadra.fotos[0]}"
@@ -454,6 +463,36 @@ function ativarToast() {
     });
     
     // 3. Exibe o toast por cima de tudo na tela
+    toastBootstrap.show();
+  } else {
+    console.error("Erro: O elemento com ID 'reserva-alerta' não foi encontrado.");
+  }
+}
+
+function ativarToast(mensagem, tipo = 'success') {
+  const elementoToast = document.getElementById('reserva-alerta');
+  
+  if (elementoToast) {
+    // Atualiza o texto do toast dinamicamente
+    const corpoToast = elementoToast.querySelector('.toast-body');
+    if (corpoToast) {
+      corpoToast.textContent = mensagem;
+    }
+
+    // Opcional: mudar a cor (verde para sucesso, vermelho para erro)
+    if (tipo === 'success') {
+      elementoToast.classList.remove('text-bg-danger');
+      elementoToast.classList.add('text-bg-success');
+    } else {
+      elementoToast.classList.remove('text-bg-success');
+      elementoToast.classList.add('text-bg-danger');
+    }
+
+    const toastBootstrap = new bootstrap.Toast(elementoToast, {
+      autohide: true, // Recomendo 'true' para sumir sozinho depois de uns segundos
+      delay: 3000     // Fica na tela por 3 segundos
+    });
+    
     toastBootstrap.show();
   } else {
     console.error("Erro: O elemento com ID 'reserva-alerta' não foi encontrado.");

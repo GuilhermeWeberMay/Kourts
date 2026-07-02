@@ -76,19 +76,6 @@ obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este com
       </div>
     </div>
 
-    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 99999;">
-      <div id="cancelar-reserva-alerta" class="toast align-items-center text-bg-success border-0" role="alert"
-        aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
-        <div class="d-flex">
-          <div class="toast-body">
-            agendamento realizado com sucesso!
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-            aria-label="Close"></button>
-        </div>
-      </div>
-    </div>
-
     <!-- Tela principal com lista de produtos - COMPLETO  -->
     <div id="tela-home" class="tela row row-cols-1 row-cols-md-2 g-3  row-cols-lg-3 g-3 show">
     </div>
@@ -125,23 +112,23 @@ obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este com
           <div class="perfil-section-title">Informações Pessoais</div>
           <div class="perfil-row">
             <div class="perfil-field">
-              <label>Nome</label>
-              <input type="text" placeholder="Seu nome">
+              <label for="nome">Nome</label>
+              <input type="text" id="nome" name="nome" placeholder="Seu nome">
             </div>
             <div class="perfil-field">
-              <label>Sobrenome</label>
-              <input type="text" placeholder="Seu sobrenome">
+              <label for="sobrenome">Sobrenome</label>
+              <input type="text" id="sobrenome" name="sobrenome" placeholder="Seu sobrenome">
             </div>
           </div>
 
           <div class="perfil-row">
             <div class="perfil-field">
-              <label>E-mail</label>
-              <input type="email" placeholder="seu@email.com">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" placeholder="seu@email.com">
             </div>
             <div class="perfil-field">
-              <label>Telefone</label>
-              <input type="tel" placeholder="(48) 99999-0000">
+              <label for="telefone">Telefone</label>
+              <input type="tel" id="telefone" name="telefone" placeholder="(48) 99999-0000">
             </div>
           </div>
 
@@ -149,9 +136,9 @@ obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este com
 
           <div class="perfil-row">
             <div class="perfil-field">
-              <label>Senha Atual</label>
+              <label for="senha-atual">Senha Atual</label>
               <div class="input-senha">
-                <input type="password" placeholder="••••••••">
+                <input type="password" id="senha-atual" name="senha-atual" placeholder="••••••••">
                 <i class="bi bi-eye toggle-senha"></i>
               </div>
             </div>
@@ -160,16 +147,16 @@ obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este com
           <div class="perfil-row">
             <div class="perfil-field">
               <div class="input-senha">
-                <label>Nova Senha</label>
-                <input type="password" placeholder="••••••••">
+                <label for="nova-senha">Nova Senha</label>
+                <input type="password" id="nova-senha" name="nova-senha" placeholder="••••••••">
                 <i class="bi bi-eye toggle-senha"></i>
               </div>
             </div>
 
             <div class="perfil-field">
               <div class="input-senha">
-                <label>Confirmar Nova Senha</label>
-                <input type="password" placeholder="••••••••">
+                <label for="confirmar-senha">Confirmar Nova Senha</label>
+                <input type="password" id="confirmar-senha" name="confirmar-senha" placeholder="••••••••">
                 <i class="bi bi-eye toggle-senha"></i>
               </div>
             </div>
@@ -216,6 +203,20 @@ obs: ter nodejs instalado no seu dispositivo, e posteriormente executar este com
       <i class="bi bi-person" style="font-size: 1.5rem"></i>
     </button>
 
+  </div>
+
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+    <div id="reserva-alerta" class="toast align-items-center border-0" role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body fw-bold text-white">
+          Mensagem padrão
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+          aria-label="Close"></button>
+      </div>
+    </div>
   </div>
 
   <!-- JavaScript do Bootstrap via CDN -->
