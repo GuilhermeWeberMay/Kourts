@@ -12,11 +12,16 @@ function navegar(destino) {
     element.classList.add("collapse");
   });
   const searchWrapper = document.querySelector('.search-wrapper');
-  if(destino === 'tela-user') {
+  if(destino === 'tela-user' || destino === 'tela-reservas') {
     searchWrapper.style.display = 'none';
   }else {
     searchWrapper.style.display = '';
   }
+
+  if (destino === 'tela-reservas'){
+    buscarReservas();
+  }
+
   document.getElementById(destino).classList.remove("collapse");
   document.getElementById(destino).classList.add("show");
   telaAnterior = telaAtual;
@@ -266,6 +271,74 @@ async function mostrarQuadras() {
 
   });
  });
+}
+
+async function buscarReservas(){
+  
+    try {
+      let url = "http://localhost:8081/reservas";
+      const response = await axios.get(url);
+      const reservas = response.data;
+
+      renderizarReservas(reservas);
+    }
+    catch (error){
+      console.log(error);
+      alert("Erro ao buscar reservas.");
+    }
+}
+
+function renderizarReservas(reservas) {
+   const listaReservas = document.getElementById("lista-reservas");
+   listaReservas.innerHTML = "";
+
+   if(reservas.length === 0) {
+     listaReservas.innerHTML = `<p class="text-center text-white-50 mt-4"> Você ainda não tem reservas. </p>`;
+     return;
+   }
+
+    reservas.forEach((quadra) => {
+       const cardReserva = document.createElement("div");
+       cardReserva.className = "reserva-card";
+       cardReserva.innerHTML = `
+              <div class="reserva-topo">
+                <h5 class="reserva-nome">${quadra.nome}</h5>
+                <button class="btn-cancelar" onclick="cancelarReserva(${quadra.id})">CANCELAR</button>
+              </div> 
+              
+              <div class="reserva-info">
+                <i class="bi bi-calendar3"></i>
+                <span class="reserva-data"><strong>${quadra.dia}</strong><br>${quadra.mes}</span>
+              </div>
+              
+              <div class="reserva-info">
+                <i class="bi bi-clock"></i>
+                <span>${quadra.horaInicio} - ${quadra.horaFim}</span>
+              </div> 
+              
+              <hr class="reserva-linha">
+              
+              <div class="reserva-rodape">
+                <span><strong>Total:</strong> R$${quadra.precoPorHora.toFixed(2).replace(".",",")}</span>
+                <span><strong>Pagamento:</strong> ${quadra.pagamento}</span>
+              </div>  
+            `;
+            listaReservas.appendChild(cardReserva);
+    });
+}
+
+async function cancelarReserva(id){
+    if(!confirm("Deseja realmente cancelar essa reserva?")) return;
+    try {
+      await axios.delete(`http://localhost:8081/reservas/${id}`);
+      alert("Reserva Cancelada!");
+      buscarReservas(); //Atualiza a lista
+    }
+    catch (error)
+    {
+      console.log(error);
+      alert("Erro ao cancelar reserva.");
+    }
 }
 
 document.addEventListener('click', function(e) {
