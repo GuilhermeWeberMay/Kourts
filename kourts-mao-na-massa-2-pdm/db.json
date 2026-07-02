@@ -12,18 +12,24 @@
       "comprimento": 40,
       "esporte": "Futebol Society",
       "fotos": [
-        "https://wallau.com.br/wp-content/uploads/2018/11/p-img-2577-1.jpg"
+        "./imagens/arena1.jpg",
+        "./imagens/arena2.jpg",
+        "./imagens/arena3.jpg"
       ],
       "horariosDisponiveis": {
-        "2026-07-01": [],
-        "2026-07-02": [],
-        "2026-07-03": [],
-        "2026-07-04": [
-          "13:00:00",
+        "2026-07-02": [
           "13:00:00",
           "17:00:00",
-          "22:00:00",
           "22:00:00"
+        ],
+        "2026-07-03": [
+          "13:00:00",
+          "17:00:00",
+          "22:00:00"
+        ],
+        "2026-07-04": [
+          "13:00:00",
+          "17:00:00"
         ],
         "2026-07-05": [
           "11:00:00",
@@ -32,7 +38,10 @@
         "2026-07-06": [
           "10:00:00"
         ],
-        "2026-06-18": [
+        "2026-07-07": [
+          "20:00:00"
+        ],
+        "2026-07-08": [
           "20:00:00"
         ]
       }
@@ -49,8 +58,8 @@
       "comprimento": 24,
       "esporte": "Tênis",
       "fotos": [
-        "https://brascourt.com.br/wp-content/uploads/2022/01/brasscourt-quadras5.png",
-        "https://brascourt.com.br/wp-content/uploads/2021/11/11.png"
+        "./imagens/tenis1.png",
+        "./imagens/tenis2.png"
       ],
       "horariosDisponiveis": {
         "2026-07-01": [],
@@ -61,6 +70,13 @@
       }
     }
   ],
-  "reservas": [],
+  "reservas": [
+    {
+      "quadraId": "1",
+      "data": "2026-07-04",
+      "hora": "22:00",
+      "id": "4s0WBPYGTPo"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }
