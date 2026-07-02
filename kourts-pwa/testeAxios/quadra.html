@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang='pt-BR'>
+
+<head>
+ <meta charset='utf-8'>
+ <meta name='viewport' content='width=device-width, initial-scale=1'>
+ <title>Page Title</title>
+</head>
+
+<body>
+ <fieldset>
+  <label for=""> Nome da quadra: </label>
+  <input type="text" name="" id=""><br>
+
+  <label for="">Tipo quadra: </label>
+  <select name="" id="esporte">
+   <option value="FUTSAL"> Futsal </option>
+   <option value="FUTEBOL"> Futebol </option>
+   <option value="FUT7"> Fut7 </option>
+   <option value="VOLEI"> Vôlei </option>
+   <option value="VOLEI_AREIA"> Vôlei de areia </option>
+   <option value="BEACH_TENIS"> Beach tênis </option>
+   <option value="TENIS"> Tênis </option>
+   <option value="FUTVOLEI"> Futvôlei </option>
+  </select><br>
+
+  <label for=""> Quantidade ideal de jogadores: </label>
+  <input type="number" name="" id="" min="0"><br>
+
+  <label for=""> Valor por hora: </label>
+  <input type="number" name="" id="" min="0" step="0.01">
+
+ </fieldset><br>
+ <fieldset>
+  <label for=""> Comprimento: </label>
+  <input type="number" name="" id="" min="0" step="0.01"> <br>
+
+  <label for=""> Largura: </label>
+  <input type="number" name="" id="" min="0" step="0.01">
+ </fieldset><br>
+ <fieldset>
+
+  <label>Estado:</label>
+  <select id="estado" required>
+   <option value="">Selecione um estado</option>
+  </select> <br>
+
+  <label>Cidade:</label>
+  <select id="city" required>
+   <option value="">Selecione uma cidade</option>
+  </select> <br>
+
+  <label for=""> Bairro: </label>
+  <input type="text" name="" id="">
+
+  <label for=""> Cep: </label>
+  <input type="number" name="" id="">
+
+  <label for=""> Rua: </label>
+  <input type="text" name="" id=""><br>
+
+  <label for="">Numero:</label>
+  <input type="number" name="" id="">
+ </fieldset><br>
+ <fieldset>
+  
+ </fieldset>
+
+
+ <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+ <script src="estados.js" onload="getCities()"></script>
+</body>
+
+</html>
