@@ -1,6 +1,7 @@
 {
-  "$schema": "./node_modules/json-server/schema.json",
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
   "short_name": "PWA Kourt's",
+  "lang": "pt-BR",
   "name": "Kourt's",
   "description": "Modelo de reserva de quadras em Bootstrap, SPA e PWA",
   "scope": "./",
