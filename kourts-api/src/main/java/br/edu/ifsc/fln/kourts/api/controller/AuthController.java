@@ -53,6 +53,6 @@ public class AuthController {
 
         this.jogadorRepository.save(jogador);
 
-        return ResponseEntity.ok(jogador);
+        return ResponseEntity.ok(jogador.getApelido());
     }
 }
