@@ -248,7 +248,7 @@ function login(){
  // Se precisarem coloquem os erros que vocês precisarem. De acordo com o Json que vocês receberem
   console.log(error.response.data);
   
-  data.error = "Erro ao criar jogador. Verifique os dados e tente novamente.";
+  data.error = "Erro ao efetuar login. Verifique os dados e tente novamente.";
   
   const mensagemElement = document.getElementById('error');
     mensagemElement.textContent = ` ${error.response.data}`;

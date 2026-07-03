@@ -26,7 +26,7 @@ public class AuthController {
         try {
             Jogador j = jogadorRepository.findByApelido(jogador.getApelido());
             JogadorDTO jRespota = new JogadorDTO(j.getApelido(), j.getSenha());
-            return ResponseEntity.ok(jRespota);
+            return ResponseEntity.ok(jRespota.getApelido());
         } catch (CredenciasInvalidasException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (NullPointerException e) {

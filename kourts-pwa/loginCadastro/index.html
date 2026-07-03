@@ -36,13 +36,14 @@
          <label for="login-senha">Senha</label>
          <input type="password" id="login-senha" placeholder="informe a senha">
        </div>
-       <button class="btn-primary" id="btn-login" onclick="Login()">
+       <button class="btn-primary" id="btn-login" onclick="login()">
          Entrar
          <div class="spinner"></div>
        </button>
        <div class="card-footer">
          Ainda não tem conta? <a href="#" onclick="mudaBt('cadastrar'); return false;"> Criar Conta</a>
        </div>
+       <h5 id="error"></h5>
     </div>
 
 
