@@ -1,19 +1,14 @@
 package br.edu.ifsc.fln.kourts.api.controller;
 
+
 import br.edu.ifsc.fln.kourts.api.dto.JogadorDTO;
-import br.edu.ifsc.fln.kourts.api.dto.LoginResponseDTO;
-import br.edu.ifsc.fln.kourts.api.model.domain.Funcionario;
+import br.edu.ifsc.fln.kourts.api.model.domain.CredenciasInvalidasException;
 import br.edu.ifsc.fln.kourts.api.model.domain.InfoRepitida;
 import br.edu.ifsc.fln.kourts.api.model.domain.Jogador;
-import br.edu.ifsc.fln.kourts.api.model.domain.Permissoes;
 import br.edu.ifsc.fln.kourts.api.repository.JogadorRepository;
-import br.edu.ifsc.fln.kourts.api.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.validation.annotation.Validated;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,25 +19,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
     private JogadorRepository jogadorRepository;
-    @Autowired
-    private TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Validated JogadorDTO jogador) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(jogador.getLogin(), jogador.getSenha());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
+    public ResponseEntity login(@RequestBody Jogador jogador) {
+        // Null pointer exception
+        try {
+            Jogador j = jogadorRepository.findByApelido(jogador.getApelido());
+            JogadorDTO jRespota = new JogadorDTO(j.getApelido(), j.getSenha());
+            return ResponseEntity.ok(jRespota);
+        } catch (CredenciasInvalidasException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (NullPointerException e){
+            return ResponseEntity.badRequest().body("Uma das credenciais é invalida favor tentar outra.");
+        }
+         //Recebe o Apelido e a Senha compara no banco se for verdadeiro devolve somente o Apelido
 
-        var token = tokenService.generateToken((Jogador) auth.getPrincipal());
-
-        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity register(@RequestBody @Validated Jogador jogador) {
-        if(this.jogadorRepository.findByApelido(jogador.getApelido()) != null) return ResponseEntity.badRequest().build();
+    public ResponseEntity<Jogador> register(@RequestBody Jogador jogador) {
 
         boolean cpfExistente = jogadorRepository.existsByCpf(jogador.getCpf());
         if (cpfExistente) {
@@ -62,6 +58,6 @@ public class AuthController {
 
         this.jogadorRepository.save(jogador);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(jogador);
     }
 }
