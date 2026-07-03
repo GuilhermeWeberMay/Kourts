@@ -169,7 +169,7 @@ function selecionarDia(el, dataKey) {
   slotsContainer.innerHTML = horarios.map(h => {
     const horaFormatada = h.substring(0, 5);
     return `
-      <button class="btn btn-outline-success slot-horario"
+      <button class="btn btn-success slot-horario" id="botaoHorario"
               onclick="selecionarHorario(this, '${dataKey}', '${horaFormatada}')">
         ${horaFormatada}
       </button>`;
@@ -195,11 +195,19 @@ async function confirmarAgendamento(quadraId) {
   const data = modal.dataset.dataSelecionada;
   const hora = modal.dataset.horaSelecionada;
 
+  //Calcula o horário de fim (1h de duração sempre)
+  const [h, m, s] = hora.split(":").map(Number);
+  const fim = `${String(h + 1).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s ?? 0).padStart(2, "0")}`;
+
   try {
     await axios.post("http://localhost:8081/reservas", {
-      quadraId,
       data,
-      hora,
+      inicio : hora ,
+      fim,
+      situacao : "APROVADA",
+      quadra: {
+         id: quadraId,
+      },
     });
     alert(`Agendamento confirmado!\nData: ${data}\nHorário: ${hora}`);
     fecharAgendamento();
@@ -260,7 +268,9 @@ async function mostrarQuadras() {
 
    divQuadra.innerHTML = ` ${imagensHTML}
                           <h5>${e.nome} </h5>
-                          <p>R$${e.precoPorHora} </p>`;
+                          <p> Valor: R$${e.precoPorHora} <br>
+                           Esporte: ${e.esporte} <br>
+                           Rua: ${e.rua} </p>`;
 
   divQuadra.addEventListener("click", () => {
           mostrarDetalhes(e);
@@ -273,6 +283,8 @@ async function mostrarQuadras() {
  });
 }
 
+
+//Funções da parte de Reservas
 async function buscarReservas(){
   
     try {
@@ -297,31 +309,44 @@ function renderizarReservas(reservas) {
      return;
    }
 
-    reservas.forEach((quadra) => {
+   const meses = [
+      "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
+      "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+   ]
+
+    reservas.forEach((reserva) => {
+      const [ano, mes, dia] = reserva.data.split("-");
+      const nomeMes = meses[parseInt(mes, 10) - 1];
+
+      const horaInicio = reserva.inicio?.slice(0,5)??"";
+      const horaFim = reserva.fim?.slice(0,5) ?? "";
+
+      const preco = reserva.quadra?.precoPorHora ?? 0;
+
        const cardReserva = document.createElement("div");
        cardReserva.className = "reserva-card";
        cardReserva.innerHTML = `
               <div class="reserva-topo">
-                <h5 class="reserva-nome">${quadra.nome}</h5>
-                <button class="btn-cancelar" onclick="cancelarReserva(${quadra.id})">CANCELAR</button>
+                <h5 class="reserva-nome">${reserva.quadra?.nome ?? "Quadra"} <button class="btn btn-danger ms-5" onclick="cancelarReserva(${reserva.id})">CANCELAR</button> </h5>
+                
               </div> 
               
               <div class="reserva-info">
                 <i class="bi bi-calendar3"></i>
-                <span class="reserva-data"><strong>${quadra.dia}</strong><br>${quadra.mes}</span>
+                <span class="reserva-data"><strong>${dia}/${nomeMes}</strong><br></span>
               </div>
               
               <div class="reserva-info">
                 <i class="bi bi-clock"></i>
-                <span>${quadra.horaInicio} - ${quadra.horaFim}</span>
+                <span>${horaInicio} - ${horaFim}</span>
               </div> 
               
-              <hr class="reserva-linha">
-              
               <div class="reserva-rodape">
-                <span><strong>Total:</strong> R$${quadra.precoPorHora.toFixed(2).replace(".",",")}</span>
-                <span><strong>Pagamento:</strong> ${quadra.pagamento}</span>
+                <span><strong>Total:</strong> R$${preco.toFixed(2).replace(".",",")}<br></span>
+                <span><strong>Situação:</strong> ${reserva.situacao}</span>
               </div>  
+
+                            <hr class="reserva-linha">
             `;
             listaReservas.appendChild(cardReserva);
     });

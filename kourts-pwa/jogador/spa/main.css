@@ -402,6 +402,13 @@ body {
   flex-shrink: 0;
 }
 
+.botaoHorario {
+  outline: auto;
+  color: #198754;
+  background-color: #198754;
+  outline-color: #198754;
+}
+
 .dia-bolinha {
   width: 48px;
   height: 48px;
