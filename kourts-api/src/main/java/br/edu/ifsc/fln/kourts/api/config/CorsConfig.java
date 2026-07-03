@@ -16,7 +16,8 @@ public class CorsConfig {
                 registry.addMapping("/**") // Aplicada em todas as rotas
                         .allowedOrigins("http://localhost:5500") // Somente chamadas deste endereço
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos HTTP permitidos
-                        .allowedHeaders("*");
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }

@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 //Lombok
 @NoArgsConstructor
 @Getter
@@ -16,8 +17,8 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = true)
 // Jakarta
 @Entity
-public class Jogador extends Usuario{
-    /*
+public class Jogador extends Usuario {
+/*
     unique - não pode repetir
     nullable - não pode ser null
     length - tamanho
@@ -33,7 +34,10 @@ public class Jogador extends Usuario{
     @Column(nullable = false, length = 64)
     private String sobrenome;
 
+    private Permissoes permissoes = Permissoes.JOGADOR;
+
     // Relacionamento com Local
     @Embedded // Cria colunas na tabela da entidade
     private Local local;
+
 }
