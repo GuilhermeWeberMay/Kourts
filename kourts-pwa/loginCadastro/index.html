@@ -22,8 +22,8 @@
    </div>
 
    <div class="tabs" role="tablist">
-      <button class="btn" id="btn-login" onclick="mudaBt('login')">Entrar</button>
-      <button class="btn" id="btn-cadastro" onclick="mudaBt('cadastrar')">Criar Conta</button>
+      <button class="btn" id="tab-login" onclick="mudaBt('login')">Entrar</button>
+      <button class="btn" id="tab-cadastro" onclick="mudaBt('cadastrar')">Criar Conta</button>
    </div>
 
    <!-- Login -->
@@ -43,7 +43,7 @@
        <div class="card-footer">
          Ainda não tem conta? <a href="#" onclick="mudaBt('cadastrar'); return false;"> Criar Conta</a>
        </div>
-       <h5 id="error"></h5>
+       <h5 id="error-login"></h5>
     </div>
 
 
@@ -95,7 +95,7 @@
           </div>
     </div>
 
-        <h5 id="error"></h5>  
+        <h5 id="error-cadastro"></h5>  
         <button onclick="mostrarToken()"> O </button>
 
    </div> 

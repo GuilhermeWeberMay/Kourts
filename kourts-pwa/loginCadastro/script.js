@@ -141,21 +141,21 @@ inputCep.addEventListener('keydown', (e) => {
     const formularios = document.getElementsByClassName('formulario');
     Array.from(formularios).forEach(f => f.classList.remove('show'));
 
-    const btnLogin    = document.getElementById('btn-login');
-    const btnCadastro = document.getElementById('btn-cadastro');
+    const tabLogin    = document.getElementById('tab-login');
+    const tabCadastro = document.getElementById('tab-cadastro');
     const card        = document.querySelector('.card');
 
     if(tela === 'login')
     {
      document.getElementById('formulario-login').classList.add('show');
-     btnLogin.classList.add('ativo');
-     btnCadastro.classList.remove('ativo');
+     tabLogin.classList.add('ativo');
+     tabCadastro.classList.remove('ativo');
      card.style.maxWidth = '460px';
     }
     else {
       document.getElementById('formulario-cadastro').classList.add('show');
-      btnCadastro.classList.add('ativo');
-      btnLogin.classList.remove('ativo');
+      tabCadastro.classList.add('ativo');
+      tabLogin.classList.remove('ativo');
       card.style.maxWidth = '600px';
     }
 
@@ -192,7 +192,7 @@ const jogador = {
 axios.post(apiUrl, jogador)
  .then(response => {
   console.log('Jogador criado com sucesso:', response.data);
-  const mensagemElement = document.getElementById('error');
+  const mensagemElement = document.getElementById('error-cadastro');
   mensagemElement.textContent = `Jogador criado com sucesso!`;
   const retornoApi = response.data;
 
@@ -209,7 +209,7 @@ axios.post(apiUrl, jogador)
   
   data.error = "Erro ao criar jogador. Verifique os dados e tente novamente.";
   
-  const mensagemElement = document.getElementById('error');
+  const mensagemElement = document.getElementById('error-cadastro');
     mensagemElement.textContent = ` ${error.response.data}`;
     
 })
@@ -250,7 +250,7 @@ function login(){
   
   data.error = "Erro ao efetuar login. Verifique os dados e tente novamente.";
   
-  const mensagemElement = document.getElementById('error');
+  const mensagemElement = document.getElementById('error-login');
     mensagemElement.textContent = ` ${error.response.data}`;
     
 })

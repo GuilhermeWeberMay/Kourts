@@ -188,13 +188,7 @@ body::before {
    Centralizado na tela, acima de tudo, aberto sob demanda
    ══════════════════════════════════════════ */
 #modal-auth.show .modal-overlay {
-  /* TRUQUE: sem align-items (fica no valor default), e margin:auto no .auth-card.
-     Isso centraliza quando o conteúdo cabe, e quando não cabe (cadastro grande)
-     o margin:auto colapsa para 0 e o overlay rola normalmente (overflow-y:auto).
-     "align-items:center" sozinho corta o conteúdo que não cabe e não deixa rolar. */
-  display: flex;
-  overflow-y: auto;
-  padding: 2rem 1.5rem;
+  align-items: center;
   z-index: 2000;
 }
 
@@ -208,19 +202,7 @@ body::before {
   max-width: 460px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   color: white;
-  margin: auto;
-}
-
-/* Trava o scroll do body enquanto qualquer modal estiver aberto,
-   e garante (redundância via CSS, além do JS) que o footer/nav
-   desktop somem enquanto qualquer modal estiver aberto. */
-body.modal-open {
-  overflow: hidden;
-}
-
-body.modal-open #footer,
-body.modal-open .nav-desktop {
-  display: none !important;
+  margin: 1.5rem;
 }
 
 .logo {

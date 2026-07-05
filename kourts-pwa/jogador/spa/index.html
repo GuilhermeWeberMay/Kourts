@@ -161,6 +161,104 @@
     </div>
  </div>   
 
+  <!-- Modal de Login / cadastro (tentou agendar ele abre)-->
+   <div id="modal-auth" class="collapse">
+        <div class="modal-overlay" onclick="fecharModalAuth(event)">
+            <div class="auth-card" onclick="event.stopPropagation()">
+
+                <div class="logo">
+                    <img src="imagens/logoKourtss.png" alt="logo Kourt's">
+                    <span class="logo-texto"> Kourt's</span>
+                </div>
+
+                <div class="tabs" role="tablist">
+                    <button class="btn" id="tab-login" onclick="mudaBt('login')">Entrar</button>
+                    <button class="btn" id="tab-cadastro" onclick="mudaBt('cadastrar')">Criar Conta</button>
+                </div>
+
+                <!-- Login -->
+                <div class="formulario" id="formulario-login">
+                  <div class="field">
+                      <label for="login-apelido">Apelido</label>
+                      <input type="text" id="login-apelido" placeholder="informe seu apelido">
+                  </div>
+                  <div>
+                    <label for="login-senha">Senha</label>
+                    <input type="password" id="login-senha" placeholder="informe a senha">
+                  </div>
+                  <button class="btn-primary" id="submit-login" onclick="login()">
+                    Entrar
+                    <div class="spinner"></div>
+                  </button>
+                  <div class="card-footer">
+                    Ainda não tem conta? <a href="#" onclick="mudaBt('cadastrar'); return false;"> Criar Conta</a>
+                  </div>
+                  <h5 id="error-login"></h5>
+                </div>
+
+
+                <!-- Cadastro -->
+                <div class="formulario" id="formulario-cadastro">
+                  <div class="cad-grid">
+
+                    <div class="cad-col">
+                      <div class="field">
+                          <label for="">Nome</label>
+                          <input type="text" id="nome" placeholder="Informe seu nome">
+                      </div>
+                      <div>
+                        <label for="">Senha</label>
+                        <input type="password" id="senha" placeholder="informe sua senha">
+                      </div>
+                      <div>
+                        <label for="">Sobrenome</label>
+                        <input type="text" id="sobrenome" placeholder="informe seu sobrenome">
+                      </div>
+                      <div>
+                        <label for="">E-mail</label>
+                        <input type="email" id="email" placeholder="seu@email.com">
+                      </div>
+                      <div>
+                        <label for="">CPF</label>
+                        <input type="text" id="cpf" value="___.___.___-__" maxlength="14" placeholder="informe seu CPF">
+                      </div>
+                      <div>
+                        <label for="">Telefone</label>
+                        <input type="tel" id="telefone" value="(__) _____-____" maxlength="14" placeholder="informe seu telefone">
+                      </div>
+                      <div>
+                        <label for="">Apelido</label>
+                        <input type="text" id="apelido" placeholder="Informe seu apelido">
+                      </div>
+                    </div>
+
+                    <div class="cad-col">
+                        <div class="field">
+                            <label class="label-secao">Local</label>
+                            <label for="estado">Estado</label>
+                            <input type="text" id="estado" placeholder="Informe seu Estado">
+                        </div>
+                        <div class="field">
+                          <label for="cidade">Cidade</label>
+                          <input type="text" id="cidade" placeholder="Informe sua cidade">
+                        </div>
+                    </div>
+
+                    <h5 id="error-cadastro"></h5>
+                  </div>
+
+                   <button class="btn-primary" id="submit-cadastro" onclick="criarJogador()">
+                      Criar Conta
+                      <div class="spinner"></div>
+                   </button>
+                   <div class="card-footer">
+                    Já tem conta? <a href="#" onclick="mudaBt('login'); return false;"> Entrar</a>
+                   </div>
+                </div>
+              </div>
+             </div>
+            </div>  
+
     <!-- Footer com os botões -->
      <div class="btn-group fixed-bottom container-fluid" id="footer" style="background-color: #2A612C; height: 3rem;"  role="group" aria-label="Basic example">
         <button type="button" class="btn"  style="background-color: #2A612C; color: white;"  onclick="navegar('tela-home')">
@@ -176,6 +274,8 @@
         </button>
 
      </div>
+    </div> 
+     
 
   <!-- JavaScript do Bootstrap via CDN -->
    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

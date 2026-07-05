@@ -1,37 +1,32 @@
+/* ══════════════════════════════════════════
+   ESTADO GLOBAL
+   ══════════════════════════════════════════ */
 let telaAnterior = "tela-home";
 let telaAtual = "tela-home";
-let quadraPendente = null; //guarda o id da quadra que o usuário tentou agendar antes de fazer o login
-let tokenApelido; // guarda o retorno da API de login/cadastro
 
-//armazena todas as quadras para nós utilizarmos na pesquisa
-let todasAsQuadras = [];
+let todasAsQuadras = [];   // guarda todas as quadras para a pesquisa
+let quadraPendente = null; // guarda o id da quadra que o usuário tentou agendar antes de logar
+let tokenApelido;          // guarda o retorno da API de login/cadastro
 
-function atualizarFundo() {
-    const idDosModais = ["modal-auth", "modal-detalhes", "modal-agendamento"];
-    const algumModalAberto = idDosModais.some(id => {
-        const el = document.getElementById(id);
-        return el && el.classList.contains("show");
-    });
 
-    document.body.classList.toggle("modal-open", algumModalAberto);
-    const footer = document.getElementById("footer");
-    if (footer) footer.style.display = algumModalAberto ? "none" : "";
-}
-
+/* ══════════════════════════════════════════
+   NAVEGAÇÃO ENTRE TELAS
+   ══════════════════════════════════════════ */
 function navegar(destino) {
   let telas = document.getElementsByClassName("tela");
   Array.from(telas).forEach((element) => {
     element.classList.remove("show");
     element.classList.add("collapse");
   });
+
   const searchWrapper = document.querySelector('.search-wrapper');
-  if(destino === 'tela-user' || destino === 'tela-reservas') {
+  if (destino === 'tela-user' || destino === 'tela-reservas') {
     searchWrapper.style.display = 'none';
-  }else {
+  } else {
     searchWrapper.style.display = '';
   }
 
-  if (destino === 'tela-reservas'){
+  if (destino === 'tela-reservas') {
     buscarReservas();
   }
 
@@ -45,194 +40,202 @@ function voltar() {
   navegar(telaAnterior);
 }
 
+
+/* ══════════════════════════════════════════
+   AUTENTICAÇÃO (helpers)
+   ══════════════════════════════════════════ */
 function estaLogado() {
-   return !!localStorage.getItem("token");
+  return !!localStorage.getItem("token");
 }
 
-function tentarAgendar(quadraId){
-    if(!estaLogado()) {
-       quadraPendente = quadraId;
-       fecharModal();
-       abrirModalAuth();
-    }
-    else {
-       fecharModal();
-       abrirAgendamento(quadraId);
-    }
+// Chamado pelo botão AGENDAR do modal de detalhes.
+// Se não estiver logado, guarda a quadra escolhida e abre o login/cadastro.
+// Se já estiver logado, vai direto pro agendamento.
+function tentarAgendar(quadraId) {
+  if (!estaLogado()) {
+    quadraPendente = quadraId;
+    fecharModal();      // fecha o modal de detalhes
+    abrirModalAuth();
+  } else {
+    fecharModal();
+    abrirAgendamento(quadraId);
+  }
 }
 
-function abrirModalAuth(){
-    const modal = document.getElementById("modal-auth");
-    modal.classList.remove("collapse");
-    modal.classList.add("show");
-    atualizarFundo();
-    mudaBt('login');
+function abrirModalAuth() {
+  const modal = document.getElementById("modal-auth");
+  modal.classList.remove("collapse");
+  modal.classList.add("show");
+  mudaBt('login');
 }
 
 function fecharModalAuth(event) {
-    // se veio de um clique, só fecha se o clique foi no overlay (fora do card)
-    if(event && event.target !== document.querySelector("#modal-auth .modal-overlay")) return;
-    const modal = document.getElementById("modal-auth");
-    modal.classList.remove("show");
-    modal.classList.add("collapse");
-    atualizarFundo();
-    quadraPendente = null; //cancelou o login, cancela também a intenção de agendar
+  // se veio de um clique, só fecha se o clique foi no overlay (fora do card)
+  if (event && event.target !== document.querySelector("#modal-auth .modal-overlay")) return;
+  const modal = document.getElementById("modal-auth");
+  modal.classList.remove("show");
+  modal.classList.add("collapse");
+  quadraPendente = null; // cancelou o login, cancela também a intenção de agendar
 }
 
-//Depois de um login/cadastro com sucesso a gente fecha o modal de auth
-// e, se tinha uma quadra pendente de agendamento, retoma o fluxo nela.
-function aoAutenticarComSucesso(){
-    const modal = document.getElementById("modal-auth");
-    modal.classList.remove("show");
-    modal.classList.add("collapse");
-    atualizarFundo();
+// Depois de um login/cadastro com sucesso: fecha o modal de auth
+// e, se havia uma quadra pendente de agendamento, retoma o fluxo nela.
+function aoAutenticarComSucesso() {
+  const modal = document.getElementById("modal-auth");
+  modal.classList.remove("show");
+  modal.classList.add("collapse");
 
-    if (quadraPendente) {
-       const quadraId = quadraPendente;
-       quadraPendente = null;
-       abrirAgendamento(quadraId);
-    }
+  if (quadraPendente) {
+    const quadraId = quadraPendente;
+    quadraPendente = null;
+    abrirAgendamento(quadraId);
+  }
 }
 
-function mudaBt(tela){
-    const formularios = document.getElementsByClassName('formulario');
-    Array.from(formularios).forEach(f => f.classList.remove("show"));
+// Troca de aba dentro do modal de login/cadastro
+function mudaBt(tela) {
+  const formularios = document.getElementsByClassName('formulario');
+  Array.from(formularios).forEach(f => f.classList.remove('show'));
 
-    const tabLogin = document.getElementById('tab-login');
-    const tabCadastro = document.getElementById('tab-cadastro');
+  const tabLogin    = document.getElementById('tab-login');
+  const tabCadastro = document.getElementById('tab-cadastro');
 
-    if (tela === 'login'){
-        document.getElementById('formulario-login').classList.add("show");
-        tabLogin.classList.add('ativo');
-        tabCadastro.classList.remove('ativo');
-    }
-    else {
-        document.getElementById('formulario-cadastro').classList.add("show")
-        tabCadastro.classList.add('ativo');
-        tabLogin.classList.remove('ativo')
-    }
+  if (tela === 'login') {
+    document.getElementById('formulario-login').classList.add('show');
+    tabLogin.classList.add('ativo');
+    tabCadastro.classList.remove('ativo');
+  } else {
+    document.getElementById('formulario-cadastro').classList.add('show');
+    tabCadastro.classList.add('ativo');
+    tabLogin.classList.remove('ativo');
+  }
 }
 
-//máscaras de input (telefone e cpf)
+
+/* ══════════════════════════════════════════
+   MÁSCARAS DE INPUT (telefone / cpf)
+   ══════════════════════════════════════════ */
 const inputTelefone = document.getElementById('telefone');
- 
+
 inputTelefone.addEventListener('focus', () => {
   if (inputTelefone.value === '(__) _____-____') {
     inputTelefone.setSelectionRange(0, 0);
   }
 });
- 
+
 inputTelefone.addEventListener('keydown', (e) => {
   e.preventDefault();
- 
+
   let numeros = inputTelefone.value.replace(/\D/g, '').replace(/_/g, '');
- 
+
   if (e.key === 'Backspace') {
     numeros = numeros.slice(0, -1);
   }
- 
+
   if (/^\d$/.test(e.key) && numeros.length < 11) {
     numeros += e.key;
   }
- 
+
   let mascara = '(__) _____-____'.split('');
   const posicoes = [1, 2, 5, 6, 7, 8, 9, 11, 12, 13, 14];
- 
+
   numeros.split('').forEach((num, index) => {
     if (posicoes[index] !== undefined) {
       mascara[posicoes[index]] = num;
     }
   });
- 
+
   inputTelefone.value = mascara.join('');
- 
+
   const proximo = inputTelefone.value.indexOf('_');
   if (proximo !== -1) {
     inputTelefone.setSelectionRange(proximo, proximo);
   }
 });
- 
+
 // Validação de CPF com máscara personalizada
 const inputCpf = document.getElementById('cpf');
- 
+
 inputCpf.addEventListener('focus', () => {
   if (inputCpf.value === '___.___.___-__') {
     inputCpf.setSelectionRange(0, 0);
   }
 });
- 
+
 inputCpf.addEventListener('keydown', (e) => {
   e.preventDefault();
- 
+
   let numeros = inputCpf.value.replace(/\D/g, '').replace(/_/g, '');
- 
+
   if (e.key === 'Backspace') {
     numeros = numeros.slice(0, -1);
   }
- 
+
   if (/^\d$/.test(e.key) && numeros.length < 11) {
     numeros += e.key;
   }
- 
+
   let mascara = '___.___.___-__'.split('');
   const posicoes = [0, 1, 2, 4, 5, 6, 8, 9, 10, 12, 13];
- 
+
   numeros.split('').forEach((num, index) => {
     mascara[posicoes[index]] = num;
   });
- 
+
   inputCpf.value = mascara.join('');
- 
+
   const proximo = inputCpf.value.indexOf('_');
   if (proximo !== -1) {
     inputCpf.setSelectionRange(proximo, proximo);
   }
 });
- 
+
 /* Validação para o CEP — DESATIVADA (campo não existe no formulário no momento).
    Descomente e adicione um <input id="cep"> no HTML quando o campo voltar a ser usado.
- 
+
 const inputCep = document.getElementById('cep');
- 
+
 inputCep.addEventListener('focus', () => {
   if (inputCep.value === '_____-___') {
     inputCep.setSelectionRange(0, 0);
   }
 });
- 
+
 inputCep.addEventListener('keydown', (e) => {
   e.preventDefault();
- 
+
   let numeros = inputCep.value.replace(/\D/g, '').replace(/_/g, '');
- 
+
   if (e.key === 'Backspace') {
     numeros = numeros.slice(0, -1);
   }
- 
+
   if (/^\d$/.test(e.key) && numeros.length < 8) {
     numeros += e.key;
   }
- 
+
   let mascara = '_____-___'.split('');
   const posicoes = [0, 1, 2, 3, 4, 6, 7, 8];
- 
+
   numeros.split('').forEach((num, index) => {
     mascara[posicoes[index]] = num;
   });
- 
+
   inputCep.value = mascara.join('');
- 
+
   const proximo = inputCep.value.indexOf('_');
   if (proximo !== -1) {
     inputCep.setSelectionRange(proximo, proximo);
   }
 });
 */
- 
- 
-// LOGIN E CADASTRO
+
+
+/* ══════════════════════════════════════════
+   LOGIN / CADASTRO
+   ══════════════════════════════════════════ */
 function criarJogador() {
- 
+
   const apiUrl = 'http://localhost:8081/auth/registrar';
   const nome = document.getElementById('nome').value;
   const email = document.getElementById('email').value;
@@ -243,7 +246,7 @@ function criarJogador() {
   const sobrenome = document.getElementById('sobrenome').value;
   const estado = document.getElementById('estado').value;
   const cidade = document.getElementById('cidade').value;
- 
+
   const jogador = {
     "nome": nome,
     "email": email,
@@ -257,66 +260,69 @@ function criarJogador() {
       "cidade": cidade
     }
   };
- 
+
   axios.post(apiUrl, jogador)
     .then(response => {
       console.log('Jogador criado com sucesso:', response.data);
       const mensagemElement = document.getElementById('error-cadastro');
       mensagemElement.textContent = `Jogador criado com sucesso!`;
- 
+
       const retornoApi = response.data;
       tokenApelido = retornoApi;
- 
+
       // ajuste "retornoApi.token" conforme o formato real que a API devolver
       localStorage.setItem("token", retornoApi.token ?? JSON.stringify(retornoApi));
- 
+
       aoAutenticarComSucesso();
     })
     .catch(error => {
       const { data } = error.response;
       console.log(error.response.data);
- 
+
       data.error = "Erro ao criar jogador. Verifique os dados e tente novamente.";
- 
+
       const mensagemElement = document.getElementById('error-cadastro');
       mensagemElement.textContent = `${error.response.data}`;
     });
 }
- 
+
 function login() {
- 
+
   const apiUrl = 'http://localhost:8081/auth/login';
   const apelido = document.getElementById('login-apelido').value;
   const senha = document.getElementById('login-senha').value;
- 
+
   const login = {
     "apelido": apelido,
     "senha": senha
   };
- 
+
   axios.post(apiUrl, login)
     .then(response => {
       console.log('Login efetuado com sucesso:', response.data);
       const retornoApi = response.data;
       tokenApelido = retornoApi;
- 
+
       // ajuste "retornoApi.token" conforme o formato real que a API devolver
       localStorage.setItem("token", retornoApi.token ?? JSON.stringify(retornoApi));
- 
+
       aoAutenticarComSucesso();
     })
     .catch(error => {
       const { data } = error.response;
       console.log(error.response.data);
- 
+
       data.error = "Erro ao efetuar login. Verifique os dados e tente novamente.";
- 
+
       const mensagemElement = document.getElementById('error-login');
       mensagemElement.textContent = `${error.response.data}`;
     });
 }
 
-// Abre o modal de detalhes da quadra (sem horários)
+
+/* ══════════════════════════════════════════
+   MODAL DE DETALHES DA QUADRA
+   ══════════════════════════════════════════ */
 function mostrarDetalhes(quadra) {
   const modal = document.getElementById("modal-detalhes");
 
@@ -348,10 +354,10 @@ function mostrarDetalhes(quadra) {
         <p class="fs-5">R$ ${quadra.precoPorHora}/hora</p>
 
         <ul class="list-unstyled">
-          <li> <strong>Endereço:</strong> ${quadra.rua || "Não informado"}</li>
-          <li> <strong>Jogadores:</strong> ${quadra.qtdJogadores || "Não informado"}</li>
-          <li> <strong>Dimensões:</strong> ${quadra.largura || "?"}m x ${quadra.comprimento || "?"}m</li>
-          <li> <strong>Esporte:</strong> ${quadra.esporte || "Não informado"}</li>
+          <li><strong>Endereço:</strong> ${quadra.rua || "Não informado"}</li>
+          <li><strong>Jogadores:</strong> ${quadra.qtdJogadores || "Não informado"}</li>
+          <li><strong>Dimensões:</strong> ${quadra.largura || "?"}m x ${quadra.comprimento || "?"}m</li>
+          <li><strong>Esporte:</strong> ${quadra.esporte || "Não informado"}</li>
         </ul>
 
         <div class="d-flex gap-2 mt-3">
@@ -364,16 +370,25 @@ function mostrarDetalhes(quadra) {
 
   modal.classList.remove("collapse");
   modal.classList.add("show");
-  atualizarFundo();
 }
 
+function fecharModal(event) {
+  if (event && event.target !== document.querySelector("#modal-detalhes .modal-overlay")) return;
+  const modal = document.getElementById("modal-detalhes");
+  modal.classList.remove("show");
+  modal.classList.add("collapse");
+}
+
+
+/* ══════════════════════════════════════════
+   MODAL DE AGENDAMENTO
+   ══════════════════════════════════════════ */
 let horariosCache = {}; // guarda os horários já buscados
 
 async function abrirAgendamento(quadraId) {
   const modal = document.getElementById("modal-agendamento");
   const semana = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"];
 
-  // Busca os horários dos próximos 7 dias de uma vez
   try {
     const response = await axios.get(`http://localhost:8081/quadras/${quadraId}/horarios-disponiveis?dias=7`);
     horariosCache = response.data; // { "2026-05-05": ["08:00:00", ...], ... }
@@ -389,7 +404,6 @@ async function abrirAgendamento(quadraId) {
     d.setDate(d.getDate() + i);
     const num = d.getDate();
     const dow = semana[d.getDay()];
-    // Formata a data igual à chave que vem da API: "2026-05-05"
     const dataKey = d.toISOString().split("T")[0];
 
     diasHTML += `
@@ -426,11 +440,9 @@ async function abrirAgendamento(quadraId) {
 
   modal.classList.remove("collapse");
   modal.classList.add("show");
-  atualizarFundo();
 }
 
 function selecionarDia(el, dataKey) {
-  // Destaca a bolinha
   document.querySelectorAll(".dia-bolinha").forEach(b => b.classList.remove("ativo"));
   el.querySelector(".dia-bolinha").classList.add("ativo");
 
@@ -439,7 +451,6 @@ function selecionarDia(el, dataKey) {
   const slotsContainer = document.getElementById("slots-container");
   const btnConfirmar = document.getElementById("btn-confirmar");
 
-  // Pega os horários do cache (já vieram da API ao abrir o modal)
   const horarios = horariosCache[dataKey] || [];
 
   horariosLabel.textContent = `Horários disponíveis`;
@@ -451,7 +462,6 @@ function selecionarDia(el, dataKey) {
     return;
   }
 
-  // A API retorna "08:00:00" — exibe só "08:00"
   slotsContainer.innerHTML = horarios.map(h => {
     const horaFormatada = h.substring(0, 5);
     return `
@@ -462,37 +472,32 @@ function selecionarDia(el, dataKey) {
   }).join("");
 }
 
-
-//  Seleciona um horário
 function selecionarHorario(el, data, hora) {
   document.querySelectorAll(".slot-horario").forEach(b => b.classList.remove("active", "btn-success"));
   el.classList.add("active", "btn-success");
   el.classList.remove("btn-outline-success");
 
-  // Guarda no modal para usar no confirmar
   document.getElementById("modal-agendamento").dataset.dataSelecionada = data;
   document.getElementById("modal-agendamento").dataset.horaSelecionada = hora;
   document.getElementById("btn-confirmar").style.display = "block";
 }
 
-//  Confirma o agendamento
 async function confirmarAgendamento(quadraId) {
   const modal = document.getElementById("modal-agendamento");
   const data = modal.dataset.dataSelecionada;
   const hora = modal.dataset.horaSelecionada;
 
-  //Calcula o horário de fim (1h de duração sempre)
   const [h, m, s] = hora.split(":").map(Number);
-  const fim = `${String(h + 1).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s ?? 0).padStart(2, "0")}`;
+  const fim = `${String(h + 1).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s ?? 0).padStart(2, "0")}`;
 
   try {
     await axios.post("http://localhost:8081/reservas", {
       data,
-      inicio : hora ,
+      inicio: hora,
       fim,
-      situacao : "APROVADA",
+      situacao: "APROVADA",
       quadra: {
-         id: quadraId,
+        id: quadraId,
       },
     });
     alert(`Agendamento confirmado!\nData: ${data}\nHorário: ${hora}`);
@@ -508,156 +513,139 @@ function fecharAgendamento(event) {
   const modal = document.getElementById("modal-agendamento");
   modal.classList.remove("show");
   modal.classList.add("collapse");
-  atualizarFundo();
 }
 
-function fecharModal(event) {
-  if (event && event.target !== document.querySelector("#modal-detalhes .modal-overlay")) return;
-  const modal = document.getElementById("modal-detalhes");
-  modal.classList.remove("show");
-  modal.classList.add("collapse");
-  atualizarFundo();
-}
 
+/* ══════════════════════════════════════════
+   LISTAGEM E PESQUISA DE QUADRAS
+   ══════════════════════════════════════════ */
 async function mostrarQuadras() {
- try {
-  let url = "http://localhost:8081/quadras";
-  const response = await axios.get(url);
-  todasAsQuadras = response.data
-  renderizarQuadras(todasAsQuadras);
-  console.log(todasAsQuadras);
- }
- catch(Error)
- {
-  console.log(Error);
- }
-} 
+  try {
+    let url = "http://localhost:8081/quadras";
+    const response = await axios.get(url);
+    todasAsQuadras = response.data;
+    renderizarQuadras(todasAsQuadras);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-  function renderizarQuadras(quadras){
-    const divList = document.getElementById("tela-home");
-
+function renderizarQuadras(quadras) {
+  const divList = document.getElementById("tela-home");
   divList.innerHTML = ``;
-  quadras.map((e) => {
-   let horariosHTML = '';
-   for (const [data, horarios] of Object.entries(e.horariosDisponiveis || {})) {
-    horariosHTML += `<strong>${data}:</strong> ${horarios.join(', ')}<br>`;
-   }
-   const divQuadra = document.createElement("div");
-   divQuadra.className = "card p-2 mb-3";
 
-   let imagensHTML = "";
-    e.fotos.forEach(fotos => {
-    imagensHTML += `<img src= "http://localhost:8081/fotos/${fotos}"
-                        class = "img-fluid mb-2 
-                        style = "height:200px; object-fit:cover;">`;
-    
+  quadras.forEach((e) => {
+    const divQuadra = document.createElement("div");
+    divQuadra.className = "card p-2 mb-3";
 
+    let imagensHTML = "";
+    (e.fotos || []).forEach(foto => {
+      imagensHTML += `<img src="http://localhost:8081/fotos/${foto}"
+                           class="img-fluid mb-2"
+                           style="height:200px; object-fit:cover;">`;
+    });
 
-   divQuadra.innerHTML = ` ${imagensHTML}
-                          <h5>${e.nome} </h5>
+    divQuadra.innerHTML = `${imagensHTML}
+                          <h5>${e.nome}</h5>
                           <p> Valor: R$${e.precoPorHora} <br>
                            Esporte: ${e.esporte} <br>
                            Rua: ${e.rua} </p>`;
 
-  divQuadra.addEventListener("click", () => {
-          mostrarDetalhes(e);
-  }); 
+    divQuadra.addEventListener("click", () => {
+      mostrarDetalhes(e);
+    });
 
-    divQuadra.innerHTML+= "<br>"
-   return divList.appendChild(divQuadra);
-
+    divList.appendChild(divQuadra);
   });
- });
 }
 
 
-//Funções da parte de Reservas
-async function buscarReservas(){
-  
-    try {
-      let url = "http://localhost:8081/reservas";
-      const response = await axios.get(url);
-      const reservas = response.data;
-
-      renderizarReservas(reservas);
-    }
-    catch (error){
-      console.log(error);
-      alert("Erro ao buscar reservas.");
-    }
+/* ══════════════════════════════════════════
+   RESERVAS
+   ══════════════════════════════════════════ */
+async function buscarReservas() {
+  try {
+    let url = "http://localhost:8081/reservas";
+    const response = await axios.get(url);
+    const reservas = response.data;
+    renderizarReservas(reservas);
+  } catch (error) {
+    console.log(error);
+    alert("Erro ao buscar reservas.");
+  }
 }
 
 function renderizarReservas(reservas) {
-   const listaReservas = document.getElementById("lista-reservas");
-   listaReservas.innerHTML = "";
+  const listaReservas = document.getElementById("lista-reservas");
+  listaReservas.innerHTML = "";
 
-   if(reservas.length === 0) {
-     listaReservas.innerHTML = `<p class="text-center text-white-50 mt-4"> Você ainda não tem reservas. </p>`;
-     return;
-   }
+  if (reservas.length === 0) {
+    listaReservas.innerHTML = `<p class="text-center text-white-50 mt-4">Você ainda não tem reservas.</p>`;
+    return;
+  }
 
-   const meses = [
-      "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
-      "Jul", "Ago", "Set", "Out", "Nov", "Dez"
-   ]
+  const meses = [
+    "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
+    "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+  ];
 
-    reservas.forEach((reserva) => {
-      const [ano, mes, dia] = reserva.data.split("-");
-      const nomeMes = meses[parseInt(mes, 10) - 1];
+  reservas.forEach((reserva) => {
+    const [ano, mes, dia] = reserva.data.split("-");
+    const nomeMes = meses[parseInt(mes, 10) - 1];
 
-      const horaInicio = reserva.inicio?.slice(0,5)??"";
-      const horaFim = reserva.fim?.slice(0,5) ?? "";
+    const horaInicio = reserva.inicio?.slice(0, 5) ?? "";
+    const horaFim = reserva.fim?.slice(0, 5) ?? "";
+    const preco = reserva.quadra?.precoPorHora ?? 0;
 
-      const preco = reserva.quadra?.precoPorHora ?? 0;
-
-       const cardReserva = document.createElement("div");
-       cardReserva.className = "reserva-card";
-       cardReserva.innerHTML = `
+    const cardReserva = document.createElement("div");
+    cardReserva.className = "reserva-card";
+    cardReserva.innerHTML = `
               <div class="reserva-topo">
-                <h5 class="reserva-nome">${reserva.quadra?.nome ?? "Quadra"} <button class="btn btn-danger ms-5" onclick="cancelarReserva(${reserva.id})">CANCELAR</button> </h5>
-                
-              </div> 
-              
+                <h5 class="reserva-nome">${reserva.quadra?.nome ?? "Quadra"} <button class="btn btn-danger ms-5" onclick="cancelarReserva(${reserva.id})">CANCELAR</button></h5>
+              </div>
+
               <div class="reserva-info">
                 <i class="bi bi-calendar3"></i>
                 <span class="reserva-data"><strong>${dia}/${nomeMes}</strong><br></span>
               </div>
-              
+
               <div class="reserva-info">
                 <i class="bi bi-clock"></i>
                 <span>${horaInicio} - ${horaFim}</span>
-              </div> 
-              
+              </div>
+
               <div class="reserva-rodape">
-                <span><strong>Total:</strong> R$${preco.toFixed(2).replace(".",",")}<br></span>
+                <span><strong>Total:</strong> R$${preco.toFixed(2).replace(".", ",")}<br></span>
                 <span><strong>Situação:</strong> ${reserva.situacao}</span>
-              </div>  
+              </div>
 
-                            <hr class="reserva-linha">
+              <hr class="reserva-linha">
             `;
-            listaReservas.appendChild(cardReserva);
-    });
+    listaReservas.appendChild(cardReserva);
+  });
 }
 
-async function cancelarReserva(id){
-    if(!confirm("Deseja realmente cancelar essa reserva?")) return;
-    try {
-      await axios.delete(`http://localhost:8081/reservas/${id}`);
-      alert("Reserva Cancelada!");
-      buscarReservas(); //Atualiza a lista
-    }
-    catch (error)
-    {
-      console.log(error);
-      alert("Erro ao cancelar reserva.");
-    }
+async function cancelarReserva(id) {
+  if (!confirm("Deseja realmente cancelar essa reserva?")) return;
+  try {
+    await axios.delete(`http://localhost:8081/reservas/${id}`);
+    alert("Reserva Cancelada!");
+    buscarReservas();
+  } catch (error) {
+    console.log(error);
+    alert("Erro ao cancelar reserva.");
+  }
 }
 
-document.addEventListener('click', function(e) {
+
+/* ══════════════════════════════════════════
+   TOGGLE DE SENHA (tela de perfil)
+   ══════════════════════════════════════════ */
+document.addEventListener('click', function (e) {
   if (e.target.classList.contains('toggle-senha') || e.target.classList.contains('bi-eye-slash')) {
     const icon = e.target;
     const input = icon.previousElementSibling;
-    
+
     if (input.type === 'password') {
       input.type = 'text';
       icon.classList.remove('bi-eye');
@@ -670,15 +658,18 @@ document.addEventListener('click', function(e) {
   }
 });
 
+
+/* ══════════════════════════════════════════
+   INICIALIZAÇÃO
+   ══════════════════════════════════════════ */
 document.addEventListener("DOMContentLoaded", () => {
   mostrarQuadras();
 
-document.getElementById("inputPesquisa").addEventListener("input", (p) => {
+  document.getElementById("inputPesquisa").addEventListener("input", (p) => {
     const letrasDigitadas = p.target.value.toLowerCase().trim();
-    const filtradas = todasAsQuadras.filter(f => 
+    const filtradas = todasAsQuadras.filter(f =>
       f.nome.toLowerCase().includes(letrasDigitadas)
     );
-      renderizarQuadras(filtradas);
-      //tentar fazer um tratamento para evitar digitar algo sem sentido 
-    });
+    renderizarQuadras(filtradas);
+  });
 });
