@@ -95,7 +95,7 @@ public class QuadraController {
         }
     }
 
-    @Autowired
+    //@Autowired
     private ServicoHorariosDisponiveis servicoHorariosDisponiveis;
 
     @GetMapping("{id}/horarios-disponiveis")
