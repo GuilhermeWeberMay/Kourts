@@ -1,8 +1,7 @@
 package br.edu.ifsc.fln.kourts.api.controller;
 
-import br.edu.ifsc.fln.kourts.api.infra.RegraNegocioException;
 import br.edu.ifsc.fln.kourts.api.model.domain.InfoRepitida;
-import br.edu.ifsc.fln.kourts.api.model.domain.InfoRepitidaException;
+
 import br.edu.ifsc.fln.kourts.api.model.domain.Jogador;
 import br.edu.ifsc.fln.kourts.api.repository.JogadorRepository;
 
@@ -65,11 +64,24 @@ public class JogadorController {
 
     // Update
     @PutMapping("/{id}")
-    public ResponseEntity<Jogador> update(@PathVariable Integer id, @RequestBody Jogador jogador) {
+    public ResponseEntity update(@PathVariable Integer id, @RequestBody Jogador jogador) {
         if (!jogadorRepository.existsById(id)) {
             // Retorna mensagem de que o jogador não existe
             return ResponseEntity.notFound().build();
         } else {
+            boolean cpfExistente = jogadorRepository.existsByCpf(jogador.getCpf());
+            if (cpfExistente) {
+                return ResponseEntity.badRequest().body("CPF já existente");
+            }
+            boolean apelidoExiste = jogadorRepository.existsByApelido(jogador.getApelido());
+            if (apelidoExiste) {
+                return ResponseEntity.badRequest().body("Apelido já existente");
+            }
+            boolean telefoneExiste = jogadorRepository.existsByTelefone(jogador.getTelefone());
+            if (telefoneExiste) {
+                return ResponseEntity.badRequest().body("Telefone já existente");
+            }
+
             jogador.setId(id);
 
             Jogador jogadorAtualizado = jogadorRepository.save(jogador);

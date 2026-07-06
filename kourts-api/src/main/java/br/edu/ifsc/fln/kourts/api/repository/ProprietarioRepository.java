@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProprietarioRepository extends JpaRepository<Proprietario, Integer> {
     // Método feito para pesquisar funcionário por CPF
-    Proprietario findByCnpj(String cnpj);
+    Proprietario findByEmail(String email);
     // Método feito para ver se o CNPJ existe
     boolean existsProprietarioByCnpj(String cnpj);
-    // Método para excluir o proprietario
-    String deleteByCnpj(String cnpj);
+    boolean existsProprietarioByNome(String nome);
+    boolean existsProprietarioByEmail(String email);
+    boolean existsProprietarioByTelefone(String telefone);
 }
