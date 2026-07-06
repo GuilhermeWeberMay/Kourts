@@ -63,9 +63,10 @@ public class JogadorController {
     }
 
     // Update
-    @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable Integer id, @RequestBody Jogador jogador) {
-        if (!jogadorRepository.existsById(id)) {
+    @PutMapping("/{apelido}")
+    public ResponseEntity update(@PathVariable String apelido, @RequestBody Jogador jogador) {
+        Jogador j = jogadorRepository.findByApelido(apelido);
+        if (j == null) {
             // Retorna mensagem de que o jogador não existe
             return ResponseEntity.notFound().build();
         } else {
@@ -82,7 +83,7 @@ public class JogadorController {
                 return ResponseEntity.badRequest().body("Telefone já existente");
             }
 
-            jogador.setId(id);
+            jogador.setId(j.getId());
 
             Jogador jogadorAtualizado = jogadorRepository.save(jogador);
 
