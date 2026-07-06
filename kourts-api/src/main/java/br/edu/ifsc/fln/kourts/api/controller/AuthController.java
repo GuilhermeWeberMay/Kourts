@@ -60,7 +60,7 @@ public class AuthController {
         return ResponseEntity.ok(jogador.getApelido());
     }
 
-    @PostMapping("/login")
+    @PostMapping("/loginProprietario")
     public ResponseEntity login(@RequestBody Proprietario proprietario) {
         // Null pointer exception
         try {

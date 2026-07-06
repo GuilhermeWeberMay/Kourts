@@ -18,4 +18,6 @@ public interface JogadorRepository extends JpaRepository<Jogador, Integer> {
     boolean existsByTelefone(String telefone) throws InfoRepitida;
 
     Jogador findByApelido(String apelido) throws CredenciasInvalidasException;
+
+    void deleteByApelido(String apelido);
 }

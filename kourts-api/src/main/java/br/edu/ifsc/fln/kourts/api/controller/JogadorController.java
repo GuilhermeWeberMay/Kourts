@@ -57,9 +57,14 @@ public class JogadorController {
         return jogadorRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Jogador> read(@PathVariable Integer id) {
-        return jogadorRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    @GetMapping("/{apelido}")
+    public ResponseEntity<Jogador> read(@PathVariable String apelido) {
+        //return jogadorRepository.findByApelido(apelido).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        Jogador j =  jogadorRepository.findByApelido(apelido);
+        if (j == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(j);
     }
 
     // Update
@@ -70,20 +75,12 @@ public class JogadorController {
             // Retorna mensagem de que o jogador não existe
             return ResponseEntity.notFound().build();
         } else {
-            boolean cpfExistente = jogadorRepository.existsByCpf(jogador.getCpf());
-            if (cpfExistente) {
-                return ResponseEntity.badRequest().body("CPF já existente");
-            }
             boolean apelidoExiste = jogadorRepository.existsByApelido(jogador.getApelido());
             if (apelidoExiste) {
                 return ResponseEntity.badRequest().body("Apelido já existente");
             }
-            boolean telefoneExiste = jogadorRepository.existsByTelefone(jogador.getTelefone());
-            if (telefoneExiste) {
-                return ResponseEntity.badRequest().body("Telefone já existente");
-            }
 
-            jogador.setId(j.getId());
+            jogador.setApelido(j.getApelido());
 
             Jogador jogadorAtualizado = jogadorRepository.save(jogador);
 
@@ -92,12 +89,13 @@ public class JogadorController {
     }
 
     // Delete
-    @DeleteMapping("/{id}") // Método com parametro
-    public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
-        if (!jogadorRepository.existsById(id)) {
+    @DeleteMapping("/{apelido}") // Método com parametro
+    public ResponseEntity<Void> deleteById(@PathVariable String apelido) {
+        if (!jogadorRepository.existsByApelido(apelido)) {
             return ResponseEntity.notFound().build();
         } else {
-            jogadorRepository.deleteById(id);
+            Jogador j = jogadorRepository.findByApelido(apelido);
+            jogadorRepository.deleteById(j.getId());
             return ResponseEntity.noContent().build();
         }
     }
