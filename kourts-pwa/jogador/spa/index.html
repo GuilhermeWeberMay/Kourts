@@ -77,38 +77,49 @@
       <div class="perfil-container">
     
     <!-- Card do avatar -->
-    <div class="perfil-header">
+    <div class="perfil-header" style="position: relative;">
+      <button class="perfil-logout-btn" title="Sair" onclick="logout()" style="position: absolute; top: 0; right: 0; background: transparent; border: none; color: white; font-size: 2.3rem;">
+        <i class="bi bi-box-arrow-left"></i>
+      </button>
+
       <div class="perfil-avatar-wrapper">
         <img src="imagens/logoKourtss.png" alt="foto de perfil" class="perfil-avatar">
         <button class="perfil-avatar-edit" title="Alterar foto">
           <i class="bi bi-camera"></i>
         </button>
       </div>
-      <h4 class="perfil-nome">Jogador</h4>
+      <h4 class="perfil-nome" id="perfil-titulo-apelido">Jogador</h4>
     </div>
 
     <!-- Formulário -->
     <div class="perfil-form">
       <div class="perfil-section-title">Informações Pessoais</div>
         <div class="perfil-row">
-          <div class="perfil-field">
+          <div class="perfil-field"> 
+            <label> Apelido </label>
+            <input type="text" id="perfil-apelido" placeholder="Seu">
+           </div>
+          </div>  
+
+           <div class="perfil-row">
+            <div class="perfil-field">
             <label>Nome</label>
-            <input type="text" placeholder="Seu nome">
+            <input type="text" id="perfil-nome" placeholder="Seu nome" disabled>
           </div>
           <div class="perfil-field">
             <label>Sobrenome</label>
-            <input type="text" placeholder="Seu sobrenome">
+            <input type="text" id="perfil-sobrenome" placeholder="Seu sobrenome" disabled>
           </div>
         </div>
 
         <div class="perfil-row">
           <div class="perfil-field">
             <label>E-mail</label>
-            <input type="email" placeholder="seu@email.com">
+            <input type="email" id="perfil-email" placeholder="seu@email.com">
           </div>
           <div class="perfil-field">
             <label>Telefone</label>
-            <input type="tel" placeholder="(48) 99999-0000">
+            <input type="tel" id="perfil-telefone" placeholder="(48) 99999-0000" disabled>
           </div>
         </div>
 
@@ -118,7 +129,7 @@
           <div class="perfil-field">
             <label>Senha Atual</label>
               <div class="input-senha">
-              <input type="password" placeholder="••••••••">
+              <input type="password" id="perfil-senha-atual" placeholder="••••••••">
               <i class="bi bi-eye toggle-senha"></i>
             </div>
           </div>
@@ -128,7 +139,7 @@
           <div class="perfil-field">
             <div class="input-senha">
               <label>Nova Senha</label>
-              <input type="password" placeholder="••••••••">
+              <input type="password" id="perfil-nova-senha" placeholder="••••••••">
               <i class="bi bi-eye toggle-senha"></i>
             </div>
           </div>
@@ -136,13 +147,14 @@
           <div class="perfil-field">
             <div class="input-senha">
               <label>Confirmar Nova Senha</label>
-              <input type="password" placeholder="••••••••">
+              <input type="password" id="perfil-confirmar-senha" placeholder="••••••••">
               <i class="bi bi-eye toggle-senha"></i>  
             </div>  
           </div>
         </div>
 
-        <button class="perfil-salvar">
+        <h6 id="perfil-erro" style="color: #ff6b6b;"></h6>
+        <button class="perfil-salvar" onclick="salvarPerfil()">
           <i class="bi bi-check-lg me-2"></i> Salvar Modificações
         </button>
     </div>

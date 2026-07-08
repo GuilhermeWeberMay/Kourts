@@ -5,6 +5,7 @@ let tokenApelido; // guarda o retorno da API de login/cadastro
 
 //armazena todas as quadras para nós utilizarmos na pesquisa
 let todasAsQuadras = [];
+let telaPendente = null;
 
 function atualizarFundo() {
     const idDosModais = ["modal-auth", "modal-detalhes", "modal-agendamento"];
@@ -19,6 +20,12 @@ function atualizarFundo() {
 }
 
 function navegar(destino) {
+  if (destino === 'tela-user' && !estaLogado()) {
+      telaPendente = 'tela-user';
+      abrirModalAuth();
+      return; //não deixa a tela de perfil abrir sem login
+  }
+
   let telas = document.getElementsByClassName("tela");
   Array.from(telas).forEach((element) => {
     element.classList.remove("show");
@@ -33,6 +40,10 @@ function navegar(destino) {
 
   if (destino === 'tela-reservas'){
     buscarReservas();
+  }
+
+  if (destino === 'tela-user'){
+    preencherPerfil();
   }
 
   document.getElementById(destino).classList.remove("collapse");
@@ -77,6 +88,7 @@ function fecharModalAuth(event) {
     modal.classList.add("collapse");
     atualizarFundo();
     quadraPendente = null; //cancelou o login, cancela também a intenção de agendar
+    telaPendente = null;
 }
 
 //Depois de um login/cadastro com sucesso a gente fecha o modal de auth
@@ -268,7 +280,7 @@ function criarJogador() {
       tokenApelido = retornoApi;
  
       // ajuste "retornoApi.token" conforme o formato real que a API devolver
-      localStorage.setItem("token", retornoApi.token ?? JSON.stringify(retornoApi));
+      localStorage.setItem("token", retornoApi.token ?? retornoApi);
  
       aoAutenticarComSucesso();
     })
@@ -301,7 +313,7 @@ function login() {
       tokenApelido = retornoApi;
  
       // ajuste "retornoApi.token" conforme o formato real que a API devolver
-      localStorage.setItem("token", retornoApi.token ?? JSON.stringify(retornoApi));
+      localStorage.setItem("token", retornoApi.token ?? retornoApi);
  
       aoAutenticarComSucesso();
     })
@@ -314,6 +326,134 @@ function login() {
       const mensagemElement = document.getElementById('error-login');
       mensagemElement.textContent = `${error.response.data}`;
     });
+}
+
+function aoAutenticarComSucesso() {
+    const modal = document.getElementById("modal-auth");
+    modal.classList.remove("show");
+    modal.classList.add("collapse");
+    atualizarFundo();
+
+    if (quadraPendente) {
+       const quadraId = quadraPendente;
+       quadraPendente = null;
+       abrirAgendamento(quadraId);
+    }
+    else if (telaPendente) {
+        const destino = telaPendente;
+        telaPendente = null;
+        navegar(destino);
+    }
+}
+
+let jogadorAtual = null;
+
+function preencherPerfil() {
+    const apelido = localStorage.getItem("token");
+    if (!apelido) return;
+
+    axios.get(`http://localhost:8081/jogadores/${apelido}`)
+      .then(response => {
+          jogadorAtual = response.data;
+          document.getElementById("perfil-titulo-apelido").textContent = jogadorAtual.apelido;
+          document.getElementById("perfil-apelido").value = jogadorAtual.apelido;
+          document.getElementById("perfil-nome").value = jogadorAtual.nome;
+          document.getElementById("perfil-sobrenome").value = jogadorAtual.sobrenome;
+          document.getElementById("perfil-email").value = jogadorAtual.email;
+          document.getElementById("perfil-telefone").value = jogadorAtual.telefone;
+      })
+      .catch(error => {
+          console.log(error);
+          alert("Erro ao carregar dados do perfil.");
+      });
+}
+
+function validaDadosPerfil(apelido, email) {
+    if(!apelido || apelido.trim().length === 0) {
+        return "O apelido não pode ficar vazio.";
+    }
+    if (apelido.trim().length < 4) {
+        return "O apelido deve ter no mínimo 4 caracteres.";
+    }
+    if (!email || email.trim().length === 0) {
+        return "O e-mail não pode ficar vazio.";
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+        return "Informe um e-mail válido.";
+    }
+    return null;
+}
+
+function salvarPerfil(){
+    if (!jogadorAtual) {
+        alert("Aguarde o carregamento dos dados e tente novamente.");
+          return;
+    }
+
+    const erroEl = document.getElementById("perfil-erro");
+    erroEl.textContent = "";
+
+    const novoApelido = document.getElementById("perfil-apelido").value.trim();
+    const novoEmail = document.getElementById("perfil-email").value.trim();
+    const senhaAtual = document.getElementById("perfil-senha-atual").value;
+    const novaSenha = document.getElementById("perfil-nova-senha").value;
+    const confirmarSenha = document.getElementById("perfil-confirmar-senha").value;
+
+    const erroValidacao = validaDadosPerfil(novoApelido, novoEmail);
+    if(erroValidacao) {
+        erroEl.textContent = erroValidacao;
+        return;
+    }
+
+    let senhaFinal = jogadorAtual.senha;
+    const tentouTrocarSenha = senhaAtual || novaSenha || confirmarSenha;
+
+    if (tentouTrocarSenha) {
+      
+        if (senhaAtual !== jogadorAtual.senha) {
+          erroEl.textContent = "Senha atual incorreta.";
+          return;
+        }
+        if (!novaSenha || novaSenha.trim().lenght === 0) {
+          erroEl.textContent = "Informe a nova senha.";
+          return;
+        }
+        if (novaSenha !== confirmarSenha) {
+          erroEl.textContent = "A nova senha e a confirmação não coincidem.";
+          return;
+        }
+        senhaFinal = novaSenha;
+    }
+
+    const jogadorAtualizado = {
+    id: jogadorAtual.id,          
+    nome: jogadorAtual.nome,
+    sobrenome: jogadorAtual.sobrenome,
+    telefone: jogadorAtual.telefone,
+    cpf: jogadorAtual.cpf,
+    permissoes: jogadorAtual.permissoes,
+    local: jogadorAtual.local,
+    apelido: novoApelido,
+    email: novoEmail,
+    senha: senhaFinal
+    };
+
+    axios.put(`http://localhost:8081/jogadores/${jogadorAtual.apelido}`, jogadorAtualizado)
+      .then(response => {
+          jogadorAtual = response.data;
+          localStorage.setItem("token", jogadorAtual.apelido);
+          document.getElementById("perfil-titulo-apelido").textContent = jogadorAtual.apelido;
+          alert("Perfil atualizado com sucesso!");
+          document.getElementById("perfil-senha-atual").value = "";
+          document.getElementById("perfil-nova-senha").value = "";
+          document.getElementById("perfil-confirmar-senha").value = "";
+      })
+      .catch(erro => {
+          console.log(erro);
+          erroEl.textContent = erro.response?.data?? "Erro ao atualizar Perfil";
+      });
+
 }
 
 // Abre o modal de detalhes da quadra (sem horários)
@@ -637,6 +777,14 @@ function renderizarReservas(reservas) {
             `;
             listaReservas.appendChild(cardReserva);
     });
+}
+
+function logout() {
+    if (!confirm("Deseja sair da sua conta?")) return;
+
+    localStorage.removeItem("token");
+    jogadorAtual = null;
+    navegar("tela-home");
 }
 
 async function cancelarReserva(id){

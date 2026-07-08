@@ -74,19 +74,19 @@ public class JogadorController {
         if (j == null) {
             // Retorna mensagem de que o jogador não existe
             return ResponseEntity.notFound().build();
-        } else {
-            boolean apelidoExiste = jogadorRepository.existsByApelido(jogador.getApelido());
-            if (apelidoExiste) {
-                return ResponseEntity.badRequest().body("Apelido já existente");
-            }
+        }
 
-            jogador.setApelido(j.getApelido());
+        // só bloqueia se o apelido novo for diferente do atual E já pertencer a outro jogador
+        if (!jogador.getApelido().equals(apelido) && jogadorRepository.existsByApelido(jogador.getApelido())) {
+            return ResponseEntity.badRequest().body("Apelido já existente");
+        }
 
-            Jogador jogadorAtualizado = jogadorRepository.save(jogador);
+
+        Jogador jogadorAtualizado = jogadorRepository.save(jogador);
 
             return ResponseEntity.ok(jogadorAtualizado);
         }
-    }
+
 
     // Delete
     @DeleteMapping("/{apelido}") // Método com parametro
