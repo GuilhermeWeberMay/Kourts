@@ -4,7 +4,7 @@
   <meta charset='utf-8'>
   <title> Kourt's </title>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
- 
+
   <!-- Importa o CSS do Bootstrap via CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -18,7 +18,7 @@
   <nav class="navbar sticky-top" id="nav">
     <div class="container-fluid d-flex align-items-center gap-3 px-3">
 
-      <a class="navbar-brand flex-shrink-0" href="#" onclick="navegar('tela-reservas', this)"> <img src="/kourts-pwa/jogador/spa/imagens/logoKourtss.png" style="height: 46px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255, 255, 255,0.15);"></a>
+      <a class="navbar-brand flex-shrink-0" href="#" onclick="navegar('tela-reservas', this)"> <img src="../../jogador/spa/imagens/logoKourtss.png" style="height: 46px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255, 255, 255,0.15);"></a>
 
       <div class="nav-desktop d-none d-lg-flex gap-2">
         <button class="btn btn-nav" onclick="navegar('notificacao')">
@@ -33,94 +33,164 @@
   <!--FIM DA NAVBAR-->
 
   <div class="conteudo-central">
-    
-        <!-- CABEÇALHO -->
-      <div class="mb-4 mt-4">
-        <h1 style="font-size:1.4rem;font-weight:600">Olá, meu Cria! </h1>
-        <p style="font-size:.85rem;color:var(--muted)">Aqui está um resumo das suas reservas</p>
-      </div>
 
-      <!-- ── MENU DE ABAS SPA ── -->
-      <div class="spa-tabs mb-4">
-        <button class="spa-tab ativo" onclick="navegar('tela-reservas', this)">
-          <i class="bi bi-journal-text me-2"></i>Reservas
-        </button>
-        <button class="spa-tab" onclick="navegar('tela-quadras', this)">
-          <i class="bi bi-list-ul me-2"></i>Quadras
-        </button>
-      </div>
+    <!-- CABEÇALHO -->
+    <div class="mb-4 mt-4">
+      <h1 style="font-size:1.4rem;font-weight:600">Olá, meu Cria! </h1>
+      <p style="font-size:.85rem;color:var(--muted)">Aqui está um resumo das suas reservas</p>
+    </div>
 
-      <!-- Conteudo Prinipal (Reservas) -->
-      <div class="tela visivel" id="tela-reservas">
-          <div class="painel">
-            <h2>Painel de Reservas</h2>
-            <p class="sub"> Gerencia todas as suas reservas de quadras</p>
-            
+    <!-- ── MENU DE ABAS SPA ── -->
+    <div class="spa-tabs mb-4">
+      <button class="spa-tab ativo" onclick="navegar('tela-reservas', this)">
+        <i class="bi bi-journal-text me-2"></i>Reservas
+      </button>
+      <button class="spa-tab" onclick="navegar('tela-quadras', this)">
+        <i class="bi bi-list-ul me-2"></i>Quadras
+      </button>
+    </div>
 
-              <!-- Busca -->
-        <div class="busca-wrapper mb-3">
+    <!-- Conteudo Principal (Reservas) -->
+    <div class="tela visivel" id="tela-reservas">
+      <div class="painel">
+        <h2>Painel de Reservas</h2>
+        <p class="sub"> Gerencia todas as suas reservas de quadras</p>
+
+        <!-- Busca -->
+        <div class="busca-wrapper mb-3 mt-3">
           <input class="busca-input" type="text"
                 placeholder="Busque por nome ou por quadra"
                 oninput="filtrarReservas(this.value)">
         </div>
- 
 
-          <div id="lista-reservas" class="d-flex flex-column gap-3">
-    
-            <!-- Confirmada | Essa div deve retornar as quadras pela API -->
-            <div class="reserva-row" data-busca="maria santos quadra principal">
-              <div class="reserva-info">
-                <span class="reserva-nome">Quadra principal</span>
-                <span class="badge-reserva badge-confirmada ms-2">Confirmada</span>
-                <div class="reserva-det mt-1">
-                  Cliente: Maria Santos &nbsp;|&nbsp; Data: 09/11/2025 às 18:00
-                  &nbsp;|&nbsp; Duração: 2h – R$ 300,00 &nbsp;|&nbsp; Pagamento: PIX
-                </div>
-              </div>
-            </div>
-            <!--Colocar o input para buscar por nome ( Tela de Jogador )-->
-            
-          </div>
-        </div>  
-       </div> 
-
-      
-      <!-- Tela Quadras -->
-      <div id="tela-quadras" class="tela">
-          <div class="painel-box">
-            <h2 class="painel-titulo">Quadras Cadastradas</h2>
-            <p class="painel-sub m-4"> Gerencie configurações e disponibilidade</p>
-
-            <!--Bootstrap row para os cards de quadra-->
-            <div class="row g-3">
-                <div class="col-12 col-md-6">
-                    <div class="quadra-card">
-                        <div class="d-flex justify-content-between align-items-center">
-                          <h5>Quadra Exemplo 1</h5>
-                          <span class="estado-ativa"> Ativa </span>
-                        </div>
-                        <div class="quadra-info"> Tipo: (tipo) | Capacidade: 10 jogadores</div>
-                        <div class="quadra-info"> Horário: 08:00 - 22:00 | R$150,00/h</div>
-                    </div>
-                </div>
-            
-          
-                <div class="col-12 col-md-6">
-                    <div class="quadra-card">
-                        <div class="d-flex justify-content-between align-items-center">
-                          <h5>Quadra Exemplo 2</h5>
-                          <span class="estado-ativa"> Ativa </span>
-                        </div>
-                        <div class="quadra-info"> Tipo: (tipo) | Capacidade: 12 jogadores</div>
-                        <div class="quadra-info"> Horário: 12:00 - 22:00 | R$120,00/h</div>
-                    </div>
-                </div>
-            </div>
-          </div>
-      </div>  
-        
+        <!-- As reservas são carregadas dinamicamente pela API em script.js -->
+        <div id="lista-reservas" class="d-flex flex-column gap-3"></div>
+      </div>
     </div>
 
-   <script src="script.js"></script>
+
+    <!-- Tela Quadras -->
+    <div id="tela-quadras" class="tela">
+
+      <!-- FORMULÁRIO: NOVA QUADRA (inline, sem modal) -->
+      <div class="painel-box mb-3" id="form-quadra-wrapper" style="display:none;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="painel-titulo">Nova quadra</h2>
+          <button type="button" class="btn btn-nav" onclick="fecharFormQuadra()">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <form id="form-quadra" onsubmit="salvarQuadra(event)">
+          <div class="row g-3" id="campos-form-quadra">
+            <div class="col-12 col-md-6">
+              <label class="form-label">Nome da quadra</label>
+              <input type="text" class="form-control" id="q-nome" required>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label">Esporte</label>
+              <select class="form-select" id="q-esporte" required>
+                <option value="FUTSAL">Futsal</option>
+                <option value="FUTEBOL">Futebol</option>
+                <option value="FUT7">Fut7</option>
+                <option value="VOLEI">Vôlei</option>
+                <option value="VOLEI_AREIA">Vôlei de areia</option>
+                <option value="BEACH_TENIS">Beach tênis</option>
+                <option value="TENIS">Tênis</option>
+                <option value="FUTVOLEI">Futvôlei</option>
+              </select>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <label class="form-label">Qtd. jogadores</label>
+              <input type="number" class="form-control" id="q-qtdjogadores" min="1" required>
+            </div>
+            <div class="col-6 col-md-3">
+              <label class="form-label">Preço por hora (R$)</label>
+              <input type="number" class="form-control" id="q-precohora" min="0" step="0.01" required>
+            </div>
+            <div class="col-6 col-md-3">
+              <label class="form-label">Comprimento (m)</label>
+              <input type="number" class="form-control" id="q-comprimento" min="0" step="0.01" required>
+            </div>
+            <div class="col-6 col-md-3">
+              <label class="form-label">Largura (m)</label>
+              <input type="number" class="form-control" id="q-largura" min="0" step="0.01" required>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <label class="form-label">Horário de abertura</label>
+              <input type="time" class="form-control" id="q-horaabertura" required>
+            </div>
+            <div class="col-6 col-md-3">
+              <label class="form-label">Horário de fechamento</label>
+              <input type="time" class="form-control" id="q-horafechamento" required>
+            </div>
+
+            <div class="col-12"><hr style="border-color:var(--border); margin: 4px 0;"></div>
+
+            <div class="col-6 col-md-3">
+              <label class="form-label">Estado</label>
+              <select class="form-select" id="q-uf" required>
+                <option value="">Carregando...</option>
+              </select>
+            </div>
+            <div class="col-6 col-md-3">
+              <label class="form-label">Cidade</label>
+              <select class="form-select" id="q-cidade" required disabled>
+                <option value="">Selecione um estado</option>
+              </select>
+            </div>
+            <div class="col-6 col-md-3">
+              <label class="form-label">CEP</label>
+              <input type="text" class="form-control" id="q-cep" required>
+            </div>
+            <div class="col-6 col-md-3">
+              <label class="form-label">Número</label>
+              <input type="number" class="form-control" id="q-numero" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Rua</label>
+              <input type="text" class="form-control" id="q-rua" required>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Descrição</label>
+              <textarea class="form-control" id="q-descricao" rows="2"></textarea>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Fotos (nomes dos arquivos já salvos na pasta "fotos" da API)</label>
+              <input type="text" class="form-control" id="q-fotos" placeholder="ex: futsal2.jpg, futsal3.jpg">
+              <div class="painel-sub mt-1">Separe por vírgula se forem mais de uma foto.</div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <button type="button" class="btn btn-nav" onclick="fecharFormQuadra()">Cancelar</button>
+            <button type="submit" class="btn-aprovar">Salvar quadra</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="painel-box">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+          <div>
+            <h2 class="painel-titulo">Quadras Cadastradas</h2>
+            <p class="painel-sub"> Gerencie configurações e disponibilidade</p>
+          </div>
+          <button class="btn-aprovar" id="btn-nova-quadra" onclick="abrirFormQuadra()">
+            <i class="bi bi-plus-lg me-1"></i>Nova quadra
+          </button>
+        </div>
+
+        <!--Bootstrap row para os cards de quadra, preenchido pela API em script.js-->
+        <div class="row g-3 mt-1" id="lista-quadras"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

@@ -484,3 +484,46 @@ body {
 }
 .quadra-badge.ativa    { background: #4caf66; color: #0f2110; }
 .quadra-badge.inativa  { background: rgba(255,255,255,.15); color: rgba(255,255,255,.6); }
+
+/* ══════════════════════════════════════════════════════
+   ADENDO — adicionar ao final do main.css existente
+   (estilos do formulário "Nova quadra", agora inline, sem modal)
+══════════════════════════════════════════════════════ */
+
+.painel-box .form-label {
+  font-size: .8rem;
+  color: rgba(255,255,255,.75);
+  margin-bottom: 4px;
+  display: inline-block;
+}
+
+.painel-box .form-control,
+.painel-box .form-select {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--border);
+  color: #fff;
+  font-family: 'Sora', sans-serif;
+}
+
+.painel-box .form-control::placeholder {
+  color: rgba(255,255,255,.4);
+}
+
+.painel-box .form-control:focus,
+.painel-box .form-select:focus {
+  background: rgba(255,255,255,0.12);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 0 2px rgba(76,175,102,0.25);
+}
+
+.painel-box .form-select option {
+  background: var(--card);
+  color: #fff;
+}
+
+/* Estados de carregamento / vazio / erro dentro dos painéis */
+.painel .painel-sub,
+.painel-box .painel-sub {
+  padding: 8px 2px;
+}
