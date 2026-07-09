@@ -134,11 +134,15 @@
                 <div class="field">
                   <label class="label-secao">Local</label>
                   <label for="estado">Estado</label>
-                  <input type="text" id="estado" placeholder="Informe seu Estado">
+                  <select class="form-select" id="estado" required>
+                    <option value="">Carregando...</option>
+                  </select>
                 </div>
                 <div class="field">
                   <label for="cidade">Cidade</label>
-                  <input type="text" id="cidade" placeholder="Informe sua cidade">
+                  <select class="form-select" id="cidade" required disabled>
+                    <option value="">Selecione um estado</option>
+                  </select>
                 </div>
               </div>
 

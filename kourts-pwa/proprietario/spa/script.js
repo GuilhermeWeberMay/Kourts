@@ -47,6 +47,10 @@ function mudaBt(aba) {
   formCadastro.style.display = mostrarLogin ? 'none' : 'flex';
   tabLogin.classList.toggle('ativo', mostrarLogin);
   tabCadastro.classList.toggle('ativo', !mostrarLogin);
+
+  // Ao abrir a aba de cadastro, carrega os estados via BrasilAPI
+  // (só busca de verdade na primeira vez, controlado por dataset.carregado)
+  if (!mostrarLogin) carregarEstados('estado');
 }
 
 /* Esconde a tela de login/cadastro e libera o app (Reservas/Quadras).
@@ -390,8 +394,7 @@ function abrirFormQuadra() {
   document.getElementById('btn-nova-quadra').style.display = 'none';
   document.getElementById('form-quadra-wrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  const ufSelect = document.getElementById('q-uf');
-  if (!ufSelect.dataset.carregado) carregarEstadosBrasilApi();
+  carregarEstados('q-uf');
 }
 
 function fecharFormQuadra() {
@@ -404,9 +407,18 @@ function fecharFormQuadra() {
   citySelect.disabled = true;
 }
 
-/* ============ ESTADO / CIDADE (BrasilAPI) ============ */
-async function carregarEstadosBrasilApi() {
-  const select = document.getElementById('q-uf');
+/* ============ ESTADO / CIDADE (BrasilAPI) ============
+   Genérico: serve tanto pro formulário de "Nova quadra" (q-uf / q-cidade)
+   quanto pro cadastro de proprietário (estado / cidade). Basta passar o
+   id do <select> de estado (e, na cidade, o id do <select> de cidade). */
+
+/* Carrega a lista de estados (UF) num <select> a partir do id passado.
+   Usa select.dataset.carregado como flag pra não buscar de novo se
+   esse select específico já foi preenchido antes. */
+async function carregarEstados(selectId) {
+  const select = document.getElementById(selectId);
+  if (!select || select.dataset.carregado) return;
+
   try {
     const resp = await fetch('https://brasilapi.com.br/api/ibge/uf/v1');
     const data = await resp.json();
@@ -428,39 +440,44 @@ async function carregarEstadosBrasilApi() {
   }
 }
 
-// Carrega as cidades sempre que o estado (uf) selecionado mudar
-document.addEventListener('change', function (e) {
-  if (e.target && e.target.id === 'q-uf') {
-    const uf = e.target.value;
-    const citySelect = document.getElementById('q-cidade');
+/* Carrega as cidades de uma UF num <select> de cidade a partir do id passado. */
+async function carregarCidades(uf, citySelectId) {
+  const citySelect = document.getElementById(citySelectId);
+  if (!citySelect) return;
 
-    if (!uf) {
-      citySelect.innerHTML = '<option value="">Selecione um estado</option>';
-      citySelect.disabled = true;
-      return;
-    }
-
-    citySelect.innerHTML = '<option value="">Carregando...</option>';
+  if (!uf) {
+    citySelect.innerHTML = '<option value="">Selecione um estado</option>';
     citySelect.disabled = true;
-
-    fetch(`https://brasilapi.com.br/api/ibge/municipios/v1/${uf}`)
-      .then(resp => resp.json())
-      .then(cidades => {
-        citySelect.innerHTML = '<option value="">Selecione uma cidade</option>';
-        cidades.forEach(cidade => {
-          const opt = document.createElement('option');
-          opt.value = cidade.nome;
-          opt.textContent = cidade.nome;
-          citySelect.appendChild(opt);
-        });
-        citySelect.disabled = false;
-      })
-      .catch(err => {
-        console.error('Erro ao carregar cidades:', err);
-        citySelect.innerHTML = '<option value="">Erro ao carregar</option>';
-        citySelect.disabled = false;
-      });
+    return;
   }
+
+  citySelect.innerHTML = '<option value="">Carregando...</option>';
+  citySelect.disabled = true;
+
+  try {
+    const resp = await fetch(`https://brasilapi.com.br/api/ibge/municipios/v1/${uf}`);
+    const cidades = await resp.json();
+    citySelect.innerHTML = '<option value="">Selecione uma cidade</option>';
+    cidades.forEach(cidade => {
+      const opt = document.createElement('option');
+      opt.value = cidade.nome;
+      opt.textContent = cidade.nome;
+      citySelect.appendChild(opt);
+    });
+    citySelect.disabled = false;
+  } catch (err) {
+    console.error('Erro ao carregar cidades:', err);
+    citySelect.innerHTML = '<option value="">Erro ao carregar</option>';
+    citySelect.disabled = false;
+  }
+}
+
+// Listener único cuidando dos dois pares uf/cidade: o do formulário de
+// quadra (q-uf / q-cidade) e o do cadastro de proprietário (estado / cidade).
+document.addEventListener('change', function (e) {
+  if (!e.target) return;
+  if (e.target.id === 'q-uf') carregarCidades(e.target.value, 'q-cidade');
+  if (e.target.id === 'estado') carregarCidades(e.target.value, 'cidade');
 });
 
 /* ============ QUADRAS: SALVAR NOVA ============ */
