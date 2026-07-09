@@ -11,21 +11,33 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
   <link rel="stylesheet" href="main.css">
+
+  <style>
+    /* Estilo só pra centralizar o card de login/cadastro dentro da
+       #tela-auth (que é uma tela igual às outras do SPA: tela-reservas,
+       tela-quadras). Não é modal — sem overlay, sem position:fixed.
+       Se preferir, mova pro main.css. */
+    .auth-center {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+  </style>
 </head>
 <body>
 
   <!--NAVBAR-->
-  <nav class="navbar sticky-top" id="nav">
+  <!-- Só aparece depois do login (controlado em script.js) -->
+  <nav class="navbar sticky-top" id="nav" style="display:none;">
     <div class="container-fluid d-flex align-items-center gap-3 px-3">
 
       <a class="navbar-brand flex-shrink-0" href="#" onclick="navegar('tela-reservas', this)"> <img src="../../jogador/spa/imagens/logoKourtss.png" style="height: 46px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255, 255, 255,0.15);"></a>
 
       <div class="nav-desktop d-none d-lg-flex gap-2">
-        <button class="btn btn-nav" onclick="navegar('notificacao')">
-          <i class="bi bi-bell me-1 fs-5"></i>
-        </button>
-        <button class="btn btn-nav" onclick="navegar('tela-settings')">
-          <i class="bi bi-gear me-1 fs-5"></i>
+        <button class="btn btn-nav" onclick="logout()">
+          <i class="bi bi-box-arrow-left me-1 fs-5"></i>
         </button>
       </div>
     </div>
@@ -35,13 +47,15 @@
   <div class="conteudo-central">
 
     <!-- CABEÇALHO -->
-    <div class="mb-4 mt-4">
-      <h1 style="font-size:1.4rem;font-weight:600">Olá, meu Cria! </h1>
+    <!-- Só aparece depois do login (controlado em script.js) -->
+    <div class="mb-4 mt-4" id="cabecalho-proprietario" style="display:none;">
+      <h1 style="font-size:1.4rem;font-weight:600" id="saudacao-proprietario">Olá, meu Cria! </h1>
       <p style="font-size:.85rem;color:var(--muted)">Aqui está um resumo das suas reservas</p>
     </div>
 
     <!-- ── MENU DE ABAS SPA ── -->
-    <div class="spa-tabs mb-4">
+    <!-- Só aparece depois do login (controlado em script.js) -->
+    <div class="spa-tabs mb-4" id="spa-tabs" style="display:none;">
       <button class="spa-tab ativo" onclick="navegar('tela-reservas', this)">
         <i class="bi bi-journal-text me-2"></i>Reservas
       </button>
@@ -50,8 +64,102 @@
       </button>
     </div>
 
+    <!-- ============ TELA DE AUTENTICAÇÃO (PROPRIETÁRIO) ============ -->
+    <!-- É uma tela como as outras (mesma classe .tela / .visivel usada em
+         tela-reservas e tela-quadras). Fica visível até logar/cadastrar;
+         depois disso o script chama navegar('tela-reservas', ...) e essa
+         tela some junto com as outras. Card centralizado, sem modal. -->
+    <div class="tela visivel" id="tela-auth">
+      <div class="auth-center">
+        <div class="auth-card" id="auth-card">
+
+          <div class="logo">
+            <img src="../../jogador/spa/imagens/logoKourtss.png" alt="logo Kourt's">
+            <span class="logo-texto"> Kourt's</span>
+          </div>
+
+          <div class="tabs" role="tablist">
+            <button class="btn" id="tab-login" onclick="mudaBt('login')">Entrar</button>
+            <button class="btn" id="tab-cadastro" onclick="mudaBt('cadastrar')">Criar Conta</button>
+          </div>
+
+          <!-- Login -->
+          <div class="formulario" id="formulario-login">
+            <div class="field">
+              <label for="login-email">E-mail</label>
+              <input type="text" id="login-email" placeholder="informe seu e-mail">
+            </div>
+            <div>
+              <label for="login-senha">Senha</label>
+              <input type="password" id="login-senha" placeholder="informe a senha">
+            </div>
+            <button class="btn-primary" id="submit-login" onclick="login()">
+              Entrar
+              <div class="spinner"></div>
+            </button>
+            <div class="card-footer">
+              Ainda não tem conta? <a href="#" onclick="mudaBt('cadastrar'); return false;"> Criar Conta</a>
+            </div>
+            <h5 id="error-login"></h5>
+          </div>
+
+          <!-- Cadastro -->
+          <div class="formulario" id="formulario-cadastro">
+            <div class="cad-grid">
+
+              <div class="cad-col">
+                <div class="field">
+                  <label for="nome">Nome</label>
+                  <input type="text" id="nome" placeholder="Informe seu nome">
+                </div>
+                <div>
+                  <label for="senha">Senha</label>
+                  <input type="password" id="senha" placeholder="informe sua senha">
+                </div>
+                <div>
+                  <label for="email">E-mail</label>
+                  <input type="email" id="email" placeholder="seu@email.com">
+                </div>
+                <div>
+                  <label for="cnpj">CNPJ</label>
+                  <input type="text" id="cnpj" value="___.___.___-__" maxlength="14" placeholder="informe seu CNPJ">
+                </div>
+                <div>
+                  <label for="telefone">Telefone</label>
+                  <input type="tel" id="telefone" value="(__) _____-____" maxlength="14" placeholder="informe seu telefone">
+                </div>
+              </div>
+
+              <div class="cad-col">
+                <div class="field">
+                  <label class="label-secao">Local</label>
+                  <label for="estado">Estado</label>
+                  <input type="text" id="estado" placeholder="Informe seu Estado">
+                </div>
+                <div class="field">
+                  <label for="cidade">Cidade</label>
+                  <input type="text" id="cidade" placeholder="Informe sua cidade">
+                </div>
+              </div>
+
+              <h5 id="error-cadastro"></h5>
+            </div>
+
+            <button class="btn-primary" id="submit-cadastro" onclick="criarProprietario()">
+              Criar Conta
+              <div class="spinner"></div>
+            </button>
+            <div class="card-footer">
+              Já tem conta? <a href="#" onclick="mudaBt('login'); return false;"> Entrar</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
     <!-- Conteudo Principal (Reservas) -->
-    <div class="tela visivel" id="tela-reservas">
+    <div class="tela" id="tela-reservas">
       <div class="painel">
         <h2>Painel de Reservas</h2>
         <p class="sub"> Gerencia todas as suas reservas de quadras</p>
@@ -191,6 +299,7 @@
 
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

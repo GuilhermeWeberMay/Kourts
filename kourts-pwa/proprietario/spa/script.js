@@ -1,11 +1,6 @@
 /* ============ CONFIG DA API ============ */
 const API_BASE = "http://localhost:8081";
 
-/* ID do proprietário logado.
-   TODO: troque isso pela forma real de identificar o dono logado
-   (ex: valor salvo depois do login, token decodificado, etc). */
-const PROPRIETARIO_ID = 3;
-
 /* Endpoint usado para buscar o nome do cliente de uma reserva.
    Só é usado se a API devolver um id de cliente dentro de /reservas.
    Ajuste o caminho conforme o endpoint real da sua API (ex: '/clientes' ou '/usuarios'). */
@@ -15,7 +10,13 @@ const CLIENTE_ENDPOINT = "/clientes";
 const cacheClientes = new Map();
 const cacheQuadras = new Map();
 
-/* ============ NAVEGAÇÃO ENTRE TELAS ============ */
+/* ID do proprietário logado. Como combinado, isso faz o papel do "token":
+   não é um JWT, é o próprio id do proprietário devolvido pela API no
+   login/cadastro. Fica em memória (proprietarioId) e também salvo no
+   localStorage, pra sobreviver a um F5 da página. */
+let proprietarioId = null;
+
+/* ============ NAVEGAÇÃO ENTRE TELAS (Reservas / Quadras) ============ */
 function navegar(destino, botaoClicado) {
   document.querySelectorAll('.tela').forEach(t => t.classList.remove('visivel'));
 
@@ -29,6 +30,179 @@ function navegar(destino, botaoClicado) {
 
   if (destino === 'tela-reservas') carregarReservas();
   if (destino === 'tela-quadras') carregarQuadras();
+}
+
+/* ============ AUTENTICAÇÃO DO PROPRIETÁRIO (sem modal) ============ */
+
+/* Troca entre as abas "Entrar" e "Criar Conta" dentro do card de autenticação. */
+function mudaBt(aba) {
+  const formLogin = document.getElementById('formulario-login');
+  const formCadastro = document.getElementById('formulario-cadastro');
+  const tabLogin = document.getElementById('tab-login');
+  const tabCadastro = document.getElementById('tab-cadastro');
+
+  const mostrarLogin = aba === 'login';
+
+  formLogin.style.display = mostrarLogin ? 'flex' : 'none';
+  formCadastro.style.display = mostrarLogin ? 'none' : 'flex';
+  tabLogin.classList.toggle('ativo', mostrarLogin);
+  tabCadastro.classList.toggle('ativo', !mostrarLogin);
+}
+
+/* Esconde a tela de login/cadastro e libera o app (Reservas/Quadras).
+   tela-auth é uma tela igual às outras (.tela / .visivel), então quem
+   troca ela pra fora é o próprio navegar() — chamamos ele normalmente
+   pra cair na tela de reservas, igual um clique na aba faria. */
+function mostrarApp() {
+  document.getElementById('nav').style.display = '';
+  document.getElementById('cabecalho-proprietario').style.display = '';
+  document.getElementById('spa-tabs').style.display = '';
+
+  const nome = localStorage.getItem('proprietarioNome');
+  const saudacao = document.getElementById('saudacao-proprietario');
+  if (saudacao) saudacao.textContent = nome ? `Olá, ${nome}!` : 'Olá, meu Cria!';
+
+  const botaoReservas = document.querySelector('.spa-tab');
+  navegar('tela-reservas', botaoReservas);
+}
+
+/* Esconde o app (navbar, cabeçalho, abas) e mostra só a tela de
+   login/cadastro, usando o mesmo mecanismo de .tela / .visivel. */
+function mostrarAuth() {
+  document.getElementById('nav').style.display = 'none';
+  document.getElementById('cabecalho-proprietario').style.display = 'none';
+  document.getElementById('spa-tabs').style.display = 'none';
+
+  document.querySelectorAll('.tela').forEach(t => t.classList.remove('visivel'));
+  document.getElementById('tela-auth').classList.add('visivel');
+
+  mudaBt('login');
+}
+
+/* Chamado sempre que o login OU o cadastro do proprietário dão certo.
+   Guarda o id devolvido pela API (usado como "token") e libera o app.
+
+   OBS: assumi que a API devolve um objeto com pelo menos o campo "id"
+   (ex: { id: 3, nome: "...", email: "..." }). Se a sua API devolver
+   algo diferente (por exemplo só o id puro, ou um objeto tipo
+   { proprietario: { id: 3 } }), me avisa que ajusto essa parte. */
+function aoAutenticarComSucesso(retornoApi) {
+  const id = (retornoApi && typeof retornoApi === 'object')
+    ? (retornoApi.id ?? retornoApi.proprietario?.id)
+    : retornoApi;
+
+  const nome = (retornoApi && typeof retornoApi === 'object') ? retornoApi.nome : null;
+
+  proprietarioId = id;
+  localStorage.setItem('proprietarioId', id);
+  if (nome) localStorage.setItem('proprietarioNome', nome);
+
+  mostrarApp();
+}
+
+/* Extrai uma mensagem de erro legível da resposta do axios,
+   já que a API às vezes devolve uma string, às vezes um objeto. */
+function extrairMensagemErro(error, mensagemPadrao) {
+  const data = error?.response?.data;
+  if (!data) return mensagemPadrao;
+  if (typeof data === 'string') return data;
+  return data.message ?? data.error ?? mensagemPadrao;
+}
+
+function logout() {
+  if (!confirm("Deseja sair da sua conta?")) return;
+  proprietarioId = null;
+  localStorage.removeItem('proprietarioId');
+  localStorage.removeItem('proprietarioNome');
+
+  const emailInput = document.getElementById('login-email');
+  const senhaInput = document.getElementById('login-senha');
+  if (emailInput) emailInput.value = '';
+  if (senhaInput) senhaInput.value = '';
+
+  const erroLogin = document.getElementById('error-login');
+  if (erroLogin) erroLogin.textContent = '';
+
+  mostrarAuth();
+}
+
+/* ============ CADASTRO PROPRIETÁRIO ============ */
+function criarProprietario() {
+  const apiUrl = `${API_BASE}/auth/registrarProprietario`;
+
+  const nome = document.getElementById('nome').value;
+  const email = document.getElementById('email').value;
+  const senha = document.getElementById('senha').value;
+  const telefone = document.getElementById('telefone').value;
+  const cnpj = document.getElementById('cnpj').value;
+  const estado = document.getElementById('estado').value;
+  const cidade = document.getElementById('cidade').value;
+
+  const proprietario = {
+    "nome": nome,
+    "email": email,
+    "senha": senha,
+    "telefone": telefone,
+    "cnpj": cnpj,
+    "local": {
+      "estado": estado,
+      "cidade": cidade
+    }
+  };
+
+  const botao = document.getElementById('submit-cadastro');
+  const mensagemElement = document.getElementById('error-cadastro');
+  botao.disabled = true;
+  mensagemElement.textContent = '';
+
+  axios.post(apiUrl, proprietario)
+    .then(response => {
+      console.log('proprietário criado com sucesso:', response.data);
+      aoAutenticarComSucesso(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+      mensagemElement.textContent = extrairMensagemErro(
+        error,
+        'Erro ao criar proprietário. Verifique os dados e tente novamente.'
+      );
+    })
+    .finally(() => {
+      botao.disabled = false;
+    });
+}
+
+/* ============ LOGIN PROPRIETÁRIO ============ */
+function login() {
+  const apiUrl = `${API_BASE}/auth/loginProprietario`;
+  const email = document.getElementById('login-email').value;
+  const senha = document.getElementById('login-senha').value;
+
+  const login = {
+    "email": email,
+    "senha": senha
+  };
+
+  const botao = document.getElementById('submit-login');
+  const mensagemElement = document.getElementById('error-login');
+  botao.disabled = true;
+  mensagemElement.textContent = '';
+
+  axios.post(apiUrl, login)
+    .then(response => {
+      console.log('Login efetuado com sucesso:', response.data);
+      aoAutenticarComSucesso(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+      mensagemElement.textContent = extrairMensagemErro(
+        error,
+        'Erro ao efetuar login. Verifique os dados e tente novamente.'
+      );
+    })
+    .finally(() => {
+      botao.disabled = false;
+    });
 }
 
 /* ============ BUSCA / FILTRO DE RESERVAS ============ */
@@ -293,6 +467,12 @@ document.addEventListener('change', function (e) {
 async function salvarQuadra(event) {
   event.preventDefault();
 
+  if (!proprietarioId) {
+    alert('Sessão expirada. Faça login novamente.');
+    mostrarAuth();
+    return;
+  }
+
   const fotosTexto = document.getElementById('q-fotos').value.trim();
   const fotos = fotosTexto
     ? fotosTexto.split(',').map(f => f.trim()).filter(Boolean)
@@ -312,7 +492,7 @@ async function salvarQuadra(event) {
     numero: Number(document.getElementById('q-numero').value),
     descricao: document.getElementById('q-descricao').value,
     fotos: fotos,
-    proprietario: { id: PROPRIETARIO_ID },
+    proprietario: { id: proprietarioId },
     /* ATENÇÃO: o campo "estado" já é usado pela API pra status da quadra
        (ex: "DISPONIVEL"), então mandei o estado/cidade geográficos com
        nomes diferentes (uf/cidade) pra não colidir. Confirme com o backend
@@ -353,5 +533,14 @@ async function salvarQuadra(event) {
 
 /* ============ INICIALIZAÇÃO ============ */
 document.addEventListener('DOMContentLoaded', () => {
-  carregarReservas();
+  const idSalvo = localStorage.getItem('proprietarioId');
+
+  if (idSalvo) {
+    // já tinha logado antes (F5 na página, por exemplo): pula direto pro app
+    proprietarioId = idSalvo;
+    mostrarApp();
+  } else {
+    // ninguém logado: mostra só a tela de autenticação
+    mostrarAuth();
+  }
 });

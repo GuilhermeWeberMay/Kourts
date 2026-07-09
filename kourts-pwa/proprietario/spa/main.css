@@ -1,40 +1,63 @@
-/* Config pra renderização de imagem*/
+/* ══════════════════════════════════════════
+   RESET & BASE
+   (mesmo padrão do CSS de jogador — mantém a
+   identidade visual: fundo verde escuro com
+   gradientes radiais, texto branco)
+   ══════════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 img {
   image-rendering: auto;
   -webkit-font-smoothing: antialiased;
 }
 
+:root {
+  --verde-escuro: #1a3d1c;
+  --verde-medio: #2A612C;
+  --verde-claro: #3d8a40;
+  --bg-elevado: rgba(0, 0, 0, 0.25);
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --muted: rgba(255, 255, 255, 0.65);
+  --border: rgba(255, 255, 255, 0.15);
+  --erro: #ff6b6b;
+}
+
 body {
   background-color: #054500dd;
   color: white;
-  font-family: 'Sora', sans-serif;
-  padding-bottom: 5rem; /* espaço pro footer mobile */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  min-height: 100vh;
 }
 
-:root {
-  --bg:         #0f2110;
-  --surface:    #1a3320;
-  --card:       #1f3d26;
-  --border:     #2d5235;
-  --text:       #e8f5e9;
-  --muted:      rgba(255,255,255,0.55);
-  --accent:     #4caf66;
-  --yellow:     #f5c842;
-  --red:        #e53935;
-  --grad-nav:   linear-gradient(135deg, #1a3d1c 0%, #2A612C 100%);
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 10%, rgba(42,97,44,0.25) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 10% 90%, rgba(26,61,28,0.3) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
+/* ══════════════════════════════════════════
+   NAVBAR
+   (idêntico ao de jogador)
+   ══════════════════════════════════════════ */
 .navbar {
-  background: var(--grad-nav);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+  background: linear-gradient(135deg, #1a3d1c 0%, #2A612C 100%);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
   padding: 10px 0;
   border-bottom: 1px solid rgba(255,255,255,0.07);
+  color: white;
 }
 
 .btn-nav {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   color: white;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   padding: 6px 14px;
   font-size: 0.88rem;
@@ -43,487 +66,500 @@ body {
 }
 
 .btn-nav:hover {
-  background: rgba(255,255,255,0.22);
+  background: rgba(255, 255, 255, 0.22);
   color: white;
 }
 
-/* Barra de pesquisa */
-.search-wrapper {
-  position: relative;
-}
-
-.search-icon {
-  position: absolute;
-  left: 13px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.95rem;
-  color: rgba(255,255,255,0.6);
-  pointer-events: none;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-}
-
-.search-input {
-  width: 100%;
-  height: 2.6rem;
-  padding: 0 1rem 0 2.5rem;
-  border: none;
-  border-radius: 25px;
-  background: rgba(255,255,255,0.12);
-  color: #fff;
-  font-size: 0.92rem;
-  outline: none;
-  transition: background 0.2s ease, box-shadow 0.2s ease;
-  backdrop-filter: blur(4px);
-}
-
-.search-input::placeholder { color: rgba(255,255,255,0.55); }
-
-.search-input:focus {
-  background: rgba(255,255,255,0.2);
-  box-shadow: 0 0 0 2px rgba(255,255,255,0.25);
-}
-
-/* Cards */
-.stat-card {
-  background: #1f3d26;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: transform .2s;
-}
-
-.stat-card:hover { transform: translateY(-2px); }
-
-.stat-card .label {
-  font-size: .78rem;
-  color: var(--muted);
-  margin-bottom: 6px;
-}
-
-.stat-card .value {
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.stat-card .icon { font-size: 2rem; }
-
-/* MENU SPA (tabs do proprietário)  */
-.spa-nav {
-  background: #1a3320;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 6px;
-  gap: 4px;
-  display: flex;
-}
-
-.spa-nav .nav-btn {
-  flex: 1;
-  border: none;
-  border-radius: 8px;
-  background: transparent;
-  color: rgba(255,255,255,0.55);
-  font-family: 'Sora', sans-serif;
-  font-size: .88rem;
-  padding: 10px 16px;
-  cursor: pointer;
-  transition: all .2s;
-}
-
-.spa-nav .nav-btn:hover {
-  color: white;
-  background: #1f3d26;
-}
-
-.spa-nav .nav-btn.ativo {
-  background: white;
-  color: #0f2110;
-  font-weight: 600;
-}
-
-/* PAINEL GENÉRICO */
-.painel {
-  background: #1f3d26;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 24px;
-}
-
-.painel h2    { font-size: 1.1rem; font-weight: 600; }
-.painel .sub  { font-size: .82rem; color: var(--muted); margin-top: 4px; }
-
-/* TELAS SPA */
-.tela           { display: none; }
-.tela.visivel   { display: block; animation: fadeIn .25s ease; }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Centraliza o conteúdo*/
+/* ══════════════════════════════════════════
+   LAYOUT GERAL DA SPA DE PROPRIETÁRIO
+   ══════════════════════════════════════════ */
 .conteudo-central {
-  max-width: 1450px;   /* largura máxima */
-  margin: 0 auto;     /* centraliza horizontalmente */
-  padding: 0 16px; 
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.25rem 3rem;
 }
 
-/* ITENS DE RESERVA */
-.reserva-item {
-  background: #1a3320;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px 18px;
+/* Cada "página" da SPA (tela-auth, tela-reservas, tela-quadras) fica
+   escondida por padrão; navegar() em script.js troca a classe .visivel
+   de uma pra outra. */
+.tela {
+  display: none;
 }
 
-.reserva-item .nome     { font-weight: 600; font-size: .95rem; }
-.reserva-item .detalhes { font-size: .78rem; color: var(--muted); margin-top: 5px; }
-
-/* Badges de status */
-.badge-status {
-  padding: 4px 14px;
-  border-radius: 20px;
-  font-size: .75rem;
-  font-weight: 600;
-  margin-left: 8px;
+.tela.visivel {
+  display: block;
 }
 
-.badge-confirmada { border: 1px solid var(--accent); color: var(--accent); background: transparent; }
-.badge-pendente   { border: 1px solid rgba(255,255,255,0.4); color: rgba(255,255,255,0.7); background: transparent; }
-
-
-/* CARDS DE QUADRA*/
-.quadra-card {
-  background: #1a3320;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  transition: transform .2s;
-}
-
-.quadra-card:hover { transform: translateY(-2px); }
-
-.quadra-card h5  { font-size: 1rem; font-weight: 600; margin: 0; }
-.quadra-card .info { font-size: .8rem; color: var(--muted); margin-top: 6px; }
-
-.estado-ativa {
-  background: var(--accent);
-  color: #0f2110;
-  font-size: .72rem;
-  font-weight: 700;
-  padding: 3px 12px;
-  border-radius: 20px;
-}
-
-.estado-inativa {
-  background: rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.6);
-  font-size: .72rem;
-  font-weight: 700;
-  padding: 3px 12px;
-  border-radius: 20px;
-}
-
-/* CARDS GENÉRICOS */
-.card {
-  background: none;
-  color: white;
-  border: none;
-  border-bottom: 1px solid rgba(255,255,255,0.15);
-}
-
-/* MODAL  */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  z-index: 1050;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.modal-box {
-  color: white;
-  background: rgb(0,112,11);
-  width: 100%;
-  max-width: 480px;
-  max-height: 90vh;
-  overflow-y: auto;
-  border-radius: 16px 16px 0 0;
-  padding: 20px;
-}
-
-/*FOOTER MOBILE  */
-#footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: var(--grad-nav);
-  border-top: 1px solid rgba(255,255,255,0.1);
-  padding: 8px 0 4px;
-  z-index: 100;
-}
-
-#footer .footer-btn {
-  flex: 1;
-  background: none;
-  border: none;
-  color: rgba(255,255,255,0.55);
-  font-size: .68rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  cursor: pointer;
-  padding: 4px 0;
-  transition: color .2s;
-}
-
-#footer .footer-btn i { font-size: 1.3rem; }
-
-#footer .footer-btn.ativo { color: white; }
-
-/* DESKTOP */
-@media (min-width: 992px) {
-  body { padding-bottom: 0; }
-
-  #footer { display: none !important; }
-
-  .search-input { width: 35%; }
-
-  .modal-box { max-width: 1024px; }
-
-  .pesquisa-filtro { width: 30rem; }
-}
-
-
-/* ══════════════════════════════════════════════════════
-   CONTEÚDO CENTRAL — estilos isolados do proprietário
-══════════════════════════════════════════════════════ */
-
-/* ── Stat Cards ── */
-.stat-card {
-  background: #1f3d26;
-  border: 1px solid #2d5235;
-  border-radius: 14px;
-  padding: 18px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: transform .2s;
-}
-.stat-card:hover { transform: translateY(-2px); }
-
-.stat-label {
-  font-size: .78rem;
-  color: rgba(255,255,255,.55);
-  margin-bottom: 6px;
-}
-.stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #fff;
-}
-.stat-icon {
-  font-size: 2rem;
-}
-
-/* ── Abas SPA ── */
+/* Abas de navegação Reservas / Quadras — mesmo visual das abas
+   Entrar/Criar Conta do auth-card, só que maiores. */
 .spa-tabs {
   display: flex;
-  background: #1a3320;
-  border: 1px solid #2d5235;
+  gap: 6px;
+  background: var(--bg-elevado);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 6px;
-  gap: 4px;
+  padding: 5px;
+  max-width: fit-content;
 }
 
 .spa-tab {
-  flex: 1;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--muted);
   background: transparent;
-  color: rgba(255,255,255,.55);
-  font-family: 'Sora', sans-serif;
-  font-size: .88rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all .2s;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.spa-tab:hover {
+  color: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.07);
+}
+
+.spa-tab.ativo {
+  background: rgba(255,255,255,0.12);
+  border-color: var(--border);
+  color: white;
+}
+
+/* ══════════════════════════════════════════
+   PAINÉIS (cards principais de cada tela)
+   ══════════════════════════════════════════ */
+.painel,
+.painel-box {
+  background: var(--bg-elevado);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.75rem;
+  backdrop-filter: blur(6px);
+}
+
+.painel h2,
+.painel-titulo {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0;
+  color: white;
+}
+
+.painel .sub,
+.painel-sub {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0.25rem 0 0;
+}
+
+/* Busca */
+.busca-wrapper {
+  position: relative;
+}
+
+.busca-input {
+  width: 100%;
+  height: 2.6rem;
+  padding: 0 1rem;
+  border: none;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border);
+  color: white;
+  font-size: 0.92rem;
+  outline: none;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.busca-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.busca-input:focus {
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+/* ══════════════════════════════════════════
+   LISTA DE RESERVAS
+   ══════════════════════════════════════════ */
+.reserva-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+  transition: background 0.2s ease;
+}
+
+.reserva-row:hover {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.reserva-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+}
+
+.reserva-nome {
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: white;
+}
+
+.reserva-det {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════════════
+   CARDS DE QUADRA
+   ══════════════════════════════════════════ */
+.quadra-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+  height: 100%;
+}
+
+.quadra-card h5 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+}
+
+.quadra-info {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 0.35rem;
+}
+
+.estado-ativa,
+.estado-inativa {
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 2px 12px;
+  white-space: nowrap;
+}
+
+.estado-ativa {
+  background: rgba(61, 186, 65, 0.18);
+  border: 1px solid rgba(61, 186, 65, 0.4);
+  color: #6fe073;
+}
+
+.estado-inativa {
+  background: rgba(255, 107, 107, 0.15);
+  border: 1px solid rgba(255, 107, 107, 0.4);
+  color: var(--erro);
+}
+
+/* Botão de ação principal (Nova quadra / Salvar quadra) —
+   mesmo gradiente do .btn-primary do auth-card. */
+.btn-aprovar {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1.2rem;
+  background: linear-gradient(135deg, #2A612C, #3d8a40);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.btn-aprovar:hover  { opacity: 0.88; color: white; }
+.btn-aprovar:active { transform: scale(0.98); }
+
+/* ══════════════════════════════════════════
+   FORMULÁRIO "NOVA QUADRA" (Bootstrap, com o
+   mesmo tema escuro/translúcido do resto)
+   ══════════════════════════════════════════ */
+#form-quadra .form-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+#form-quadra .form-control,
+#form-quadra .form-select {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: white;
+  font-size: 0.9rem;
+  padding: 0.55rem 0.9rem;
+}
+
+#form-quadra .form-control::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+
+#form-quadra .form-control:focus,
+#form-quadra .form-select:focus {
+  background: rgba(255,255,255,0.13);
+  border-color: rgba(255,255,255,0.4);
+  color: white;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.15);
+}
+
+#form-quadra .form-select option {
+  color: black;
+}
+
+/* ══════════════════════════════════════════
+   TELA DE AUTENTICAÇÃO (LOGIN / CADASTRO)
+   Card centralizado dentro da própria tela-auth
+   — sem modal, sem overlay escuro (aplicação
+   desktop). Reaproveita o mesmo .auth-card,
+   .tabs e .formulario do padrão de jogador.
+   ══════════════════════════════════════════ */
+.auth-center {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.auth-card {
+  position: relative;
+  background: linear-gradient(135deg, #1a3d1c 0%, #214e23 100%);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  color: white;
+  margin: auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 2rem;
+  min-height: 46px;
+}
+
+.logo img {
+  height: 58px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.15);
+}
+
+.logo-texto {
+  font-size: 27px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+.tabs {
+  display: flex;
+  background: rgba(0,0,0,0.25);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 1.75rem;
+  gap: 4px;
+}
+
+.tabs .btn {
+  flex: 1;
+  text-align: center;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.55);
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.tabs .btn:hover {
+  color: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.07);
+}
+
+.tabs .btn.ativo {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.2);
+  color: white;
+}
+
+/* formulario-login / formulario-cadastro: script.js alterna a
+   visibilidade direto via style.display, então o "display: none"
+   abaixo só cobre o instante antes do JS rodar. */
+.formulario {
+  display: none;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.formulario.show {
+  display: flex;
+}
+
+.cad-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1.5rem;
+  align-items: start;
+}
+
+.cad-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formulario label {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.65);
+}
+
+.formulario input {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
+  color: white;
+  font-size: 0.9rem;
+  width: 100%;
+  outline: none;
+  transition: border 0.2s, background 0.2s;
+}
+
+.formulario input::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+
+.formulario input:focus {
+  border-color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.13);
+}
+
+.formulario input.input-erro {
+  border-color: #ff6b6b !important;
+}
+
+.label-secao {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 2px;
+}
+
+/* Mensagens de erro do login/cadastro (os <h5 id="error-login/cadastro">) */
+#error-login,
+#error-cadastro {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--erro);
+  text-align: center;
+  min-height: 1rem;
+  margin: 0;
+}
+
+.btn-primary {
+  margin-top: 0.25rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #2A612C, #3d8a40);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.spa-tab:hover {
-  background: #1f3d26;
-  color: #fff;
-}
-.spa-tab.ativo {
-  background: #ffffff;
-  color: #0f2110;
-  font-weight: 600;
-}
 
-/* ── Telas SPA ── */
-.tela             { display: none; }
-.tela.visivel     { display: block; animation: fadeIn .25s ease; }
+.btn-primary:hover   { opacity: 0.88; }
+.btn-primary:active  { transform: scale(0.98); }
+.btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── Painel genérico ── */
-.painel-box {
-  background: #1f3d26;
-  border: 1px solid #2d5235;
-  border-radius: 14px;
-  padding: 24px;
-}
-.painel-titulo { font-size: 1.05rem; font-weight: 600; color: #fff; margin: 0; }
-.painel-sub    { font-size: .82rem; color: rgba(255,255,255,.55); margin: 4px 0 0; }
-.painel-header { margin-bottom: 16px; }
-
-/* ── Busca ── */
-.busca-wrapper { position: relative; }
-.busca-input {
-  width: 100%;
-  padding: 12px 16px;
-  background: #fff;
-  border: none;
-  border-radius: 10px;
-  font-family: 'Sora', sans-serif;
-  font-size: .88rem;
-  color: #333;
-  outline: none;
+.spinner {
+  display: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: giraSpin 0.7s linear infinite;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-/* ── Linha de reserva ── */
-.reserva-row {
-  background: #1a3320;
-  border: 1px solid #2d5235;
-  border-radius: 12px;
-  padding: 16px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.reserva-nome { font-weight: 600; font-size: .95rem; color: #fff; }
-.reserva-det  { font-size: .78rem; color: rgba(255,255,255,.55); }
+.btn-primary.carregando .spinner { display: block; }
+.btn-primary.carregando          { pointer-events: none; opacity: 0.75; }
 
-/* Badges */
-.badge-reserva {
-  padding: 3px 13px;
-  border-radius: 20px;
-  font-size: .74rem;
-  font-weight: 600;
-  display: inline-block;
-}
-.badge-confirmada { border: 1px solid #4caf66; color: #4caf66; background: transparent; }
-.badge-pendente   { border: 1px solid rgba(255,255,255,.4); color: rgba(255,255,255,.7); background: transparent; }
-
-/* Botões de ação */
-.reserva-acoes { display: flex; gap: 8px; flex-shrink: 0; }
-
-.btn-aprovar {
-  background: #4caf66;
-  color: #0f2110;
-  border: none;
-  border-radius: 20px;
-  padding: 7px 18px;
-  font-family: 'Sora', sans-serif;
-  font-size: .82rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  transition: opacity .2s;
-}
-.btn-rejeitar {
-  background: #e53935;
-  color: #fff;
-  border: none;
-  border-radius: 20px;
-  padding: 7px 18px;
-  font-family: 'Sora', sans-serif;
-  font-size: .82rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  transition: opacity .2s;
-}
-.btn-aprovar:hover, .btn-rejeitar:hover { opacity: .85; }
-
-/* Card de quadra */
-.quadra-card {
-  background: #1a3320;
-  border: 1px solid #2d5235;
-  border-radius: 12px;
-  padding: 20px;
-  transition: transform .2s;
-}
-.quadra-card:hover { transform: translateY(-2px); }
-.quadra-nome  { font-size: 1rem; font-weight: 600; color: #fff; }
-.quadra-info  { font-size: .8rem; color: rgba(255,255,255,.55); margin-top: 5px; }
-
-.quadra-badge {
-  font-size: .72rem;
-  font-weight: 700;
-  padding: 3px 12px;
-  border-radius: 20px;
-}
-.quadra-badge.ativa    { background: #4caf66; color: #0f2110; }
-.quadra-badge.inativa  { background: rgba(255,255,255,.15); color: rgba(255,255,255,.6); }
-
-/* ══════════════════════════════════════════════════════
-   ADENDO — adicionar ao final do main.css existente
-   (estilos do formulário "Nova quadra", agora inline, sem modal)
-══════════════════════════════════════════════════════ */
-
-.painel-box .form-label {
-  font-size: .8rem;
-  color: rgba(255,255,255,.75);
-  margin-bottom: 4px;
-  display: inline-block;
+@keyframes giraSpin {
+  to { transform: translateY(-50%) rotate(360deg); }
 }
 
-.painel-box .form-control,
-.painel-box .form-select {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid var(--border);
-  color: #fff;
-  font-family: 'Sora', sans-serif;
+.card-footer {
+  margin-top: 0.25rem;
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
 }
 
-.painel-box .form-control::placeholder {
-  color: rgba(255,255,255,.4);
+.card-footer a {
+  color: #3dba41;
+  text-decoration: none;
+  font-weight: 500;
 }
 
-.painel-box .form-control:focus,
-.painel-box .form-select:focus {
-  background: rgba(255,255,255,0.12);
-  border-color: var(--accent);
-  color: #fff;
-  box-shadow: 0 0 0 2px rgba(76,175,102,0.25);
+.card-footer a:hover { text-decoration: underline; }
+
+@media (max-width: 600px) {
+  .auth-card { padding: 2rem 1.25rem; max-width: 100%; }
+  .cad-grid { grid-template-columns: 1fr; }
 }
 
-.painel-box .form-select option {
-  background: var(--card);
-  color: #fff;
-}
-
-/* Estados de carregamento / vazio / erro dentro dos painéis */
-.painel .painel-sub,
-.painel-box .painel-sub {
-  padding: 8px 2px;
+/* ══════════════════════════════════════════
+   DESKTOP
+   ══════════════════════════════════════════ */
+@media (min-width: 992px) {
+  .conteudo-central {
+    padding-top: 0.5rem;
+  }
 }
